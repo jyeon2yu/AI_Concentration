@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  div {
+    border : 1px solid skyblue;
+  }
+
+</style>
+
+<!-- tab for page moving -->
+<div class="tab-content" id="nav-tabContent">
+  <!-- 1. Home Tab -->
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <h4>Home page!</h4>
+  </div>
+
+  <!-- 2. Subject Tab -->
+  <div class="tab-pane fade" id="nav-subject" role="tabpanel" aria-labelledby="nav-subject-tab">
+    <h4>Subject page!</h4>
+
+    <!-- 2-1. button layout -->
+    <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="subject-daily-tab" data-toggle="pill" href="#subject-daily" role="tab" aria-controls="subject-daily" aria-selected="true">하루</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="subject-week-tab" data-toggle="pill" href="#subject-week" role="tab" aria-controls="subject-week" aria-selected="false">일별</a>
+      </li>
+
+    </ul>
+
+    <!-- 2-2. chart layout -->
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="subject-daily" role="tabpanel" aria-labelledby="subject-daily-tab">과목 하루</div>
+      <div class="tab-pane fade" id="subject-week" role="tabpanel" aria-labelledby="subject-week-tab">과목 일별</div>
+    </div>
+
+  </div>
+
+  <!-- 3. Concentration Tab -->
+  <div class="tab-pane fade" id="nav-conc" role="tabpanel" aria-labelledby="nav-conc-tab">
+    <h4>Concentraion page!</h4>
+
+    <!-- 3-1. button layout -->
+    <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="conc-daily-tab" data-toggle="pill" href="#conc-daily" role="tab" aria-controls="conc-daily" aria-selected="true">하루</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="conc-week-tab" data-toggle="pill" href="#conc-week" role="tab" aria-controls="conc-week" aria-selected="false">일별</a>
+      </li>
+    </ul>
+
+    <!-- 3-2. chart layout -->
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="conc-daily" role="tabpanel" aria-labelledby="conc-daily-tab">
+        집중도 하루
+        <div class='container-sm'>
+          <canvas id="doughnut-chart"></canvas>
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="conc-week" role="tabpanel" aria-labelledby="conc-week-tab">
+        집중도 일별
+        <div class='container-sm'>
+          <h5>일별 전체 집중도</h5>
+          <div class="m-1 p-1">
+            <canvas id="conc_line1"></canvas>
+          </div>
+        </div>
+        
+        <div class='container-sm'>
+          <h5>국어 집중도</h5>
+          <div class="m-1 p-1">
+            <canvas id="conc_line2"></canvas>
+          </div>
+        </div>
+
+        <div class='container-sm'>
+          <h5>수학 집중도</h5>
+          <div class="m-1 p-1">
+            <canvas id="conc_line3"></canvas>
+          </div>
+        </div>
+
+        <div class='container-sm'>
+          <h5>영어 집중도</h5>
+          <div class="m-1 p-1">
+            <canvas id="conc_line4" ></canvas>
+          </div>
+        </div>
+
+        <div class='container-sm'>
+          <h5>과학 집중도</h5>
+          <div class="m-1 p-1">
+            <canvas id="conc_line5"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Emotion Tab -->
+  <div class="tab-pane fade" id="nav-emotion" role="tabpanel" aria-labelledby="nav-emotion-tab">
+    <h4>Emotion page!</h4>
+
+    <!-- 3-1. button layout -->
+    <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="emotion-daily-tab" data-toggle="pill" href="#emotion-daily" role="tab" aria-controls="emotion-daily" aria-selected="true">하루</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="emotion-week-tab" data-toggle="pill" href="#emotion-week" role="tab" aria-controls="emotion-week" aria-selected="false">일별</a>
+      </li>
+
+    </ul>
+
+    <!-- 3-2. chart layout -->
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="emotion-daily" role="tabpanel" aria-labelledby="emotion-daily-tab">감정 하루</div>
+      <div class="tab-pane fade" id="emotion-week" role="tabpanel" aria-labelledby="emotion-week-tab">감정 일별</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- bootstrap breakpoint
+<div class='container-sm'> 100% wide until small breakpoint </div>
+<div class='container-md'> 100% wide until medium breakpoint </div>
+<div class='container-lg'> 100% wide until large breakpoint </div>
+<div class='container-xl'> 100% wide until extra breakpoint </div>
+<div class='container-xxl'> 100% wide until extra extra large breakpoint </div> -->
+
+  
+
+
+
+<!-- EventListener -->
+<script>
+  // subject tab
+  $('#subject-daily-tab').click(function(){
+    console.log('subject-daily, 클릭 이벤트 성공!')
+  })
+
+  $('#subject-week-tab').click(function(){
+    console.log('subject-week, 클릭 이벤트 성공!')
+  })
+
+  //conc tab
+  $('#conc-daily-tab').click(function(){
+    console.log('conc-daily, 클릭 이벤트 성공!')
+  })
+
+  $('#conc-week-tab').click(function(){
+    console.log('conc-week, 클릭 이벤트 성공!')
+
+    // create javasecript object
+    let user_id = 'aaa';
+    let flag ='conc-week';
+    let param = {
+      'user_id' : user_id,
+      'flag' : flag,
+    }
+
+    // Draw a Chart
+    const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
+
+    var myChart_conc1 = new Chart(document.getElementById('conc_line1').getContext('2d'),{
+      type: 'line',
+      data: {},
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: '일별 전체 집중도'
+          }
+        },
+        scales:{
+          y:{
+            min:0,
+            max : 100,
+            stepSize : 10,
+          }
+        }
+      }
+    })
+
+    var myChart_conc2 = new Chart(document.getElementById('conc_line2'),{
+      type: 'line',
+      data: {},
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: '국어 집중도'
+          }
+        },
+        scales:{
+          y:{
+            min:0,
+            max : 100,
+            stepSize : 10,
+          }
+        }
+      }
+    })
+  
+    var myChart_conc3 = new Chart(document.getElementById('conc_line3'),{
+      type: 'line',
+      data: {},
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: '수학 집중도'
+          }
+        },
+        scales:{
+          y:{
+            min:0,
+            max : 100,
+            stepSize : 10,
+          }
+        }
+      }
+    })
+  
+    var myChart_conc4 = new Chart(document.getElementById('conc_line4'),{
+      type: 'line',
+      data: {},
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: '영어 집중도'
+          }
+        },
+        scales:{
+          y:{
+            min:0,
+            max : 100,
+            stepSize : 10,
+          }
+        }
+      }
+    })
+  
+    var myChart_conc5 = new Chart(document.getElementById('conc_line5'),{
+      type: 'line',
+      data: {},
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: '과학 집중도'
+          }
+        },
+        scales:{
+          y:{
+            min:0,
+            max : 100,
+            stepSize : 10,
+          }
+        }
+      }
+    })
+
+    /*
+      Ajax
+      - url : 통신할 url,
+      - type : GET / POST,
+      - data : 전송할 데이터, JSON.stringify : JavaScript 값이나 객체를 JSON 문자열로 변환해주는 메서드
+      - success, error : 통신이 성공/실패했을 때 실행되는 함수
+    */
+    $.ajax({
+      url : "{% url 'app:data' %}",
+      type : "POST",
+      data : JSON.stringify(param),
+      success:function(data){
+        console.log('conc-week Ajax Success!');
+        console.log(data);
+
+        // set data
+        //console.log(data['week'].length); //print
+        const data_list1 = [];
+        const data_list2 = [];
+        const data_list3 = [];
+        const data_list4 = [];
+        const data_list5 = [];
+        for (step = 0; step < data['week'].length; step++){
+          data_list1.push(data['result'][step] / data['time'][step] * 100);
+          data_list2.push(data['korean'][step][1]/data['korean'][step][0] * 100);
+          data_list3.push(data['math'][step][1]/data['math'][step][0] * 100);
+          data_list4.push(data['english'][step][1]/data['english'][step][0] * 100);
+          data_list5.push(data['science'][step][1]/data['science'][step][0] * 100);
+          //console.log(data_list[step]);
+        }
+
+        myChart_conc1.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list1
+          }]
+        };
+
+        myChart_conc2.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list2
+          }]
+        };
+
+        myChart_conc3.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list3
+          }]
+        };
+
+        myChart_conc4.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list4
+          }]
+        };
+
+        myChart_conc5.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list5
+          }]
+        };
+
+        myChart_conc1.update();
+        myChart_conc2.update();
+        myChart_conc3.update();
+        myChart_conc4.update();
+        myChart_conc5.update();
+      },
+      error: function(){
+        console.log("conc-week Ajax fail!");
+      }
+    })
+  })
+
+  //emotion tab
+  $('#emotion-daily-tab').click(function(){
+    console.log('emotion-daily, 클릭 이벤트 성공!')
+  })
+
+  $('#emotion-week-tab').click(function(){
+    console.log('emotion-week, 클릭 이벤트 성공!')
+  })
+</script>
+
+<!-- draw a chart -->
+<script>
+  const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: '집중도',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [0, 10, 20, 30, 45]
+    }]
+  };
+
+  
+
+  
+</script>
+
+<script>
+  new Chart(document.getElementById("doughnut-chart"), {
+    type: 'doughnut',
+      data: {
+      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        datasets: [
+          {
+            label: "Population (millions)",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: [2478,5267,734,784,433]
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        }
+      }
+  });
+</script>
+
+
+
+{% endblock %}
