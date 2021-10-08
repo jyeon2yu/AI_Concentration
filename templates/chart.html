@@ -808,272 +808,6 @@
 
 
 <!-- EventListner -->
-
-<!-- 3-2. conc_week -->
-<script>
-  // create javasecript object
-  var User = function (id) {
-    this.user_id = id;
-  }
-  // const user_id = 'aaa';
-  // const param = {
-  //   'user_id' : user_id
-  // }
-  $('#conc-week-tab').click(function () {
-    console.log('conc-week, 클릭 이벤트 성공!')
-    // Draw a Chart
-    const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
-    /*
-      Ajax
-      - url : 통신할 url,
-      - type : GET / POST,
-      - data : 전송할 데이터, JSON.stringify : JavaScript 값이나 객체를 JSON 문자열로 변환해주는 메서드
-      - success, error : 통신이 성공/실패했을 때 실행되는 함수
-    */
-    $.ajax({
-      url: "{% url 'app:conc_week' %}",
-      type: "POST",
-      data: JSON.stringify(param),
-      success: function (data) {
-        console.log('conc-week Ajax Success!');
-
-        // set data
-        //console.log(data['week'].length); //print
-        const data_list1 = [];
-        const data_list2 = [];
-        const data_list3 = [];
-        const data_list4 = [];
-        const data_list5 = [];
-        for (step = 0; step < data['week'].length; step++) {
-          data_list1.push(data['result'][step] / data['time'][step] * 100);
-          data_list2.push(data['korean'][step][1] / data['korean'][step][0] * 100);
-          data_list3.push(data['math'][step][1] / data['math'][step][0] * 100);
-          data_list4.push(data['english'][step][1] / data['english'][step][0] * 100);
-          data_list5.push(data['science'][step][1] / data['science'][step][0] * 100);
-          //console.log(data_list[step]);
-        }
-
-        myChart_conc1.data = {
-          labels: labels,
-          datasets: [{
-            label: '집중도',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: data_list1
-          }]
-        };
-
-        myChart_conc2.data = {
-          labels: labels,
-          datasets: [{
-            label: '집중도',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: data_list2
-          }]
-        };
-
-        myChart_conc3.data = {
-          labels: labels,
-          datasets: [{
-            label: '집중도',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: data_list3
-          }]
-        };
-
-        myChart_conc4.data = {
-          labels: labels,
-          datasets: [{
-            label: '집중도',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: data_list4
-          }]
-        };
-
-        myChart_conc5.data = {
-          labels: labels,
-          datasets: [{
-            label: '집중도',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: data_list5
-          }]
-        };
-
-        myChart_conc1.update();
-        myChart_conc2.update();
-        myChart_conc3.update();
-        myChart_conc4.update();
-        myChart_conc5.update();
-      },
-      error: function () {
-        console.log("conc-week Ajax fail!");
-      }
-    })
-  })
-</script>
-
-<!-- 4-1. emotion_daily -->
-<script>
-  $('#emotion-daily-tab').click(function () {
-    console.log('emotion-daily, 클릭 이벤트 성공!')
-    $.ajax({
-      url: "{% url 'app:emotion_daily' %}",
-      type: "POST",
-      data: JSON.stringify(param),
-      success: function (data) {
-        console.log('emotion-daily Ajax Success!');
-
-        // change a image
-        let daily_emotion = document.getElementsByClassName('daily_emotion');
-        let daily_ko_emotion = document.getElementsByClassName('daily_ko_emotion');
-        let daily_ma_emotion = document.getElementsByClassName('daily_ma_emotion');
-        let daily_en_emotion = document.getElementsByClassName('daily_en_emotion');
-        let daily_sc_emotion = document.getElementsByClassName('daily_sc_emotion');
-
-        // change a text
-        let daily_rank_title = document.getElementsByClassName('emotion-daily-rank');
-        let daily_rank_ko_title = document.getElementsByClassName('emotion-daily-ko-rank');
-        let daily_rank_ma_title = document.getElementsByClassName('emotion-daily-ma-rank');
-        let daily_rank_en_title = document.getElementsByClassName('emotion-daily-en-rank');
-        let daily_rank_sc_title = document.getElementsByClassName('emotion-daily-sc-rank');
-        
-        for(let i=0; i<daily_emotion.length; i++){
-          daily_emotion[i].src = data['today_emo'][i][2]; //daily emotion top3
-          daily_ko_emotion[i].src = data['korean'][i][2]; //korean emotion top3
-          daily_ma_emotion[i].src = data['math'][i][2];   //math emotion top3
-          daily_en_emotion[i].src = data['english'][i][2];//english emotion top3
-          daily_sc_emotion[i].src = data['science'][i][2];//science emotion top3
-
-          daily_rank_title[i].innerText = data['today_emo'][i][0];
-          daily_rank_ko_title[i].innerText = data['korean'][i][0];
-          daily_rank_ma_title[i].innerText = data['math'][i][0];
-          daily_rank_en_title[i].innerText = data['english'][i][0];
-          daily_rank_sc_title[i].innerText = data['science'][i][0];
-        }
-
-        //$('#today_1').attr(src, "/static/img/emo_2.png");
-        //document.getElementById('today_1').src=src_path(data['today_emo'][0]);
-      },
-      error: function () {
-        console.log("emotion-daily Ajax fail!");
-      }
-    })
-
-  })
-</script>
-
-<!-- 4-2. emotion_week -->
-<script>
-  $('#emotion-week-tab').click(function () {
-    console.log('emotion-week, 클릭 이벤트 성공!')
-    $.ajax({
-      url: "{% url 'app:emotion_week' %}",
-      type: "POST",
-      data: JSON.stringify(param),
-      success: function (data) {
-        console.log('emotion-week Ajax Success!');
-
-        // change a image
-        let week_emotion = document.getElementsByClassName('emotion_week');
-        let week_ko_emotion = document.getElementsByClassName('week_ko_emotion');
-        let week_ma_emotion = document.getElementsByClassName('week_ma_emotion');
-        let week_en_emotion = document.getElementsByClassName('week_en_emotion');
-        let week_sc_emotion = document.getElementsByClassName('week_sc_emotion');
-
-        // change a text
-        let week_rank_title = document.getElementsByClassName('emotion-week-rank');
-        let week_rank_ko_title = document.getElementsByClassName('emotion-week-ko-rank');
-        let week_rank_ma_title = document.getElementsByClassName('emotion-week-ma-rank');
-        let week_rank_en_title = document.getElementsByClassName('emotion-week-en-rank');
-        let week_rank_sc_title = document.getElementsByClassName('emotion-week-sc-rank');
-
-        
-        for(let i=0; i<week_emotion.length; i++){
-          week_emotion[i].src = data['week_emo'][i][2]; //daily emotion top3
-          week_ko_emotion[i].src = data['korean'][i][2]; //korean emotion top3
-          week_ma_emotion[i].src = data['math'][i][2];   //math emotion top3
-          week_en_emotion[i].src = data['english'][i][2];//english emotion top3
-          week_sc_emotion[i].src = data['science'][i][2];//science emotion top3
-
-          week_rank_title[i].innerText = data['week_emo'][i][1];
-          week_rank_ko_title[i].innerText = data['korean'][i][1];
-          week_rank_ma_title[i].innerText = data['math'][i][1];
-          week_rank_en_title[i].innerText = data['english'][i][1];
-          week_rank_sc_title[i].innerText = data['science'][i][1];
-        }
-
-
-      },
-      error: function () {
-        console.log("emotion-week Ajax fail!");
-      }
-    })
-  })
-</script>
-
-<!-- EventListener -->
-<script>
-  // subject tab
-  $('#subject-daily-tab').click(function(){
-    console.log('subject-daily, 클릭 이벤트 성공!')
-    getSubjectData()
-  })
-
-  $('#subject-week-tab').click(function(){
-    console.log('subject-week, 클릭 이벤트 성공!')
-    getSubjectData_week()
-  })
-
-  //conc tab
-  $('#conc-daily-tab').click(function(){
-    console.log('conc-daily, 클릭 이벤트 성공!')
-  })
-</script>
-
-<!-- draw a chart -->
-<script>
-  const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: '집중도',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 20, 30, 45]
-    }]
-  };
-
-  
-
-  
-</script>
-
-<script>
-  new Chart(document.getElementById("doughnut-chart"), {
-    type: 'doughnut',
-      data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-        datasets: [
-          {
-            label: "Population (millions)",
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-            data: [2478,5267,734,784,433]
-          }
-        ]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Predicted world population (millions) in 2050'
-        }
-      }
-  });
-</script>
-
 <!-- 과목 1일 -->
 <script>
 
@@ -1291,6 +1025,275 @@
     }); //ajax
   }// function
 </script> <!-- 과목 1주 끝 -->
+
+<!-- 3-2. conc_week -->
+<script>
+  // create javasecript object
+  const user_id = '1234';
+  const param = {
+    'user_id': user_id
+  }
+  $('#conc-week-tab').click(function () {
+    console.log('conc-week, 클릭 이벤트 성공!')
+    // Draw a Chart
+    const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
+    /*
+      Ajax
+      - url : 통신할 url,
+      - type : GET / POST,
+      - data : 전송할 데이터, JSON.stringify : JavaScript 값이나 객체를 JSON 문자열로 변환해주는 메서드
+      - success, error : 통신이 성공/실패했을 때 실행되는 함수
+    */
+    $.ajax({
+      url: "{% url 'app:conc_week' %}",
+      type: "POST",
+      data: JSON.stringify(param),
+      success: function (data) {
+        console.log('conc-week Ajax Success!');
+
+        // set data
+        //console.log(data['week'].length); //print
+        const data_list1 = [];
+        const data_list2 = [];
+        const data_list3 = [];
+        const data_list4 = [];
+        const data_list5 = [];
+        for (step = 0; step < data['week'].length; step++) {
+          data_list1.push(data['result'][step] / data['time'][step] * 100);
+          data_list2.push(data['korean'][step][1] / data['korean'][step][0] * 100);
+          data_list3.push(data['math'][step][1] / data['math'][step][0] * 100);
+          data_list4.push(data['english'][step][1] / data['english'][step][0] * 100);
+          data_list5.push(data['science'][step][1] / data['science'][step][0] * 100);
+          //console.log(data_list[step]);
+        }
+
+        myChart_conc1.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list1
+          }]
+        };
+
+        myChart_conc2.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list2
+          }]
+        };
+
+        myChart_conc3.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list3
+          }]
+        };
+
+        myChart_conc4.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list4
+          }]
+        };
+
+        myChart_conc5.data = {
+          labels: labels,
+          datasets: [{
+            label: '집중도',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: data_list5
+          }]
+        };
+
+        myChart_conc1.update();
+        myChart_conc2.update();
+        myChart_conc3.update();
+        myChart_conc4.update();
+        myChart_conc5.update();
+      },
+      error: function () {
+        console.log("conc-week Ajax fail!");
+      }
+    })
+  })
+</script>
+
+<!-- 4-1. emotion_daily -->
+<script>
+
+  $('#emotion-daily-tab').click(function () {
+    console.log('emotion-daily, 클릭 이벤트 성공!')
+    $.ajax({
+      url: "{% url 'app:emotion_daily' %}",
+      type: "POST",
+      data: JSON.stringify(param),
+      success: function (data) {
+        console.log('emotion-daily Ajax Success!');
+
+        // change a image
+        let daily_emotion = document.getElementsByClassName('daily_emotion');
+        let daily_ko_emotion = document.getElementsByClassName('daily_ko_emotion');
+        let daily_ma_emotion = document.getElementsByClassName('daily_ma_emotion');
+        let daily_en_emotion = document.getElementsByClassName('daily_en_emotion');
+        let daily_sc_emotion = document.getElementsByClassName('daily_sc_emotion');
+
+        // change a text
+        let daily_rank_title = document.getElementsByClassName('emotion-daily-rank');
+        let daily_rank_ko_title = document.getElementsByClassName('emotion-daily-ko-rank');
+        let daily_rank_ma_title = document.getElementsByClassName('emotion-daily-ma-rank');
+        let daily_rank_en_title = document.getElementsByClassName('emotion-daily-en-rank');
+        let daily_rank_sc_title = document.getElementsByClassName('emotion-daily-sc-rank');
+        
+        for(let i=0; i<daily_emotion.length; i++){
+          daily_emotion[i].src = data['today_emo'][i][2]; //daily emotion top3
+          daily_ko_emotion[i].src = data['korean'][i][2]; //korean emotion top3
+          daily_ma_emotion[i].src = data['math'][i][2];   //math emotion top3
+          daily_en_emotion[i].src = data['english'][i][2];//english emotion top3
+          daily_sc_emotion[i].src = data['science'][i][2];//science emotion top3
+
+          daily_rank_title[i].innerText = data['today_emo'][i][0];
+          daily_rank_ko_title[i].innerText = data['korean'][i][0];
+          daily_rank_ma_title[i].innerText = data['math'][i][0];
+          daily_rank_en_title[i].innerText = data['english'][i][0];
+          daily_rank_sc_title[i].innerText = data['science'][i][0];
+        }
+
+        //$('#today_1').attr(src, "/static/img/emo_2.png");
+        //document.getElementById('today_1').src=src_path(data['today_emo'][0]);
+      },
+      error: function () {
+        console.log("emotion-daily Ajax fail!");
+      }
+    })
+
+  })
+</script>
+
+<!-- 4-2. emotion_week -->
+<script>
+
+  $('#emotion-week-tab').click(function () {
+    console.log('emotion-week, 클릭 이벤트 성공!')
+    $.ajax({
+      url: "{% url 'app:emotion_week' %}",
+      type: "POST",
+      data: JSON.stringify(param),
+      success: function (data) {
+        console.log('emotion-week Ajax Success!');
+
+        // change a image
+        let week_emotion = document.getElementsByClassName('emotion_week');
+        let week_ko_emotion = document.getElementsByClassName('week_ko_emotion');
+        let week_ma_emotion = document.getElementsByClassName('week_ma_emotion');
+        let week_en_emotion = document.getElementsByClassName('week_en_emotion');
+        let week_sc_emotion = document.getElementsByClassName('week_sc_emotion');
+
+        // change a text
+        let week_rank_title = document.getElementsByClassName('emotion-week-rank');
+        let week_rank_ko_title = document.getElementsByClassName('emotion-week-ko-rank');
+        let week_rank_ma_title = document.getElementsByClassName('emotion-week-ma-rank');
+        let week_rank_en_title = document.getElementsByClassName('emotion-week-en-rank');
+        let week_rank_sc_title = document.getElementsByClassName('emotion-week-sc-rank');
+
+        
+        for(let i=0; i<week_emotion.length; i++){
+          week_emotion[i].src = data['week_emo'][i][2]; //daily emotion top3
+          week_ko_emotion[i].src = data['korean'][i][2]; //korean emotion top3
+          week_ma_emotion[i].src = data['math'][i][2];   //math emotion top3
+          week_en_emotion[i].src = data['english'][i][2];//english emotion top3
+          week_sc_emotion[i].src = data['science'][i][2];//science emotion top3
+
+          week_rank_title[i].innerText = data['week_emo'][i][1];
+          week_rank_ko_title[i].innerText = data['korean'][i][1];
+          week_rank_ma_title[i].innerText = data['math'][i][1];
+          week_rank_en_title[i].innerText = data['english'][i][1];
+          week_rank_sc_title[i].innerText = data['science'][i][1];
+        }
+
+
+      },
+      error: function () {
+        console.log("emotion-week Ajax fail!");
+      }
+    })
+  })
+</script>
+
+<!-- EventListener -->
+<script>
+  // create javasecript object
+  const user_id = 'aaa';
+  const param = {
+    'user_id': user_id
+  }
+  // subject tab
+  $('#subject-daily-tab').click(function(){
+    console.log('subject-daily, 클릭 이벤트 성공!')
+    getSubjectData()
+  })
+
+  $('#subject-week-tab').click(function(){
+    console.log('subject-week, 클릭 이벤트 성공!')
+    getSubjectData_week()
+  })
+
+  //conc tab
+  $('#conc-daily-tab').click(function(){
+    console.log('conc-daily, 클릭 이벤트 성공!')
+  })
+</script>
+
+<!-- draw a chart -->
+<script>
+  const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: '집중도',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [0, 10, 20, 30, 45]
+    }]
+  };
+
+  
+
+  
+</script>
+
+<script>
+  new Chart(document.getElementById("doughnut-chart"), {
+    type: 'doughnut',
+      data: {
+      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        datasets: [
+          {
+            label: "Population (millions)",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: [2478,5267,734,784,433]
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        }
+      }
+  });
+</script>
 
 
 <script src="{% static 'vendor/global/global.min.js' %}"></script>

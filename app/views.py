@@ -205,6 +205,9 @@ def subject_data_week(request) :
     data = {'emotions' : emotions, 'conc' : conc}
     return JsonResponse(data, safe=False)
 
+def conc_daily(request):
+
+    return JsonResponse({})
 @csrf_exempt
 def conc_week(request):
 
