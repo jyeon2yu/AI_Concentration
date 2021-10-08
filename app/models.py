@@ -1,5 +1,20 @@
 from django.db import models
 
+<<<<<<< HEAD
+class Frame(models.Model):
+    user = models.OneToOneField('User', models.DO_NOTHING, primary_key=True)
+    filename = models.CharField(max_length=25)
+    emotion = models.IntegerField()
+    emotion_prob = models.FloatField()
+    is_eyeopen = models.IntegerField()
+    is_seat = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'frame'
+        unique_together = (('user', 'filename'),)
+=======
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
 class Parents(models.Model):
     parents_id = models.CharField(primary_key=True, max_length=100)
@@ -54,7 +69,10 @@ class UserEmotion(models.Model):
     user_id = models.CharField(primary_key=True, max_length=20)
     day_emo = models.DateField()
     subject = models.CharField(max_length=100)
+<<<<<<< HEAD
+=======
     total_subject_time_emo = models.IntegerField()
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
     sub_emotion = models.IntegerField()
     sub_emotion_time = models.IntegerField()
 

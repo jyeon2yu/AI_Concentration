@@ -1,10 +1,53 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
 <style>
   div {
-    border : 1px solid skyblue;
+    {% comment %} border : 1px solid skyblue; {% endcomment %}
   }
+
+  .card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 5px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.5rem;
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+  .card-body {
+  flex: 1 1 auto;
+  padding: 0.25rem; }
+  
+  .text-font {
+  font-size: 24px;
+  color: #373757;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight:700;
+  }
+
+  .image-box {
+  overflow:hidden;
+  margin:0 auto;
+  object-fit:cover;
+  text-align: center; }
+
+  .image-thumbnail {
+  width:70%; 
+  height:70%;
+  object-fit:cover;
+  vertical-align:middle;
+  align-items:center; }
 
 </style>
 
@@ -36,7 +79,115 @@
       <div class="tab-pane fade" id="subject-week" role="tabpanel" aria-labelledby="subject-week-tab">과목 일별</div>
     </div>
 
-  </div>
+    <div class='container-fluid' id='subject_frame'>
+      
+      <script type="text/javascript"> // 초기화면부터 ajax 실행되도록 수정
+        
+        $.ajax({
+
+          url : '../subject_data/',
+          success : function(res){
+            let emotions = res;
+            console.log('1일 과목 ajax 성공')
+
+            const subject_frame = document.getElementById('subject_frame')
+            subject_frame.innerHTML = `
+            <div class='row'>
+              <div class='col-lg-6 col-sm-6'>
+                <div class='card'>
+
+                  <div class='card-body'>
+                    <span class='text-font' style='margin-left : 20px; display : block;'>국어</span>
+
+                    <div style='display: flex; justify-content: center;'>
+                      <div class='image-box' style='text-align: center;'>
+                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
+                      </div>
+
+                      <div class='image-box'>
+                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
+                      </div>
+                    </div>
+                    
+                  </div> <!-- card-body -->
+
+                </div>
+              </div> <!-- column -->
+
+              <div class='col-lg-6 col-sm-6'>
+                <div class='card'>
+
+                  <div class='card-body'>
+                    <span class='text-font' style='margin-left : 20px; display : block;'>수학</span>
+
+                    <div style='display: flex; justify-content: center;'>
+                      <div class='image-box' style='text-align: center;'>
+                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
+                      </div>
+
+                      <div class='image-box'>
+                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
+                      </div>
+                    </div>
+                    
+                  </div> <!-- card-body -->
+
+                </div>
+              </div> <!-- column -->
+
+            </div> <!-- row -->
+
+            <div class='row' >
+              <div class='col-lg-6 col-sm-6'>
+                <div class='card'>
+
+                  <div class='card-body'>
+                    <span class='text-font' style='margin-left : 20px; display : block;'>영어</span>
+
+                    <div style='display: flex; justify-content: center;'>
+                      <div class='image-box' style='text-align: center;'>
+                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
+                      </div>
+
+                      <div class='image-box'>
+                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
+                      </div>
+                    </div>
+                    
+                  </div> <!-- card-body -->
+
+                </div>
+              </div> <!-- column -->
+
+              <div class='col-lg-6 col-sm-6'>
+                <div class='card'>
+
+                  <div class='card-body'>
+                    <span class='text-font' style='margin-left : 20px; display : block;'>과학</span>
+
+                    <div style='display: flex; justify-content: center;'>
+                      <div class='image-box' style='text-align: center;'>
+                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
+                      </div>
+
+                      <div class='image-box'>
+                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
+                      </div>
+                    </div>
+                    
+                  </div> <!-- card-body -->
+
+                </div>
+              </div> <!-- column -->
+
+            </div> <!-- row -->
+            `;
+          }
+          
+        }); //ajax 
+      </script>
+    </div> <!-- container -->
+  </div><!-- 2. Subject Tab End -->
 
   <!-- 3. Concentration Tab -->
   <div class="tab-pane fade" id="nav-conc" role="tabpanel" aria-labelledby="nav-conc-tab">
@@ -122,7 +273,6 @@
     <div class="tab-content" id="pills-tabContent">
       <div class="tab-pane fade show active" id="emotion-daily" role="tabpanel" aria-labelledby="emotion-daily-tab">감정 하루</div>
       <div class="tab-pane fade" id="emotion-week" role="tabpanel" aria-labelledby="emotion-week-tab">감정 일별</div>
-    </div>
   </div>
 </div>
 
@@ -143,10 +293,12 @@
   // subject tab
   $('#subject-daily-tab').click(function(){
     console.log('subject-daily, 클릭 이벤트 성공!')
+    getSubjectData()
   })
 
   $('#subject-week-tab').click(function(){
     console.log('subject-week, 클릭 이벤트 성공!')
+    getSubjectData_week()
   })
 
   //conc tab
@@ -158,7 +310,7 @@
     console.log('conc-week, 클릭 이벤트 성공!')
 
     // create javasecript object
-    let user_id = 'aaa';
+    let user_id = '1234';
     let flag ='conc-week';
     let param = {
       'user_id' : user_id,
@@ -411,6 +563,228 @@
   });
 </script>
 
+<!-- 과목 1일 -->
+<script>
 
+  const getSubjectData = function(){
+    $.ajax({
+
+      url : '../subject_data/',
+      success : function(res){
+        let emotions = res;
+        console.log('1일 과목 ajax 성공')
+
+        const subject_frame = document.getElementById('subject_frame')
+        subject_frame.innerHTML = `
+        <div class='row'>
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>국어</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>수학</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+        </div> <!-- row -->
+
+        <div class='row' >
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>영어</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>과학</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+        </div> <!-- row -->
+        `;
+      }
+      
+    }); //ajax
+  }// function
+</script> <!-- 과목 1일 끝 -->
+
+<!-- 과목 1주 -->
+<script>
+
+  const getSubjectData_week = function(){
+    $.ajax({
+
+      url : '../subject_data_week/',
+      success : function(res){
+        let emotions = res;
+        console.log('1주 과목 ajax 성공', res)
+
+        const subject_frame = document.getElementById('subject_frame')
+        subject_frame.innerHTML = `
+        <div class='row'>
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>국어</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>수학</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+        </div> <!-- row -->
+
+        <div class='row' >
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>영어</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+          <div class='col-lg-6 col-sm-6'>
+            <div class='card'>
+
+              <div class='card-body'>
+                <span class='text-font' style='margin-left : 20px; display : block;'>과학</span>
+
+                <div style='display: flex; justify-content: center;'>
+                  <div class='image-box' style='text-align: center;'>
+                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
+                  </div>
+
+                  <div class='image-box'>
+                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
+                  </div>
+                </div>
+                
+              </div> <!-- card-body -->
+
+            </div>
+          </div> <!-- column -->
+
+        </div> <!-- row -->
+        `;
+      }
+      
+    }); //ajax
+  }// function
+</script> <!-- 과목 1주 끝 -->
+
+
+<script src="{% static 'vendor/global/global.min.js' %}"></script>
+<script src="{% static 'js/quixnav-init.js' %}"></script>
+<script src="{% static 'vendor/quixnav/quixnav.min.js' %}"></script>
+<script src="{% static 'js/custom.min.js' %}"></script>
 
 {% endblock %}

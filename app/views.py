@@ -1,12 +1,25 @@
+<<<<<<< HEAD
+import collections
+from typing import Collection
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.forms import model_to_dict
+=======
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 from app.models import User,UserConc,UserEmotion,Parents,Timetable
 
 import datetime
 import random
 import sys, os
 import json
+<<<<<<< HEAD
+import numpy as np
+=======
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
 import cv2
 from imutils import face_utils
@@ -27,8 +40,13 @@ def webcam(request):
 
 def report_chart(request):
     # get userconc data order by date
+<<<<<<< HEAD
+    userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
+    user = User.objects.get(user_id='1234')
+=======
     userconc = UserConc.objects.filter(user_id='aaa').order_by('day_conc','subject')
     user = User.objects.get(user_id='aaa')
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
     content = {'user_info':user, 'week':[]}
 
@@ -54,7 +72,11 @@ def report_data(request):
 
 
     # get userconc data order by date
+<<<<<<< HEAD
+    userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
+=======
     userconc = UserConc.objects.filter(user_id='aaa').order_by('day_conc','subject')
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
     # set info dictionary
     info['week'].append(userconc[0].day_conc)
@@ -89,3 +111,74 @@ def report_data(request):
 
     # send data
     return JsonResponse(info)
+<<<<<<< HEAD
+
+
+def subject_data(request) :
+    
+    print('Views.subject_data')
+
+    english = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='english').order_by('-sub_emotion_time')[0])
+    korean = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='korean').order_by('-sub_emotion_time')[0])
+    math = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='math').order_by('-sub_emotion_time')[0])
+    science = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='science').order_by('-sub_emotion_time')[0])
+
+    emotions = [ english['sub_emotion'], korean['sub_emotion'], math['sub_emotion'], science['sub_emotion']]
+    
+    print('emotions', emotions)
+    english_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='english').get())
+    korean_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='korean').get())
+    math_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='math').get())
+    science_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='science').get())
+
+    conc = []
+    for t in [ english_conc, korean_conc, math_conc, science_conc] :
+        if t['total_conc_time'] / t['total_subject_time_conc'] >= 0.7 :
+            conc.append(1)
+        elif t['total_conc_time'] / t['total_subject_time_conc'] >= 0.6 :
+            conc.append(2)
+        elif t['total_conc_time'] / t['total_subject_time_conc'] >= 0.5 :
+            conc.append(3)
+        elif t['total_conc_time'] / t['total_subject_time_conc'] >= 0.4 :
+            conc.append(4)
+        else :
+            conc.append(5)
+    
+    data = {'emotions' : emotions, 'conc' : conc}
+    return JsonResponse(data, safe=False)
+
+def subject_data_week(request) :
+    print("\n\n 1주\n\n")
+    emotions = []
+    temp = [0] * 7
+    english = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='english')
+    
+    for d in english :
+        temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
+    emotions.append(int(np.argmax(np.array(temp))))
+
+    temp = [0] * 7
+    korean = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='korean')
+    for d in korean :
+        temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
+    emotions.append(int(np.argmax(np.array(temp))))
+
+    temp = [0] * 7
+    math = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='math')
+    for d in math :
+        temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
+    emotions.append(int(np.argmax(np.array(temp))))
+
+    temp = [0] * 7
+    science = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='science')
+    for d in science :
+        temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
+    emotions.append(int(np.argmax(np.array(temp))))
+
+    conc = [1,1,1,1]
+
+    print('\n1주 끝\n')
+    data = {'emotions' : emotions, 'conc' : conc}
+    return JsonResponse(data, safe=False)
+=======
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
