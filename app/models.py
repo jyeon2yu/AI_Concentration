@@ -73,3 +73,12 @@ class UserEmotion(models.Model):
         managed = False
         db_table = 'user_emotion'
         unique_together = (('user_id', 'day_emo', 'subject', 'sub_emotion'),)
+
+# 이미지 테이블 추가
+class Images(models.Model):
+    image_name = models.CharField(primary_key=True, max_length=50)
+    url = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'images'

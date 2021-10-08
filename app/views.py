@@ -4,14 +4,19 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.forms import model_to_dict
-from django.db.models import Sum
-from app.models import User,UserConc,UserEmotion,Parents,Timetable
 
-import datetime
+
+# 테이블, 쿼리셋 library
+from app.models import User,UserConc,UserEmotion,Parents,Timetable,Images
+from django.db.models import Sum, Count, Q, Max
+
+from datetime import datetime, timedelta, date
+
 import random
 import sys, os
 import json
 import numpy as np
+
 
 import cv2
 from imutils import face_utils
@@ -29,73 +34,90 @@ def webcam(request):
 
     return render(request, 'app/webcam.html', content)
 
-
-def report_chart(request):
-    # get userconc data order by date
-    userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
-    user = User.objects.get(user_id='1234')
-
-    content = {'user_info':user, 'week':[]}
-
-    # set info dictionary
-    content['week'].append(userconc[0].day_conc)
-    for i in userconc:
-        # get date
-        if i.day_conc != content['week'][-1]:
-            content['week'].append(i.day_conc)
-
+# 이미지 url 가져오는 함수
+def img_url():
+    # images url
+    url = Images.objects.filter(Q(image_name__startswith='emo'))
+    url_list = {}
+    for i in url:
+        url_list.update({i.image_name:i.url})
     
-    return render(request, 'chart.html', content)
-
-@csrf_exempt
-def report_data(request):
-
-    # info {'week':[2021-09-27,...],
-    #       'korean': [[total_subject_time_conc, total_conc_time],[],...], 
-    #        ...,
-    #       'result' : [(ko+ma+en+sci/total_time), ... ]}
-    info = {'week':[], 'korean':[], 'math': [], 'english':[], 'science': [], 'time': [], 'result':[]}
-    jsonObject = json.loads(request.body)
+    return url_list
 
 
-    # get userconc data order by date
-    userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
 
-    # set info dictionary
-    info['week'].append(userconc[0].day_conc)
-    for i in userconc:
-        # get date
-        if i.day_conc != info['week'][-1]:
-            info['week'].append(i.day_conc)
+    url_list = img_url()
+    userID = userID
+    today = todate # test data
 
-        # get each subject's conc time
+    # 3-1. today daily emotion top 3
+    today_emo = UserEmotion.objects.filter(user_id=userID, day_emo='2021-09-27').values('sub_emotion').annotate(time=Sum('sub_emotion_time')) # today emotion top3
+    today_emo_list = []
+
+    for data in today_emo:
+        today_emo_list.append([data['sub_emotion'], data['time']])
+
+    today_emo_list = sorted(today_emo_list, key=lambda x: (-x[1], x[0]))[:3] # today emotion top3
+
+    # 3-2. today daily subject emotion top2
+    useremotion = UserEmotion.objects.filter(user_id=userID, day_emo=today).order_by('subject','-sub_emotion_time')
+
+    # img_info {
+    #   'date' : '2021-09-27',
+    #   'korean' : [[emo_3,url],.....], # order by decending
+    #   ......
+    # }
+    # dictionary expression : {key: value for key, value in dict.fromkeys(keys).items()}
+    img_info = {'date': today, 'korean': [], 'math': [], 'english': [], 'science': [], 'today_emo' : today_emo_list,}
+    img_info['date'] = useremotion[0].day_emo
+
+
+
+        # get each subject's emotion time
         if i.subject == 'korean':
-            info['korean'].append([i.total_subject_time_conc, i.total_conc_time])
+            img_info['korean'].append([i.sub_emotion, i.sub_emotion_time])
+            # get each emotion's total time
         elif i.subject == 'math':
-            info['math'].append([i.total_subject_time_conc, i.total_conc_time])
+            img_info['math'].append([i.sub_emotion, i.sub_emotion_time])
         elif i.subject == 'english':
-            info['english'].append([i.total_subject_time_conc, i.total_conc_time])
+            img_info['english'].append([i.sub_emotion, i.sub_emotion_time])
         else:
-            info['science'].append([i.total_subject_time_conc, i.total_conc_time])
+            img_info['science'].append([i.sub_emotion, i.sub_emotion_time])
     
+    # today's top 3 emotion by each subject
+    img_info['korean'] = sorted(img_info['korean'], key=lambda x: (-x[1], x[0]))[:3]
+    img_info['math'] = sorted(img_info['math'], key=lambda x: (-x[1], x[0]))[:3]
+    img_info['english'] = sorted(img_info['english'], key=lambda x: (-x[1], x[0]))[:3]
+    img_info['science'] = sorted(img_info['science'], key=lambda x: (-x[1], x[0]))[:3]
 
-    # print(info)
-
-    # calculation a conc's result
-    info['result'] = [0 for i in range(len(info['week']))]
-    info['time'] = [0 for i in range(len(info['week']))]
-    for key,value in info.items():
+     # paste url
+    for key,value in img_info.items():
         # print(info['result'])
-        if key in ['korean','math','english','science']:
+        if key in ['korean','math','english','science','today_emo']:
             for index, val in enumerate(value):
-                # print(index, val)
-                info['time'][index] += val[0]
-                info['result'][index] += val[1]
+                if val[0] == 0:
+                    val[0] = '중립'
+                    val.append(url_list['emo_0'])
+                elif val[0] == 1:
+                    val[0] = '슬픔'
+                    val.append(url_list['emo_1'])
+                elif val[0] == 2:
+                    val[0] = '상처'
+                    val.append(url_list['emo_2'])
+                elif val[0] == 3:
+                    val[0] = '불안'
+                    val.append(url_list['emo_3'])
+                elif val[0] == 4:
+                    val[0] = '분노'
+                    val.append(url_list['emo_4'])
+                elif val[0] == 5:
+                    val[0] = '당황'
+                    val.append(url_list['emo_5'])
+                else :
+                    val[0] = '기쁨'
+                    val.append(url_list['emo_6'])
 
-    # send data
-    return JsonResponse(info)
 
-# 과목 탭 1일
 def subject_data(request) :
 
     english = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='english').order_by('-sub_emotion_time')[0])

@@ -205,27 +205,70 @@
 
     <!-- 3-2. chart layout -->
     <div class="tab-content" id="pills-tabContent">
+
+      <!-- 3-2-1. 집중도 하루 Tab -->
       <div class="tab-pane fade show active" id="conc-daily" role="tabpanel" aria-labelledby="conc-daily-tab">
         집중도 하루
         <div class='container-sm'>
           <canvas id="doughnut-chart"></canvas>
         </div>
-
       </div>
 
+      <!-- 3-2-2. 집중도 일별 Tab -->
       <div class="tab-pane fade" id="conc-week" role="tabpanel" aria-labelledby="conc-week-tab">
-        집중도 일별
         <div class='container-sm'>
           <h5>일별 전체 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line1"></canvas>
+            <script>
+              var myChart_conc1 = new Chart(document.getElementById('conc_line1').getContext('2d'), {
+                type: 'line',
+                data: {},
+                options: {
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: '일별 전체 집중도'
+                    }
+                  },
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 100,
+                      stepSize: 10,
+                    }
+                  }
+                }
+              })
+            </script>
           </div>
         </div>
-        
+
         <div class='container-sm'>
           <h5>국어 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line2"></canvas>
+            <script>
+              var myChart_conc2 = new Chart(document.getElementById('conc_line2'), {
+                type: 'line',
+                data: {},
+                options: {
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: '국어 집중도'
+                    }
+                  },
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 100,
+                      stepSize: 10,
+                    }
+                  }
+                }
+              })
+            </script>
           </div>
         </div>
 
@@ -233,13 +276,55 @@
           <h5>수학 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line3"></canvas>
+            <script>
+              var myChart_conc3 = new Chart(document.getElementById('conc_line3'), {
+                type: 'line',
+                data: {},
+                options: {
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: '수학 집중도'
+                    }
+                  },
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 100,
+                      stepSize: 10,
+                    }
+                  }
+                }
+              })
+            </script>
           </div>
         </div>
 
         <div class='container-sm'>
           <h5>영어 집중도</h5>
           <div class="m-1 p-1">
-            <canvas id="conc_line4" ></canvas>
+            <canvas id="conc_line4"></canvas>
+            <script>
+              var myChart_conc4 = new Chart(document.getElementById('conc_line4'), {
+                type: 'line',
+                data: {},
+                options: {
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: '영어 집중도'
+                    }
+                  },
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 100,
+                      stepSize: 10,
+                    }
+                  }
+                }
+              })
+            </script>
           </div>
         </div>
 
@@ -247,6 +332,27 @@
           <h5>과학 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line5"></canvas>
+            <script>
+              var myChart_conc5 = new Chart(document.getElementById('conc_line5'), {
+                type: 'line',
+                data: {},
+                options: {
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: '과학 집중도'
+                    }
+                  },
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 100,
+                      stepSize: 10,
+                    }
+                  }
+                }
+              })
+            </script>
           </div>
         </div>
 
@@ -258,7 +364,7 @@
   <div class="tab-pane fade" id="nav-emotion" role="tabpanel" aria-labelledby="nav-emotion-tab">
     <h4>Emotion page!</h4>
 
-    <!-- 3-1. button layout -->
+    <!-- 4-1. button layout -->
     <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
       <li class="nav-item" role="presentation">
         <a class="nav-link active" id="emotion-daily-tab" data-toggle="pill" href="#emotion-daily" role="tab" aria-controls="emotion-daily" aria-selected="true">하루</a>
@@ -269,10 +375,425 @@
 
     </ul>
 
-    <!-- 3-2. chart layout -->
+    <!-- 4-2. chart layout -->
     <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="emotion-daily" role="tabpanel" aria-labelledby="emotion-daily-tab">감정 하루</div>
-      <div class="tab-pane fade" id="emotion-week" role="tabpanel" aria-labelledby="emotion-week-tab">감정 일별</div>
+
+      <!-- 4-2-1. 감정 하루 Tab -->
+      <div class="tab-pane fade show active" id="emotion-daily" role="tabpanel" aria-labelledby="emotion-daily-tab">
+        감정 하루
+        <div class="d-flex bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight border border-dark border-3 flex-sm-fill" id="total-emotion-container">
+            <div class="text-center">
+              <span>1 순위</span>
+              <span class="emotion-daily-rank"> {{today_emo.0.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_emotion img-fluid " src="{{today_emo.0.2}}" alt="감정 이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>2 순위</span>
+              <span class="emotion-daily-rank"> {{today_emo.1.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_emotion img-fluid " src="{{today_emo.1.2}}" alt="감정 이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>3 순위</span>
+              <span class="emotion-daily-rank"> {{today_emo.2.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_emotion img-fluid " src="{{today_emo.2.2}}" alt="감정 이미지">
+            </div>
+          </div>
+        </div>
+
+        국어 감정 하루
+        <div class="d-flex bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>1 순위</span>
+              <span class="emotion-daily-ko-rank"> {{korean.0.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_ko_emotion img-fluid" src = "{{korean.0.2}}" alt="이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>2 순위</span>
+              <span class="emotion-daily-ko-rank"> {{korean.1.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_ko_emotion img-fluid" src = "{{korean.1.2}}" alt="이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>3 순위</span>
+              <span class="emotion-daily-ko-rank"> {{korean.2.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_ko_emotion img-fluid" src = "{{korean.2.2}}" alt="이미지">
+            </div>
+          </div>
+        </div>
+
+        수학 감정 하루
+        <div class="d-flex bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>1 순위</span>
+              <span class="emotion-daily-ma-rank"> {{math.0.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_ma_emotion img-fluid" src = "{{math.0.2}}" alt="이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>2 순위</span>
+              <span class="emotion-daily-ma-rank"> {{math.1.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_ma_emotion img-fluid" src = "{{math.1.2}}" alt="이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>3 순위</span>
+              <span class="emotion-daily-ma-rank"> {{math.2.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_ma_emotion img-fluid" src = "{{math.2.2}}" alt="이미지">
+            </div>
+          </div>
+        </div>
+
+        영어 감정 하루
+        <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>1 순위</span>
+              <span class="emotion-daily-en-rank"> {{english.0.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_en_emotion img-fluid" src = "{{english.0.2}}" alt="이미지">
+            </div>
+          </div>
+          
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>2 순위</span>
+              <span class="emotion-daily-en-rank"> {{english.1.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_en_emotion img-fluid" src = "{{english.1.2}}" alt="이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>3 순위</span>
+              <span class="emotion-daily-en-rank"> {{english.2.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_en_emotion img-fluid" src = "{{english.2.2}}" alt="이미지">
+            </div>
+          </div>
+        </div>
+
+        과학 감정 하루
+        <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>1 순위</span>
+              <span class="emotion-daily-sc-rank"> {{science.0.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_sc_emotion img-fluid" src = "{{science.0.2}}" alt="이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>2 순위</span>
+              <span class="emotion-daily-sc-rank"> {{science.1.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_sc_emotion img-fluid" src = "{{science.1.2}}" alt="이미지">
+            </div>
+          </div>
+
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>3 순위</span>
+              <span class="emotion-daily-sc-rank"> {{science.2.0}} </span>
+            </div>
+            <div class="text-center">
+              <img class="daily_sc_emotion img-fluid" src = "{{science.2.2}}" alt="이미지">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-2-2. 감정 일별 Tab -->
+      <div class="tab-pane fade" id="emotion-week" role="tabpanel" aria-labelledby="emotion-week-tab">
+        감정 일별
+        <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>월요일 1 순위</span>
+              <span class="emotion-week-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="emotion_week img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>화요일 1 순위</span>
+              <span class="emotion-week-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="emotion_week img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>수요일 1 순위</span>
+              <span class="emotion-week-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="emotion_week img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>목요일 1 순위</span>
+              <span class="emotion-week-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="emotion_week img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>금요일 1 순위</span>
+              <span class="emotion-week-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="emotion_week img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+        </div>
+
+        국어 감정 일별
+        <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>월요일 1 순위</span>
+              <span class="emotion-week-ko-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ko_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>화요일 1 순위</span>
+              <span class="emotion-week-ko-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ko_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>수요일 1 순위</span>
+              <span class="emotion-week-ko-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ko_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>목요일 1 순위</span>
+              <span class="emotion-week-ko-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ko_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>금요일 1 순위</span>
+              <span class="emotion-week-ko-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ko_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+        </div>
+
+        수학 감정 일별
+        <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>월요일 1 순위</span>
+              <span class="emotion-week-ma-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ma_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>화요일 1 순위</span>
+              <span class="emotion-week-ma-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ma_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>수요일 1 순위</span>
+              <span class="emotion-week-ma-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ma_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>목요일 1 순위</span>
+              <span class="emotion-week-ma-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ma_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>금요일 1 순위</span>
+              <span class="emotion-week-ma-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_ma_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+        </div>
+
+        영어 감정 일별
+        <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>월요일 1 순위</span>
+              <span class="emotion-week-en-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_en_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>화요일 1 순위</span>
+              <span class="emotion-week-en-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_en_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>수요일 1 순위</span>
+              <span class="emotion-week-en-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_en_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>목요일 1 순위</span>
+              <span class="emotion-week-en-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_en_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>금요일 1 순위</span>
+              <span class="emotion-week-en-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_en_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+        </div>
+
+        과학 감정 일별
+        <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>월요일 1 순위</span>
+              <span class="emotion-week-sc-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_sc_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>화요일 1 순위</span>
+              <span class="emotion-week-sc-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_sc_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>수요일 1 순위</span>
+              <span class="emotion-week-sc-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_sc_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>목요일 1 순위</span>
+              <span class="emotion-week-sc-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_sc_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>금요일 1 순위</span>
+              <span class="emotion-week-sc-rank"> 무표정 </span>
+            </div>
+            <div class="text-center">
+              <img class="week_sc_emotion img-fluid" src = "{% static 'img/emo_0.png' %}" alt="이미지">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -284,142 +805,24 @@
 <div class='container-xl'> 100% wide until extra breakpoint </div>
 <div class='container-xxl'> 100% wide until extra extra large breakpoint </div> -->
 
-  
 
 
+<!-- EventListner -->
 
-<!-- EventListener -->
+<!-- 3-2. conc_week -->
 <script>
-  // subject tab
-  $('#subject-daily-tab').click(function(){
-    console.log('subject-daily, 클릭 이벤트 성공!')
-    getSubjectData()
-  })
-
-  $('#subject-week-tab').click(function(){
-    console.log('subject-week, 클릭 이벤트 성공!')
-    getSubjectData_week()
-  })
-
-  //conc tab
-  $('#conc-daily-tab').click(function(){
-    console.log('conc-daily, 클릭 이벤트 성공!')
-  })
-
-  $('#conc-week-tab').click(function(){
+  // create javasecript object
+  var User = function (id) {
+    this.user_id = id;
+  }
+  // const user_id = 'aaa';
+  // const param = {
+  //   'user_id' : user_id
+  // }
+  $('#conc-week-tab').click(function () {
     console.log('conc-week, 클릭 이벤트 성공!')
-
-    // create javasecript object
-    let user_id = '1234';
-    let flag ='conc-week';
-    let param = {
-      'user_id' : user_id,
-      'flag' : flag,
-    }
-
     // Draw a Chart
     const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
-
-    var myChart_conc1 = new Chart(document.getElementById('conc_line1').getContext('2d'),{
-      type: 'line',
-      data: {},
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: '일별 전체 집중도'
-          }
-        },
-        scales:{
-          y:{
-            min:0,
-            max : 100,
-            stepSize : 10,
-          }
-        }
-      }
-    })
-
-    var myChart_conc2 = new Chart(document.getElementById('conc_line2'),{
-      type: 'line',
-      data: {},
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: '국어 집중도'
-          }
-        },
-        scales:{
-          y:{
-            min:0,
-            max : 100,
-            stepSize : 10,
-          }
-        }
-      }
-    })
-  
-    var myChart_conc3 = new Chart(document.getElementById('conc_line3'),{
-      type: 'line',
-      data: {},
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: '수학 집중도'
-          }
-        },
-        scales:{
-          y:{
-            min:0,
-            max : 100,
-            stepSize : 10,
-          }
-        }
-      }
-    })
-  
-    var myChart_conc4 = new Chart(document.getElementById('conc_line4'),{
-      type: 'line',
-      data: {},
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: '영어 집중도'
-          }
-        },
-        scales:{
-          y:{
-            min:0,
-            max : 100,
-            stepSize : 10,
-          }
-        }
-      }
-    })
-  
-    var myChart_conc5 = new Chart(document.getElementById('conc_line5'),{
-      type: 'line',
-      data: {},
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: '과학 집중도'
-          }
-        },
-        scales:{
-          y:{
-            min:0,
-            max : 100,
-            stepSize : 10,
-          }
-        }
-      }
-    })
-
     /*
       Ajax
       - url : 통신할 url,
@@ -428,12 +831,11 @@
       - success, error : 통신이 성공/실패했을 때 실행되는 함수
     */
     $.ajax({
-      url : "{% url 'app:data' %}",
-      type : "POST",
-      data : JSON.stringify(param),
-      success:function(data){
+      url: "{% url 'app:conc_week' %}",
+      type: "POST",
+      data: JSON.stringify(param),
+      success: function (data) {
         console.log('conc-week Ajax Success!');
-        console.log(data);
 
         // set data
         //console.log(data['week'].length); //print
@@ -442,12 +844,12 @@
         const data_list3 = [];
         const data_list4 = [];
         const data_list5 = [];
-        for (step = 0; step < data['week'].length; step++){
+        for (step = 0; step < data['week'].length; step++) {
           data_list1.push(data['result'][step] / data['time'][step] * 100);
-          data_list2.push(data['korean'][step][1]/data['korean'][step][0] * 100);
-          data_list3.push(data['math'][step][1]/data['math'][step][0] * 100);
-          data_list4.push(data['english'][step][1]/data['english'][step][0] * 100);
-          data_list5.push(data['science'][step][1]/data['science'][step][0] * 100);
+          data_list2.push(data['korean'][step][1] / data['korean'][step][0] * 100);
+          data_list3.push(data['math'][step][1] / data['math'][step][0] * 100);
+          data_list4.push(data['english'][step][1] / data['english'][step][0] * 100);
+          data_list5.push(data['science'][step][1] / data['science'][step][0] * 100);
           //console.log(data_list[step]);
         }
 
@@ -507,19 +909,128 @@
         myChart_conc4.update();
         myChart_conc5.update();
       },
-      error: function(){
+      error: function () {
         console.log("conc-week Ajax fail!");
       }
     })
   })
+</script>
 
-  //emotion tab
-  $('#emotion-daily-tab').click(function(){
+<!-- 4-1. emotion_daily -->
+<script>
+  $('#emotion-daily-tab').click(function () {
     console.log('emotion-daily, 클릭 이벤트 성공!')
+    $.ajax({
+      url: "{% url 'app:emotion_daily' %}",
+      type: "POST",
+      data: JSON.stringify(param),
+      success: function (data) {
+        console.log('emotion-daily Ajax Success!');
+
+        // change a image
+        let daily_emotion = document.getElementsByClassName('daily_emotion');
+        let daily_ko_emotion = document.getElementsByClassName('daily_ko_emotion');
+        let daily_ma_emotion = document.getElementsByClassName('daily_ma_emotion');
+        let daily_en_emotion = document.getElementsByClassName('daily_en_emotion');
+        let daily_sc_emotion = document.getElementsByClassName('daily_sc_emotion');
+
+        // change a text
+        let daily_rank_title = document.getElementsByClassName('emotion-daily-rank');
+        let daily_rank_ko_title = document.getElementsByClassName('emotion-daily-ko-rank');
+        let daily_rank_ma_title = document.getElementsByClassName('emotion-daily-ma-rank');
+        let daily_rank_en_title = document.getElementsByClassName('emotion-daily-en-rank');
+        let daily_rank_sc_title = document.getElementsByClassName('emotion-daily-sc-rank');
+        
+        for(let i=0; i<daily_emotion.length; i++){
+          daily_emotion[i].src = data['today_emo'][i][2]; //daily emotion top3
+          daily_ko_emotion[i].src = data['korean'][i][2]; //korean emotion top3
+          daily_ma_emotion[i].src = data['math'][i][2];   //math emotion top3
+          daily_en_emotion[i].src = data['english'][i][2];//english emotion top3
+          daily_sc_emotion[i].src = data['science'][i][2];//science emotion top3
+
+          daily_rank_title[i].innerText = data['today_emo'][i][0];
+          daily_rank_ko_title[i].innerText = data['korean'][i][0];
+          daily_rank_ma_title[i].innerText = data['math'][i][0];
+          daily_rank_en_title[i].innerText = data['english'][i][0];
+          daily_rank_sc_title[i].innerText = data['science'][i][0];
+        }
+
+        //$('#today_1').attr(src, "/static/img/emo_2.png");
+        //document.getElementById('today_1').src=src_path(data['today_emo'][0]);
+      },
+      error: function () {
+        console.log("emotion-daily Ajax fail!");
+      }
+    })
+
+  })
+</script>
+
+<!-- 4-2. emotion_week -->
+<script>
+  $('#emotion-week-tab').click(function () {
+    console.log('emotion-week, 클릭 이벤트 성공!')
+    $.ajax({
+      url: "{% url 'app:emotion_week' %}",
+      type: "POST",
+      data: JSON.stringify(param),
+      success: function (data) {
+        console.log('emotion-week Ajax Success!');
+
+        // change a image
+        let week_emotion = document.getElementsByClassName('emotion_week');
+        let week_ko_emotion = document.getElementsByClassName('week_ko_emotion');
+        let week_ma_emotion = document.getElementsByClassName('week_ma_emotion');
+        let week_en_emotion = document.getElementsByClassName('week_en_emotion');
+        let week_sc_emotion = document.getElementsByClassName('week_sc_emotion');
+
+        // change a text
+        let week_rank_title = document.getElementsByClassName('emotion-week-rank');
+        let week_rank_ko_title = document.getElementsByClassName('emotion-week-ko-rank');
+        let week_rank_ma_title = document.getElementsByClassName('emotion-week-ma-rank');
+        let week_rank_en_title = document.getElementsByClassName('emotion-week-en-rank');
+        let week_rank_sc_title = document.getElementsByClassName('emotion-week-sc-rank');
+
+        
+        for(let i=0; i<week_emotion.length; i++){
+          week_emotion[i].src = data['week_emo'][i][2]; //daily emotion top3
+          week_ko_emotion[i].src = data['korean'][i][2]; //korean emotion top3
+          week_ma_emotion[i].src = data['math'][i][2];   //math emotion top3
+          week_en_emotion[i].src = data['english'][i][2];//english emotion top3
+          week_sc_emotion[i].src = data['science'][i][2];//science emotion top3
+
+          week_rank_title[i].innerText = data['week_emo'][i][1];
+          week_rank_ko_title[i].innerText = data['korean'][i][1];
+          week_rank_ma_title[i].innerText = data['math'][i][1];
+          week_rank_en_title[i].innerText = data['english'][i][1];
+          week_rank_sc_title[i].innerText = data['science'][i][1];
+        }
+
+
+      },
+      error: function () {
+        console.log("emotion-week Ajax fail!");
+      }
+    })
+  })
+</script>
+
+<!-- EventListener -->
+<script>
+  // subject tab
+  $('#subject-daily-tab').click(function(){
+    console.log('subject-daily, 클릭 이벤트 성공!')
+    getSubjectData()
   })
 
-  $('#emotion-week-tab').click(function(){
-    console.log('emotion-week, 클릭 이벤트 성공!')
+  $('#subject-week-tab').click(function(){
+    console.log('subject-week, 클릭 이벤트 성공!')
+    getSubjectData_week()
+  })
+
+  //conc tab
+  $('#conc-daily-tab').click(function(){
+    console.log('conc-daily, 클릭 이벤트 성공!')
   })
 </script>
 
