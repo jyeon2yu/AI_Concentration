@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-<<<<<<< HEAD
 {% load static %}
 
 {% block content %}
@@ -50,15 +49,6 @@
   vertical-align:middle;
   align-items:center; }
 
-=======
-
-{% block content %}
-<style>
-  div {
-    border : 1px solid skyblue;
-  }
-
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 </style>
 
 <!-- tab for page moving -->
@@ -89,7 +79,6 @@
       <div class="tab-pane fade" id="subject-week" role="tabpanel" aria-labelledby="subject-week-tab">과목 일별</div>
     </div>
 
-<<<<<<< HEAD
     <div class='container-fluid' id='subject_frame'>
       
       <script type="text/javascript"> // 초기화면부터 ajax 실행되도록 수정
@@ -199,9 +188,6 @@
       </script>
     </div> <!-- container -->
   </div><!-- 2. Subject Tab End -->
-=======
-  </div>
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
   <!-- 3. Concentration Tab -->
   <div class="tab-pane fade" id="nav-conc" role="tabpanel" aria-labelledby="nav-conc-tab">
@@ -287,10 +273,6 @@
     <div class="tab-content" id="pills-tabContent">
       <div class="tab-pane fade show active" id="emotion-daily" role="tabpanel" aria-labelledby="emotion-daily-tab">감정 하루</div>
       <div class="tab-pane fade" id="emotion-week" role="tabpanel" aria-labelledby="emotion-week-tab">감정 일별</div>
-<<<<<<< HEAD
-=======
-    </div>
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
   </div>
 </div>
 
@@ -311,18 +293,12 @@
   // subject tab
   $('#subject-daily-tab').click(function(){
     console.log('subject-daily, 클릭 이벤트 성공!')
-<<<<<<< HEAD
     getSubjectData()
-=======
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
   })
 
   $('#subject-week-tab').click(function(){
     console.log('subject-week, 클릭 이벤트 성공!')
-<<<<<<< HEAD
     getSubjectData_week()
-=======
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
   })
 
   //conc tab
@@ -334,11 +310,7 @@
     console.log('conc-week, 클릭 이벤트 성공!')
 
     // create javasecript object
-<<<<<<< HEAD
     let user_id = '1234';
-=======
-    let user_id = 'aaa';
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
     let flag ='conc-week';
     let param = {
       'user_id' : user_id,
@@ -591,7 +563,6 @@
   });
 </script>
 
-<<<<<<< HEAD
 <!-- 과목 1일 -->
 <script>
 
@@ -815,8 +786,5 @@
 <script src="{% static 'js/quixnav-init.js' %}"></script>
 <script src="{% static 'vendor/quixnav/quixnav.min.js' %}"></script>
 <script src="{% static 'js/custom.min.js' %}"></script>
-=======
-
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
 {% endblock %}

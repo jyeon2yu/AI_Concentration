@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '' # 본인 프로젝트 시크릿키 넣기
+SECRET_KEY = 'django-insecure-itm+qww5x)&#4@dw+yfxd@616w=*ogx1ht^#4@wqrq5n_5bw7w' # 본인 프로젝트 시크릿키 넣기
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -103,15 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-<<<<<<< HEAD
 LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
-=======
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
 USE_I18N = True
 
