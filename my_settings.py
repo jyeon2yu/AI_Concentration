@@ -10,4 +10,4 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-SECRET_KEY = 'django-insecure-itm+qww5x)&#4@dw+yfxd@616w=*ogx1ht^#4@wqrq5n_5bw7w' # 본인 프로젝트 시크릿키 넣기
+SECRET_KEY = '' # 본인 프로젝트 시크릿키 넣기
