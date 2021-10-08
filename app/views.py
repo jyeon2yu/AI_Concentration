@@ -1,16 +1,25 @@
+<<<<<<< HEAD
 import collections
 from typing import Collection
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.forms import model_to_dict
+=======
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 from app.models import User,UserConc,UserEmotion,Parents,Timetable
 
 import datetime
 import random
 import sys, os
 import json
+<<<<<<< HEAD
 import numpy as np
+=======
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
 import cv2
 from imutils import face_utils
@@ -31,8 +40,13 @@ def webcam(request):
 
 def report_chart(request):
     # get userconc data order by date
+<<<<<<< HEAD
     userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
     user = User.objects.get(user_id='1234')
+=======
+    userconc = UserConc.objects.filter(user_id='aaa').order_by('day_conc','subject')
+    user = User.objects.get(user_id='aaa')
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
     content = {'user_info':user, 'week':[]}
 
@@ -58,7 +72,11 @@ def report_data(request):
 
 
     # get userconc data order by date
+<<<<<<< HEAD
     userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
+=======
+    userconc = UserConc.objects.filter(user_id='aaa').order_by('day_conc','subject')
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
     # set info dictionary
     info['week'].append(userconc[0].day_conc)
@@ -93,6 +111,7 @@ def report_data(request):
 
     # send data
     return JsonResponse(info)
+<<<<<<< HEAD
 
 
 def subject_data(request) :
@@ -161,3 +180,5 @@ def subject_data_week(request) :
     print('\n1주 끝\n')
     data = {'emotions' : emotions, 'conc' : conc}
     return JsonResponse(data, safe=False)
+=======
+>>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
