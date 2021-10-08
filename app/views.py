@@ -175,4 +175,5 @@ def subject_data_week(request) :
             conc.append(5)
 
     data = {'emotions' : emotions, 'conc' : conc}
+    
     return JsonResponse(data, safe=False)
