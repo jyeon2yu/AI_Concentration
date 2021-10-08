@@ -95,7 +95,7 @@ def report_data(request):
     # send data
     return JsonResponse(info)
 
-
+# 과목 탭 1일
 def subject_data(request) :
 
     english = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='english').order_by('-sub_emotion_time')[0])
@@ -127,6 +127,7 @@ def subject_data(request) :
     data = {'emotions' : emotions, 'conc' : conc}
     return JsonResponse(data, safe=False)
 
+# 과목 탭 1주
 def subject_data_week(request) :
     emotions = []
     temp = [0] * 7
