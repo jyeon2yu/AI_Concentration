@@ -9,7 +9,7 @@
 
 <style>
   div {
-    {% comment %} border : 1px solid skyblue; {% endcomment %}
+    border : 1px solid skyblue;
   }
 
   .card {
@@ -56,6 +56,23 @@
   <!-- 1. Home Tab -->
   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
     <h4>Home page!</h4>
+
+    <div class='container-fluid' id='home'>
+      <span class='text-font'>{{best_shot}}</span>
+      <div class='row'>
+        <div class='col-xs-3'>
+          <img class='image-thumbnail' style='width : 150px; height : auto;' src="{% get_static_prefix %}../../static/img/grade_{{todays_conc}}.png" alt="grade.png">
+        </div>
+        <div class='col-xs-3'>
+          <img class='image-thumbnail' style='width : 150px; height : auto;' src="{% get_static_prefix %}../../static/img/{{todays_emo}}.png" alt="emotion.png">
+        </div>
+      </div>
+      <div class='row'>
+        <h3>베스트샷</h3>
+        <img class='image-thumbnail' style='width : 100%; height : auto;' src="{% get_static_prefix %}../../static/img/{{user_id}}/{{best_shot}}.jpg" alt="사진x">
+      </div>
+    </div>
+
   </div>
 
   <!-- 2. Subject Tab -->
@@ -210,7 +227,166 @@
       <div class="tab-pane fade show active" id="conc-daily" role="tabpanel" aria-labelledby="conc-daily-tab">
         집중도 하루
         <div class='container-sm'>
-          <canvas id="doughnut-chart"></canvas>
+          <div class="m-1 p-1">
+            <!-- doughnut chart options -->
+            <script>
+              //Register Donut Plugin
+              const doughnutOptions = {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI,
+                hoverOffset : 10, //클리시, 동작
+                cutoutPercentage:50, //도넛 두께,
+                centertext:'123',
+                title: {
+                  display: true,
+                  text: '하루 집중도',
+                  fontSize:17,
+                  fontColor:'rgba(46, 49, 49, 1)'                    
+                },
+                tooltips:{
+                  displayColors : false,
+                  titleFontColor:'#fff',
+                  titleAlign:'center',
+                  bodyAlign:'center'
+                },
+                plugins:{
+                  doughnutlabel:{
+                    labels:[{
+                      text: 'first text',
+                      font : {
+                        size: '20',
+                        weight: 'bold',
+                      }
+                    },{
+                      text:'second text',
+                      font:{
+                        size:'10',
+                        weight:'bold',
+                      }
+                    }]
+                  }
+                }
+              };
+              const colors =['red','skyblue','yellowgreen'];
+
+            </script>
+
+            <!-- daily doughnut chart -->
+            <div>
+              <canvas id="conc_doughnut1"></canvas>
+              <script>
+                var myChart_donut1 = new Chart(document.getElementById('conc_doughnut1').getContext('2d'), {
+                  type: 'doughnut',
+                  data: {
+                    labels : ['집중', '이석', '졸음'],
+                    datasets : [{
+                      data: [33,33,33],
+                      backgroundColor: colors.slice(0,3),
+                      borderColor : [
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)'
+                      ],
+                      borderWidth : 5
+                    }]
+                  },
+                  options: doughnutOptions
+                });
+              </script>
+            </div>
+
+            <div>
+              <canvas id="conc_doughnut2"></canvas>
+              <script>
+                var myChart_donut2 = new Chart(document.getElementById('conc_doughnut2').getContext('2d'), {
+                  type: 'doughnut',
+                  data: {
+                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    datasets : [{
+                      data: [33,33,33],
+                      backgroundColor: colors.slice(0,3),
+                      borderColor : [
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)'
+                      ],
+                      borderWidth : 5
+                    }]
+                  },
+                  options: doughnutOptions
+                });
+              </script>
+            </div>
+
+            <div>
+              <canvas id="conc_doughnut3"></canvas>
+              <script>
+                var myChart_donut3 = new Chart(document.getElementById('conc_doughnut3').getContext('2d'), {
+                  type: 'doughnut',
+                  data: {
+                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    datasets : [{
+                      data: [33,33,33],
+                      backgroundColor: colors.slice(0,3),
+                      borderColor : [
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)'
+                      ],
+                      borderWidth : 5
+                    }]
+                  },
+                  options: doughnutOptions
+                });
+              </script>
+            </div>
+            
+            <div>
+              <canvas id="conc_doughnut4"></canvas>
+              <script>
+                var myChart_donut4 = new Chart(document.getElementById('conc_doughnut4').getContext('2d'), {
+                  type: 'doughnut',
+                  data: {
+                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    datasets : [{
+                      data: [33,33,33],
+                      backgroundColor: colors.slice(0,3),
+                      borderColor : [
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)'
+                      ],
+                      borderWidth : 5
+                    }]
+                  },
+                  options: doughnutOptions
+                });
+              </script>
+            </div>
+            
+            <div>
+              <canvas id="conc_doughnut5"></canvas>
+              <script>
+                var myChart_donut5 = new Chart(document.getElementById('conc_doughnut5').getContext('2d'), {
+                  type: 'doughnut',
+                  data: {
+                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    datasets : [{
+                      data: [33,33,33],
+                      backgroundColor: colors.slice(0,3),
+                      borderColor : [
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)'
+                      ],
+                      borderWidth : 5
+                    }]
+                  },
+                  options: doughnutOptions
+                });
+              </script>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1070,17 +1246,17 @@
         myChart_conc1.data = {
           labels: labels,
           datasets: [{
-            label: '집중도',
+            data: data_list1,
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
-            data: data_list1
+            fill:false,
+            tension : 0.5
           }]
         };
 
         myChart_conc2.data = {
           labels: labels,
           datasets: [{
-            label: '집중도',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list2
@@ -1090,7 +1266,6 @@
         myChart_conc3.data = {
           labels: labels,
           datasets: [{
-            label: '집중도',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list3
@@ -1100,7 +1275,6 @@
         myChart_conc4.data = {
           labels: labels,
           datasets: [{
-            label: '집중도',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list4
@@ -1110,7 +1284,6 @@
         myChart_conc5.data = {
           labels: labels,
           datasets: [{
-            label: '집중도',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list5
@@ -1233,11 +1406,6 @@
 
 <!-- EventListener -->
 <script>
-  // create javasecript object
-  const user_id = 'aaa';
-  const param = {
-    'user_id': user_id
-  }
   // subject tab
   $('#subject-daily-tab').click(function(){
     console.log('subject-daily, 클릭 이벤트 성공!')
