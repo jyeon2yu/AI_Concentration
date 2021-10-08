@@ -1,6 +1,5 @@
 from django.db import models
 
-<<<<<<< HEAD
 class Frame(models.Model):
     user = models.OneToOneField('User', models.DO_NOTHING, primary_key=True)
     filename = models.CharField(max_length=25)
@@ -13,8 +12,6 @@ class Frame(models.Model):
         managed = False
         db_table = 'frame'
         unique_together = (('user', 'filename'),)
-=======
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
 
 class Parents(models.Model):
     parents_id = models.CharField(primary_key=True, max_length=100)
@@ -69,10 +66,6 @@ class UserEmotion(models.Model):
     user_id = models.CharField(primary_key=True, max_length=20)
     day_emo = models.DateField()
     subject = models.CharField(max_length=100)
-<<<<<<< HEAD
-=======
-    total_subject_time_emo = models.IntegerField()
->>>>>>> 726f0271272c9461293c8ee88f8f0e7bdc242bec
     sub_emotion = models.IntegerField()
     sub_emotion_time = models.IntegerField()
 
@@ -80,3 +73,12 @@ class UserEmotion(models.Model):
         managed = False
         db_table = 'user_emotion'
         unique_together = (('user_id', 'day_emo', 'subject', 'sub_emotion'),)
+
+# 이미지 테이블 추가
+class Images(models.Model):
+    image_name = models.CharField(primary_key=True, max_length=50)
+    url = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'images'
