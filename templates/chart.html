@@ -117,12 +117,12 @@
                     <span class='text-font' style='margin-left : 20px; display : block;'>국어</span>
 
                     <div style='display: flex; justify-content: center;'>
-                      <div class='image-box' style='text-align: center;'>
-                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
+                      <div style='text-align: center;'>
+                          <img style='max-width : 100%; height : auto;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
                       </div>
 
-                      <div class='image-box'>
-                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
+                      <div style='text-align: center;'>
+                        <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
                       </div>
                     </div>
                     
@@ -275,6 +275,7 @@
             <div>
               <canvas id="conc_doughnut1"></canvas>
               <script>
+              
                 var myChart_donut1 = new Chart(document.getElementById('conc_doughnut1').getContext('2d'), {
                   type: 'doughnut',
                   data: {
@@ -1462,11 +1463,5 @@
       }
   });
 </script>
-
-
-<script src="{% static 'vendor/global/global.min.js' %}"></script>
-<script src="{% static 'js/quixnav-init.js' %}"></script>
-<script src="{% static 'vendor/quixnav/quixnav.min.js' %}"></script>
-<script src="{% static 'js/custom.min.js' %}"></script>
 
 {% endblock %}
