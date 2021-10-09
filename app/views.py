@@ -415,18 +415,10 @@ def home(request):
     today = '2021-10-07' # test data
     user_id = '1234'
 
- 
-
     #cal
     conc = UserConc.objects.filter(Q(user_id = user_id)&Q(day_conc = today)).annotate(conc_time=Sum('total_conc_time'),total_time=Sum('total_subject_time_conc')).values('conc_time','total_time')[0]
     emotion = UserEmotion.objects.filter(Q(user_id = user_id)&Q(day_emo = today)).values('sub_emotion').annotate(emo_time=Sum('sub_emotion_time')).order_by('-emo_time')[0]
-    print(emotion)
-    # emo_count = [0] * 7
-
-    # for e in emotion :
-    #     emo_count[e.sub_emotion] += e.sub_emotion_time
-
-    # todays_emo = emo_count.index(max(emo_count))
+ 
     todays_conc = getGrade(conc['conc_time'], conc['total_time'])
 
     todays_emo_url = Images.objects.filter(image_name = 'emo_'+str(emotion['sub_emotion']))[0].url
