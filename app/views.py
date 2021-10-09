@@ -203,6 +203,7 @@ def report_chart(request):
     
     return render(request, 'chart.html', content)
 
+# 과목 탭 1일
 def subject_data(request) :
     
     # print('Views.subject_data')
@@ -221,6 +222,7 @@ def subject_data(request) :
     science_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='science').get())
 
     conc = []
+
     for t in [ english_conc, korean_conc, math_conc, science_conc] :
         if t['total_conc_time'] / t['total_subject_time_conc'] >= 0.7 :
             conc.append(1)
@@ -236,6 +238,7 @@ def subject_data(request) :
     data = {'emotions' : emotions, 'conc' : conc}
     return JsonResponse(data, safe=False)
 
+# 과목 탭 1주
 def subject_data_week(request) :
     # print("\n\n 1주\n\n")
     emotions = []
@@ -264,10 +267,10 @@ def subject_data_week(request) :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
-    conc = [1,1,1,1]
 
     # print('\n1주 끝\n')
     data = {'emotions' : emotions, 'conc' : conc}
+    
     return JsonResponse(data, safe=False)
 
 def conc_daily(request):
