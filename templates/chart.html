@@ -46,21 +46,46 @@
       <hr>
     </span>
 
-    <div class='container-fluid' id='home'>
-      <span class='text-font'>{{best_shot}}</span>
-      <div class='row'>
-        <div class='col-xs-3'>
-          <img class='image-thumbnail' style='width : 150px; height : auto;' src="{% get_static_prefix %}../../static/img/grade_{{todays_conc}}.png" alt="grade.png">
-        </div>
-        <div class='col-xs-3'>
-          <img class='image-thumbnail' style='width : 150px; height : auto;' src="{% get_static_prefix %}../../static/img/{{todays_emo}}.png" alt="emotion.png">
-        </div>
-      </div>
-      <div class='row'>
-        <h3>베스트샷</h3>
-        <img class='image-thumbnail' style='width : 100%; height : auto;' src="{% get_static_prefix %}../../static/img/{{user_id}}/{{best_shot}}.jpg" alt="사진x">
-      </div>
-    </div>
+    <!----------------             지혁          ------------------>
+    <div id=home_frame>
+      <script>
+        $.ajax({
+          url: "{% url 'app:home' %}",
+          type: "POST",
+          success: function (data) {
+            console.log('home Ajax Success!');
+            console.log(data)
+            console.log(data.todays_conc)
+            console.log(data.todays_emo)
+
+            const home_frame = document.getElementById('home_frame')
+            home_frame.innerHTML =`
+            <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+            <div class="p-2 bd-highlight flex-sm-fill">
+              <div class="text-center">
+                <span>등급</span>
+              </div>
+              <div class="text-center">
+                <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_conc+`" alt="grade.png">
+              </div>
+            </div>
+            <div class="p-2 bd-highlight flex-sm-fill">
+              <div class="text-center">
+                <span>감정</span>
+              </div>
+              <div class="text-center">
+                <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_emo+`" alt="grade.png">
+              </div>
+            </div>
+          </div>
+            `
+          },
+          error: function () {
+            console.log("home Ajax fail!");
+          }
+        }) 
+      </script> 
+    </div>  
 
   </div>
 
