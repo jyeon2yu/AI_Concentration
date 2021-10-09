@@ -410,3 +410,31 @@ def emotion_week(request):
 
     return JsonResponse(week_info)
 
+@csrf_exempt
+def home(request):
+    ### 1. set a data
+    today = '2021-10-07' # test data
+    user_id = '1234'
+
+    #cal
+    conc = UserConc.objects.filter(user_id = user_id).filter(day_conc = today)
+    emotion = UserEmotion.objects.filter(user_id = user_id).filter(day_emo = today)
+
+    total_conc_time = 0
+    total_time = 0
+    emo_count = [0] * 7
+
+    for c in conc:
+        total_conc_time += c.total_conc_time
+        total_time += c.total_subject_time_conc
+    for e in emotion :
+        emo_count[e.sub_emotion] += e.sub_emotion_time
+
+    todays_emo = emo_count.index(max(emo_count))
+    todays_conc = getGrade(total_conc_time, total_time)
+
+    todays_emo_url = Images.objects.filter(image_name = 'emo_'+str(todays_emo))[0].url
+    todays_conc_url = Images.objects.filter(image_name = 'grade_'+str(todays_conc))[0].url
+
+    data = {'todays_conc':todays_conc_url, 'todays_emo' : todays_emo_url}
+    return JsonResponse(data)

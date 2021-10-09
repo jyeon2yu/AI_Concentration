@@ -12,5 +12,5 @@ urlpatterns = [
     path('conc_week/', views.conc_week, name='conc_week'),
     path('emotion_daily/', views.emotion_daily, name='emotion_daily'),
     path('emotion_week/', views.emotion_week, name='emotion_week'),
-
+    path('home/', views.home, name='home'),
 ]
