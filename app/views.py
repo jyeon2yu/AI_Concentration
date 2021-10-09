@@ -16,6 +16,7 @@ import sys, os
 import json
 import numpy as np
 from operator import itemgetter
+from pytz import timezone
 
 import cv2
 from imutils import face_utils
@@ -43,15 +44,39 @@ def img_url():
     
     return url_list
 
+# 하루 집중도 데이터 가져오는 함수
+def daily_conc(userID, today):
+
+    info = {'today_conc':{}, 'korean': {}, 'math': {}, 'english':{}, 'science':{}}
+
+    todate = today
+    userid = userID
+    today_conc = UserConc.objects.filter(user_id=userid, day_conc=todate).annotate(total_subject=Sum('total_subject_time_conc'),
+    eye_close=Sum('eye_close_time'), not_seat=Sum('not_seat_time'), conc_time=Sum('total_conc_time'))
+
+    info['today_conc']['eye_close'] = round(today_conc[0].eye_close / today_conc[0].total_subject * 100, 2) # 눈 감은 시간
+    info['today_conc']['not_seat'] = round(today_conc[0].not_seat / today_conc[0].total_subject * 100, 2) # 자리 이석 시간
+    info['today_conc']['conc_time'] = round(today_conc[0].conc_time / today_conc[0].total_subject * 100, 2) # 집중한 시간
+
+    subject_list = ['korean', 'math', 'english', 'science']
+    for subject in subject_list:
+        subject_conc = UserConc.objects.filter(user_id=userid, day_conc=todate, subject=subject)
+
+        info[subject]['eye_close'] = round(subject_conc[0].eye_close_time / subject_conc[0].total_subject_time_conc * 100, 2) # 눈 감은 시간
+        info[subject]['not_seat'] = round(subject_conc[0].not_seat_time / subject_conc[0].total_subject_time_conc * 100, 2) # 자리 이석 시간
+        info[subject]['conc_time'] = round(subject_conc[0].total_conc_time / subject_conc[0].total_subject_time_conc * 100, 2) # 집중한 시간
+
+    return info
+
 # 하루 감정 데이터 가져오는 함수
 def daily_emotion(userID, todate):
 
     url_list = img_url()
-    userID = userID
+    userid = userID
     today = todate # test data
 
     # 3-1. today daily emotion top 3
-    today_emo = UserEmotion.objects.filter(user_id=userID, day_emo='2021-09-27').values('sub_emotion').annotate(time=Sum('sub_emotion_time')) # today emotion top3
+    today_emo = UserEmotion.objects.filter(user_id=userid, day_emo='2021-09-27').values('sub_emotion').annotate(time=Sum('sub_emotion_time')) # today emotion top3
     today_emo_list = []
 
     for data in today_emo:
@@ -60,7 +85,7 @@ def daily_emotion(userID, todate):
     today_emo_list = sorted(today_emo_list, key=lambda x: (-x[1], x[0]))[:3] # today emotion top3
 
     # 3-2. today daily subject emotion top2
-    useremotion = UserEmotion.objects.filter(user_id=userID, day_emo=today).order_by('subject','-sub_emotion_time')
+    useremotion = UserEmotion.objects.filter(user_id=userid, day_emo=today).order_by('subject','-sub_emotion_time')
 
     # img_info {
     #   'date' : '2021-09-27',
@@ -119,28 +144,68 @@ def daily_emotion(userID, todate):
 
     return img_info
 
+# 등급 선정하는 함수
+def getGrade(conc,total):
+    if total == 0:
+        return False
+    conc_per = conc/total
+    if conc_per >= 0.9:
+        return 1
+    elif conc_per >= 0.8:
+        return 2
+    elif conc_per >= 0.6:
+        return 3
+    elif conc_per >= 0.8:
+        return 4
+    else:
+        return 5
 
 # "chart.html"
 def report_chart(request):
-    # get userconc data order by date
-    userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
-    user = User.objects.get(user_id='1234')
 
-    content = {'user_info':user, 'week':[]}
+    content = {'user_info':{}, 'week':[]}
+
+    ### 1. Set User Info
+    # get userconc data order by date
+    user = User.objects.get(user_id='1234')
+    content['user_info'] = user
+    
+
+    ### 2. Set Date Info
+    date = []
+    todate = datetime.now()
+    today = datetime.now().weekday() # 오늘 요일
+
+    # 오늘 날짜
+    day = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
+    date.append([ todate.strftime('%Y-%m-%d'), day[today] ])
+
+    # 월요일 찾기
+    newdate = todate - timedelta(days=today)
+    if today != 0:
+        date.append(newdate.strftime('%Y-%m-%d'))
+    else:
+        date.append(todate.strftime('%Y-%m-%d'))
+
+    # 금요일 찾기
+    date.append((datetime.strptime(date[0][0], '%Y-%m-%d') + timedelta(days=4)).strftime('%Y-%m-%d'))
+
+    content['week'] = date
 
     ### 3. Set Daily Emotion Info
     # 3-1. today daily emotion top 3
     today = '2021-09-27' # test data
-    content = daily_emotion('1234', today)
+    content['daily_emotion'] = daily_emotion(1234, today)
+    # content.update(daily_conc(1234, today))
+    content['daily_conc'] = daily_conc(1234,today)
 
-    print("report_chart : ", content)
-
+    print(content)
     
     return render(request, 'chart.html', content)
 
 def subject_data(request) :
     
-    print('Views.subject_data')
+    # print('Views.subject_data')
 
     english = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='english').order_by('-sub_emotion_time')[0])
     korean = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='korean').order_by('-sub_emotion_time')[0])
@@ -149,7 +214,7 @@ def subject_data(request) :
 
     emotions = [ english['sub_emotion'], korean['sub_emotion'], math['sub_emotion'], science['sub_emotion']]
     
-    print('emotions', emotions)
+    # print('emotions', emotions)
     english_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='english').get())
     korean_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='korean').get())
     math_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='math').get())
@@ -172,7 +237,7 @@ def subject_data(request) :
     return JsonResponse(data, safe=False)
 
 def subject_data_week(request) :
-    print("\n\n 1주\n\n")
+    # print("\n\n 1주\n\n")
     emotions = []
     temp = [0] * 7
     english = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='english')
@@ -201,13 +266,17 @@ def subject_data_week(request) :
 
     conc = [1,1,1,1]
 
-    print('\n1주 끝\n')
+    # print('\n1주 끝\n')
     data = {'emotions' : emotions, 'conc' : conc}
     return JsonResponse(data, safe=False)
 
 def conc_daily(request):
 
-    return JsonResponse({})
+    info = daily_conc(1234, '2021-09-27')
+    
+    return JsonResponse(info)
+
+
 @csrf_exempt
 def conc_week(request):
 
