@@ -8,9 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
-  div {
-    border : 1px solid skyblue;
-  }
+  
 
   .card {
   position: relative;
@@ -55,7 +53,11 @@
 <div class="tab-content" id="nav-tabContent">
   <!-- 1. Home Tab -->
   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-    <h4>Home page!</h4>
+    <span>
+      <h4>{{ user_info.parents_id }}님, 환영합니다!</h4>
+      <h5>{{ user_info.user_name }} 님의 {{ week.0.0 }}, {{ week.0.1 }} 결과 report 입니다.</h5>
+      <hr>
+    </span>
 
     <div class='container-fluid' id='home'>
       <span class='text-font'>{{best_shot}}</span>
@@ -77,7 +79,11 @@
 
   <!-- 2. Subject Tab -->
   <div class="tab-pane fade" id="nav-subject" role="tabpanel" aria-labelledby="nav-subject-tab">
-    <h4>Subject page!</h4>
+
+    <span>
+      <h5>{{ user_info.user_name }} 님의 {{ week.0.0 }}, {{ week.0.1 }} 결과 report 입니다.</h5>
+      <hr>
+    </span>
 
     <!-- 2-1. button layout -->
     <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
@@ -92,7 +98,9 @@
 
     <!-- 2-2. chart layout -->
     <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="subject-daily" role="tabpanel" aria-labelledby="subject-daily-tab">과목 하루</div>
+      <div class="tab-pane fade show active" id="subject-daily" role="tabpanel" aria-labelledby="subject-daily-tab">
+        
+      </div>
       <div class="tab-pane fade" id="subject-week" role="tabpanel" aria-labelledby="subject-week-tab">과목 일별</div>
     </div>
 
@@ -117,11 +125,11 @@
                     <span class='text-font' style='margin-left : 20px; display : block;'>국어</span>
 
                     <div style='display: flex; justify-content: center;'>
-                      <div style='text-align: center;'>
+                      <div>
                           <img style='max-width : 100%; height : auto;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
                       </div>
 
-                      <div style='text-align: center;'>
+                      <div>
                         <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
                       </div>
                     </div>
@@ -138,12 +146,12 @@
                     <span class='text-font' style='margin-left : 20px; display : block;'>수학</span>
 
                     <div style='display: flex; justify-content: center;'>
-                      <div class='image-box' style='text-align: center;'>
-                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
+                      <div  style='text-align: center;'>
+                          <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
                       </div>
 
-                      <div class='image-box'>
-                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
+                      <div >
+                        <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
                       </div>
                     </div>
                     
@@ -162,12 +170,12 @@
                     <span class='text-font' style='margin-left : 20px; display : block;'>영어</span>
 
                     <div style='display: flex; justify-content: center;'>
-                      <div class='image-box' style='text-align: center;'>
-                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
+                      <div>
+                          <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
                       </div>
 
-                      <div class='image-box'>
-                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
+                      <div>
+                        <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
                       </div>
                     </div>
                     
@@ -184,11 +192,11 @@
 
                     <div style='display: flex; justify-content: center;'>
                       <div class='image-box' style='text-align: center;'>
-                          <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
+                          <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
                       </div>
 
                       <div class='image-box'>
-                        <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
+                        <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
                       </div>
                     </div>
                     
@@ -208,7 +216,10 @@
 
   <!-- 3. Concentration Tab -->
   <div class="tab-pane fade" id="nav-conc" role="tabpanel" aria-labelledby="nav-conc-tab">
-    <h4>Concentraion page!</h4>
+    <span>
+        <h5>{{ user_info.user_name }} 님의 {{ week.0.0 }}, {{ week.0.1 }} 결과 report 입니다.</h5>
+        <hr>
+    </span>
 
     <!-- 3-1. button layout -->
     <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
@@ -225,18 +236,18 @@
 
       <!-- 3-2-1. 집중도 하루 Tab -->
       <div class="tab-pane fade show active" id="conc-daily" role="tabpanel" aria-labelledby="conc-daily-tab">
-        집중도 하루
+        
         <div class='container-sm'>
           <div class="m-1 p-1">
             <!-- doughnut chart options -->
             <script>
               //Register Donut Plugin
-              const doughnutOptions = {
+              let doughnutOptions = {
                 rotation: 1 * Math.PI,
                 circumference: 1 * Math.PI,
-                hoverOffset : 10, //클리시, 동작
+                hoverOffset : 100, //클리시, 동작
                 cutoutPercentage:50, //도넛 두께,
-                centertext:'123',
+               
                 title: {
                   display: true,
                   text: '하루 집중도',
@@ -245,6 +256,8 @@
                 },
                 tooltips:{
                   displayColors : false,
+                  titleFontSize: 15,
+                  bodyFontSize: 15,
                   titleFontColor:'#fff',
                   titleAlign:'center',
                   bodyAlign:'center'
@@ -254,13 +267,13 @@
                     labels:[{
                       text: 'first text',
                       font : {
-                        size: '20',
+                        size: '50',
                         weight: 'bold',
                       }
                     },{
                       text:'second text',
                       font:{
-                        size:'10',
+                        size:'50',
                         weight:'bold',
                       }
                     }]
@@ -268,6 +281,7 @@
                 }
               };
               const colors =['red','skyblue','yellowgreen'];
+              //console.log("도넛" + doughnutOptions.title.text);
 
             </script>
 
@@ -275,20 +289,25 @@
             <div>
               <canvas id="conc_doughnut1"></canvas>
               <script>
-              
-                var myChart_donut1 = new Chart(document.getElementById('conc_doughnut1').getContext('2d'), {
+                // JSON parsing
+                let today_conc = "{{ daily_conc.today_conc }}".replace(/&#x27;/g,"\"");
+                today_conc = JSON.parse(today_conc);
+                let data1 = [today_conc.eye_close, today_conc.not_seat, today_conc.conc_time];
+                console.log(data1);
+
+                var myChart_doughnut1 = new Chart(document.getElementById('conc_doughnut1').getContext('2d'), {
                   type: 'doughnut',
                   data: {
                     labels : ['집중', '이석', '졸음'],
                     datasets : [{
-                      data: [33,33,33],
+                      data: data1,
                       backgroundColor: colors.slice(0,3),
                       borderColor : [
                         'rgba(255, 255, 255 ,1)',
                         'rgba(255, 255, 255 ,1)',
                         'rgba(255, 255, 255 ,1)'
                       ],
-                      borderWidth : 5
+                      borderWidth : 5,
                     }]
                   },
                   options: doughnutOptions
@@ -299,12 +318,20 @@
             <div>
               <canvas id="conc_doughnut2"></canvas>
               <script>
-                var myChart_donut2 = new Chart(document.getElementById('conc_doughnut2').getContext('2d'), {
+                doughnutOptions.title.text = "국어 집중도";
+
+                // JSON parsing
+                let korean_daily_conc = "{{ daily_conc.korean }}".replace(/&#x27;/g,"\"");
+                korean_daily_conc = JSON.parse(korean_daily_conc);
+                let data2 = [korean_daily_conc.eye_close, korean_daily_conc.not_seat, korean_daily_conc.conc_time];
+                console.log(data2);
+
+                var myChart_doughnut2 = new Chart(document.getElementById('conc_doughnut2').getContext('2d'), {
                   type: 'doughnut',
                   data: {
-                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    labels : ['집중', '이석', '졸음'],
                     datasets : [{
-                      data: [33,33,33],
+                      data: data2,
                       backgroundColor: colors.slice(0,3),
                       borderColor : [
                         'rgba(255, 255, 255 ,1)',
@@ -322,12 +349,20 @@
             <div>
               <canvas id="conc_doughnut3"></canvas>
               <script>
-                var myChart_donut3 = new Chart(document.getElementById('conc_doughnut3').getContext('2d'), {
+                doughnutOptions.title.text = "수학 집중도";
+
+                // JSON parsing
+                let math_daily_conc = "{{ daily_conc.math }}".replace(/&#x27;/g,"\"");
+                math_daily_conc = JSON.parse(math_daily_conc);
+                let data3 = [math_daily_conc.eye_close, math_daily_conc.not_seat, math_daily_conc.conc_time];
+                console.log(data3);
+                
+                var myChart_doughnut3 = new Chart(document.getElementById('conc_doughnut3').getContext('2d'), {
                   type: 'doughnut',
                   data: {
-                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    labels : ['집중', '이석', '졸음'],
                     datasets : [{
-                      data: [33,33,33],
+                      data: data3,
                       backgroundColor: colors.slice(0,3),
                       borderColor : [
                         'rgba(255, 255, 255 ,1)',
@@ -345,12 +380,20 @@
             <div>
               <canvas id="conc_doughnut4"></canvas>
               <script>
-                var myChart_donut4 = new Chart(document.getElementById('conc_doughnut4').getContext('2d'), {
+                doughnutOptions.title.text = "영어 집중도";
+
+                // JSON parsing
+                let english_daily_conc = "{{ daily_conc.english }}".replace(/&#x27;/g,"\"");
+                english_daily_conc = JSON.parse(english_daily_conc);
+                let data4 = [english_daily_conc.eye_close, english_daily_conc.not_seat, english_daily_conc.conc_time];
+                console.log(data4);
+                
+                var myChart_doughnut4 = new Chart(document.getElementById('conc_doughnut4').getContext('2d'), {
                   type: 'doughnut',
                   data: {
-                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    labels : ['집중', '이석', '졸음'],
                     datasets : [{
-                      data: [33,33,33],
+                      data: data4,
                       backgroundColor: colors.slice(0,3),
                       borderColor : [
                         'rgba(255, 255, 255 ,1)',
@@ -368,12 +411,20 @@
             <div>
               <canvas id="conc_doughnut5"></canvas>
               <script>
-                var myChart_donut5 = new Chart(document.getElementById('conc_doughnut5').getContext('2d'), {
+                doughnutOptions.title.text = "과학 집중도";
+
+                // JSON parsing
+                let science_daily_conc = "{{ daily_conc.science }}".replace(/&#x27;/g,"\"");
+                science_daily_conc = JSON.parse(science_daily_conc);
+                let data5 = [science_daily_conc.eye_close, science_daily_conc.not_seat, science_daily_conc.conc_time];
+                console.log(data5);
+                
+                var myChart_doughnut5 = new Chart(document.getElementById('conc_doughnut5').getContext('2d'), {
                   type: 'doughnut',
                   data: {
-                    labels : ['Bootstrap', 'Popper', 'Other'],
+                    labels : ['집중', '이석', '졸음'],
                     datasets : [{
-                      data: [33,33,33],
+                      data: data4,
                       backgroundColor: colors.slice(0,3),
                       borderColor : [
                         'rgba(255, 255, 255 ,1)',
@@ -393,141 +444,104 @@
 
       <!-- 3-2-2. 집중도 일별 Tab -->
       <div class="tab-pane fade" id="conc-week" role="tabpanel" aria-labelledby="conc-week-tab">
+        <p> {{ week.1 }} ~ {{ week.2 }} </p>
+
         <div class='container-sm'>
-          <h5>일별 전체 집중도</h5>
           <div class="m-1 p-1">
+
+            <!-- line chart options -->
+            <script>
+              let lineOptions = {
+                title: {
+                  display: true,
+                  text: '일별 집중도',
+                  fontSize:17,
+                  fontColor:'rgba(46, 49, 49, 1)'                    
+                },
+                scales: {
+                  yAxisID: {
+                   min: 0,
+                   max: 100,
+                   stepSize: 10,
+                 }
+               },
+               tooltips:{
+                 displayColors : false,
+                 titleFontSize: 15,
+                 bodyFontSize: 15,
+                 titleFontColor:'#fff',
+                 titleAlign:'center',
+                 bodyAlign:'center'
+                }
+              }
+            </script>
+
             <canvas id="conc_line1"></canvas>
             <script>
               var myChart_conc1 = new Chart(document.getElementById('conc_line1').getContext('2d'), {
                 type: 'line',
                 data: {},
-                options: {
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: '일별 전체 집중도'
-                    }
-                  },
-                  scales: {
-                    y: {
-                      min: 0,
-                      max: 100,
-                      stepSize: 10,
-                    }
-                  }
-                }
+                options: lineOptions
               })
             </script>
           </div>
         </div>
 
         <div class='container-sm'>
-          <h5>국어 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line2"></canvas>
             <script>
+              lineOptions.title.text = "국어 일별 집중도";
+
               var myChart_conc2 = new Chart(document.getElementById('conc_line2'), {
                 type: 'line',
                 data: {},
-                options: {
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: '국어 집중도'
-                    }
-                  },
-                  scales: {
-                    y: {
-                      min: 0,
-                      max: 100,
-                      stepSize: 10,
-                    }
-                  }
-                }
+                options: lineOptions
               })
             </script>
           </div>
         </div>
 
         <div class='container-sm'>
-          <h5>수학 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line3"></canvas>
             <script>
+              lineOptions.title.text = "수학 일별 집중도";
+
               var myChart_conc3 = new Chart(document.getElementById('conc_line3'), {
                 type: 'line',
                 data: {},
-                options: {
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: '수학 집중도'
-                    }
-                  },
-                  scales: {
-                    y: {
-                      min: 0,
-                      max: 100,
-                      stepSize: 10,
-                    }
-                  }
-                }
+                options: lineOptions
               })
             </script>
           </div>
         </div>
 
         <div class='container-sm'>
-          <h5>영어 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line4"></canvas>
             <script>
+              lineOptions.title.text = "영어 일별 집중도";
+
               var myChart_conc4 = new Chart(document.getElementById('conc_line4'), {
                 type: 'line',
                 data: {},
-                options: {
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: '영어 집중도'
-                    }
-                  },
-                  scales: {
-                    y: {
-                      min: 0,
-                      max: 100,
-                      stepSize: 10,
-                    }
-                  }
-                }
+                options: lineOptions
               })
             </script>
           </div>
         </div>
 
         <div class='container-sm'>
-          <h5>과학 집중도</h5>
           <div class="m-1 p-1">
             <canvas id="conc_line5"></canvas>
             <script>
+              lineOptions.title.text = "과학 일별 집중도";
+
               var myChart_conc5 = new Chart(document.getElementById('conc_line5'), {
                 type: 'line',
                 data: {},
-                options: {
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: '과학 집중도'
-                    }
-                  },
-                  scales: {
-                    y: {
-                      min: 0,
-                      max: 100,
-                      stepSize: 10,
-                    }
-                  }
-                }
+                options: lineOptions
               })
             </script>
           </div>
@@ -539,7 +553,10 @@
 
   <!-- 4. Emotion Tab -->
   <div class="tab-pane fade" id="nav-emotion" role="tabpanel" aria-labelledby="nav-emotion-tab">
-    <h4>Emotion page!</h4>
+    <span>
+      <h5>{{ user_info.user_name }} 님의 {{ week.0.0 }}, {{ week.0.1 }} 결과 report 입니다.</h5>
+      <hr>
+    </span>
 
     <!-- 4-1. button layout -->
     <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
@@ -562,30 +579,30 @@
           <div class="p-2 bd-highlight border border-dark border-3 flex-sm-fill" id="total-emotion-container">
             <div class="text-center">
               <span>1 순위</span>
-              <span class="emotion-daily-rank"> {{today_emo.0.0}} </span>
+              <span class="emotion-daily-rank"> {{daily_emotion.today_emo.0.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_emotion img-fluid " src="{{today_emo.0.2}}" alt="감정 이미지">
+              <img class="daily_emotion img-fluid " src="{{daily_emotion.today_emo.0.2}}" alt="감정 이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>2 순위</span>
-              <span class="emotion-daily-rank"> {{today_emo.1.0}} </span>
+              <span class="emotion-daily-rank"> {{daily_emotion.today_emo.1.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_emotion img-fluid " src="{{today_emo.1.2}}" alt="감정 이미지">
+              <img class="daily_emotion img-fluid " src="{{daily_emotion.today_emo.1.2}}" alt="감정 이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>3 순위</span>
-              <span class="emotion-daily-rank"> {{today_emo.2.0}} </span>
+              <span class="emotion-daily-rank"> {{daily_emotion.today_emo.2.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_emotion img-fluid " src="{{today_emo.2.2}}" alt="감정 이미지">
+              <img class="daily_emotion img-fluid " src="{{daily_emotion.today_emo.2.2}}" alt="감정 이미지">
             </div>
           </div>
         </div>
@@ -595,30 +612,30 @@
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>1 순위</span>
-              <span class="emotion-daily-ko-rank"> {{korean.0.0}} </span>
+              <span class="emotion-daily-ko-rank"> {{daily_emotion.korean.0.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_ko_emotion img-fluid" src = "{{korean.0.2}}" alt="이미지">
+              <img class="daily_ko_emotion img-fluid" src = "{{daily_emotion.korean.0.2}}" alt="이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>2 순위</span>
-              <span class="emotion-daily-ko-rank"> {{korean.1.0}} </span>
+              <span class="emotion-daily-ko-rank"> {{daily_emotion.korean.1.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_ko_emotion img-fluid" src = "{{korean.1.2}}" alt="이미지">
+              <img class="daily_ko_emotion img-fluid" src = "{{daily_emotion.korean.1.2}}" alt="이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>3 순위</span>
-              <span class="emotion-daily-ko-rank"> {{korean.2.0}} </span>
+              <span class="emotion-daily-ko-rank"> {{daily_emotion.korean.2.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_ko_emotion img-fluid" src = "{{korean.2.2}}" alt="이미지">
+              <img class="daily_ko_emotion img-fluid" src = "{{daily_emotion.korean.2.2}}" alt="이미지">
             </div>
           </div>
         </div>
@@ -628,30 +645,30 @@
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>1 순위</span>
-              <span class="emotion-daily-ma-rank"> {{math.0.0}} </span>
+              <span class="emotion-daily-ma-rank"> {{daily_emotion.math.0.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_ma_emotion img-fluid" src = "{{math.0.2}}" alt="이미지">
+              <img class="daily_ma_emotion img-fluid" src = "{{daily_emotion.math.0.2}}" alt="이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>2 순위</span>
-              <span class="emotion-daily-ma-rank"> {{math.1.0}} </span>
+              <span class="emotion-daily-ma-rank"> {{daily_emotion.math.1.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_ma_emotion img-fluid" src = "{{math.1.2}}" alt="이미지">
+              <img class="daily_ma_emotion img-fluid" src = "{{daily_emotion.math.1.2}}" alt="이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>3 순위</span>
-              <span class="emotion-daily-ma-rank"> {{math.2.0}} </span>
+              <span class="emotion-daily-ma-rank"> {{daily_emotion.math.2.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_ma_emotion img-fluid" src = "{{math.2.2}}" alt="이미지">
+              <img class="daily_ma_emotion img-fluid" src = "{{daily_emotion.math.2.2}}" alt="이미지">
             </div>
           </div>
         </div>
@@ -661,30 +678,30 @@
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>1 순위</span>
-              <span class="emotion-daily-en-rank"> {{english.0.0}} </span>
+              <span class="emotion-daily-en-rank"> {{daily_emotion.english.0.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_en_emotion img-fluid" src = "{{english.0.2}}" alt="이미지">
+              <img class="daily_en_emotion img-fluid" src = "{{daily_emotion.english.0.2}}" alt="이미지">
             </div>
           </div>
           
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>2 순위</span>
-              <span class="emotion-daily-en-rank"> {{english.1.0}} </span>
+              <span class="emotion-daily-en-rank"> {{daily_emotion.english.1.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_en_emotion img-fluid" src = "{{english.1.2}}" alt="이미지">
+              <img class="daily_en_emotion img-fluid" src = "{{daily_emotion.english.1.2}}" alt="이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>3 순위</span>
-              <span class="emotion-daily-en-rank"> {{english.2.0}} </span>
+              <span class="emotion-daily-en-rank"> {{daily_emotion.english.2.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_en_emotion img-fluid" src = "{{english.2.2}}" alt="이미지">
+              <img class="daily_en_emotion img-fluid" src = "{{daily_emotion.english.2.2}}" alt="이미지">
             </div>
           </div>
         </div>
@@ -694,30 +711,30 @@
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>1 순위</span>
-              <span class="emotion-daily-sc-rank"> {{science.0.0}} </span>
+              <span class="emotion-daily-sc-rank"> {{daily_emotion.science.0.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_sc_emotion img-fluid" src = "{{science.0.2}}" alt="이미지">
+              <img class="daily_sc_emotion img-fluid" src = "{{daily_emotion.science.0.2}}" alt="이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>2 순위</span>
-              <span class="emotion-daily-sc-rank"> {{science.1.0}} </span>
+              <span class="emotion-daily-sc-rank"> {{daily_emotion.science.1.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_sc_emotion img-fluid" src = "{{science.1.2}}" alt="이미지">
+              <img class="daily_sc_emotion img-fluid" src = "{{daily_emotion.science.1.2}}" alt="이미지">
             </div>
           </div>
 
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
               <span>3 순위</span>
-              <span class="emotion-daily-sc-rank"> {{science.2.0}} </span>
+              <span class="emotion-daily-sc-rank"> {{daily_emotion.science.2.0}} </span>
             </div>
             <div class="text-center">
-              <img class="daily_sc_emotion img-fluid" src = "{{science.2.2}}" alt="이미지">
+              <img class="daily_sc_emotion img-fluid" src = "{{daily_emotion.science.2.2}}" alt="이미지">
             </div>
           </div>
         </div>
@@ -725,6 +742,7 @@
 
       <!-- 4-2-2. 감정 일별 Tab -->
       <div class="tab-pane fade" id="emotion-week" role="tabpanel" aria-labelledby="emotion-week-tab">
+        <p> {{ week.1 }} ~ {{ week.2 }} </p>
         감정 일별
         <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
           <div class="p-2 bd-highlight flex-sm-fill">
@@ -1007,11 +1025,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
                   </div>
                 </div>
                 
@@ -1028,11 +1046,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
                   </div>
                 </div>
                 
@@ -1052,11 +1070,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
                   </div>
                 </div>
                 
@@ -1073,11 +1091,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
                   </div>
                 </div>
                 
@@ -1116,11 +1134,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][1] + `.png" alt="grade_korean.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
                   </div>
                 </div>
                 
@@ -1137,11 +1155,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][2] + `.png" alt="grade_math.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][2] + `.png" alt="emotion_math.png">
                   </div>
                 </div>
                 
@@ -1161,11 +1179,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][0] + `.png" alt="grade_english.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][0] + `.png" alt="emotion_english.png">
                   </div>
                 </div>
                 
@@ -1182,11 +1200,11 @@
 
                 <div style='display: flex; justify-content: center;'>
                   <div class='image-box' style='text-align: center;'>
-                      <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
+                      <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/grade_` + res['conc'][3] + `.png" alt="grade_science.png">
                   </div>
 
                   <div class='image-box'>
-                    <img class='image-thumbnail' style='width : auto; height : 200px;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
+                    <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][3] + `.png" alt="emotion_science.png">
                   </div>
                 </div>
                 
@@ -1203,13 +1221,42 @@
   }// function
 </script> <!-- 과목 1주 끝 -->
 
-<!-- 3-2. conc_week -->
+<!-- 3-1. conc_daily -->
 <script>
   // create javasecript object
   const user_id = '1234';
   const param = {
     'user_id': user_id
   }
+
+  $('#conc-daily-tab').click(function(){
+    const conc_daily_labels = ['집중', '이석', '졸음'];
+    const colors =['red','skyblue','yellowgreen'];
+    console.log('conc-daily, 클릭 이벤트 성공!')
+
+    $.ajax({
+      url : "{% url 'app:conc_daily' %}",
+      type: "GET",
+      success: function(data) {
+        console.log("conc-daily Ajax Success!");
+        console.log(data);
+
+        let data1 = [data.today_conc.eye_close, data.today_conc.not_seat, data.today_conc.conc_time]
+
+        console.log(data1)        
+
+
+      },
+      error: function(){
+        console.log("conc-daily Ajax fail!");
+      }
+    })
+  })
+
+</script>
+
+<!-- 3-2. conc_week -->
+<script>
   $('#conc-week-tab').click(function () {
     console.log('conc-week, 클릭 이벤트 성공!')
     // Draw a Chart
@@ -1230,23 +1277,24 @@
 
         // set data
         //console.log(data['week'].length); //print
-        const data_list1 = [];
-        const data_list2 = [];
-        const data_list3 = [];
-        const data_list4 = [];
-        const data_list5 = [];
+        let data_list1 = [];
+        let data_list2 = [];
+        let data_list3 = [];
+        let data_list4 = [];
+        let data_list5 = [];
         for (step = 0; step < data['week'].length; step++) {
-          data_list1.push(data['result'][step] / data['time'][step] * 100);
-          data_list2.push(data['korean'][step][1] / data['korean'][step][0] * 100);
-          data_list3.push(data['math'][step][1] / data['math'][step][0] * 100);
-          data_list4.push(data['english'][step][1] / data['english'][step][0] * 100);
-          data_list5.push(data['science'][step][1] / data['science'][step][0] * 100);
+          data_list1.push((data['result'][step] / data['time'][step] * 100).toFixed(2));
+          data_list2.push((data['korean'][step][1] / data['korean'][step][0] * 100).toFixed(2));
+          data_list3.push((data['math'][step][1] / data['math'][step][0] * 100).toFixed(2));
+          data_list4.push((data['english'][step][1] / data['english'][step][0] * 100).toFixed(2));
+          data_list5.push((data['science'][step][1] / data['science'][step][0] * 100).toFixed(2));
           //console.log(data_list[step]);
         }
 
         myChart_conc1.data = {
           labels: labels,
           datasets: [{
+            label: "집중도(%)",
             data: data_list1,
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
@@ -1258,6 +1306,7 @@
         myChart_conc2.data = {
           labels: labels,
           datasets: [{
+            label: "집중도(%)",
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list2
@@ -1267,6 +1316,7 @@
         myChart_conc3.data = {
           labels: labels,
           datasets: [{
+            label: "집중도(%)",
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list3
@@ -1276,6 +1326,7 @@
         myChart_conc4.data = {
           labels: labels,
           datasets: [{
+            label: "집중도(%)",
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list4
@@ -1285,6 +1336,7 @@
         myChart_conc5.data = {
           labels: labels,
           datasets: [{
+            label: "집중도(%)",
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
             data: data_list5
@@ -1403,65 +1455,6 @@
       }
     })
   })
-</script>
-
-<!-- EventListener -->
-<script>
-  // subject tab
-  $('#subject-daily-tab').click(function(){
-    console.log('subject-daily, 클릭 이벤트 성공!')
-    getSubjectData()
-  })
-
-  $('#subject-week-tab').click(function(){
-    console.log('subject-week, 클릭 이벤트 성공!')
-    getSubjectData_week()
-  })
-
-  //conc tab
-  $('#conc-daily-tab').click(function(){
-    console.log('conc-daily, 클릭 이벤트 성공!')
-  })
-</script>
-
-<!-- draw a chart -->
-<script>
-  const labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: '집중도',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 20, 30, 45]
-    }]
-  };
-
-  
-
-  
-</script>
-
-<script>
-  new Chart(document.getElementById("doughnut-chart"), {
-    type: 'doughnut',
-      data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-        datasets: [
-          {
-            label: "Population (millions)",
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-            data: [2478,5267,734,784,433]
-          }
-        ]
-      },
-      options: {
-        title: {
-          display: true,
-          text: 'Predicted world population (millions) in 2050'
-        }
-      }
-  });
 </script>
 
 {% endblock %}
