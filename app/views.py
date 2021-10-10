@@ -412,7 +412,7 @@ def emotion_week(request):
 @csrf_exempt
 def home(request):
     ### 1. set a data
-    today = '2021-10-07' # test data
+    today = '2021-10-10' # test data
     user_id = '1234'
 
     #cal

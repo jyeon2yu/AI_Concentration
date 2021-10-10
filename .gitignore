@@ -3,3 +3,6 @@ __pycache__/
 /__pycache__
 pycache
 my_settings.py
+migrations/
+/migrations
+migrations
