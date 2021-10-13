@@ -54,30 +54,37 @@
           type: "POST",
           success: function (data) {
             console.log('home Ajax Success!');
-            console.log(data)
-            console.log(data.todays_conc)
-            console.log(data.todays_emo)
 
             const home_frame = document.getElementById('home_frame')
             home_frame.innerHTML =`
             <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
-            <div class="p-2 bd-highlight flex-sm-fill">
-              <div class="text-center">
-                <span>등급</span>
+              <div class="p-2 bd-highlight flex-sm-fill">
+                <div class="text-center">
+                  <span>등급</span>
+                </div>
+                <div class="text-center">
+                  <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_conc+`" alt="grade.png">
+                </div>
               </div>
-              <div class="text-center">
-                <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_conc+`" alt="grade.png">
+              <div class="p-2 bd-highlight flex-sm-fill">
+                <div class="text-center">
+                  <span>감정</span>
+                </div>
+                <div class="text-center">
+                  <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_emo+`" alt="grade.png">
+                </div>
               </div>
             </div>
-            <div class="p-2 bd-highlight flex-sm-fill">
-              <div class="text-center">
-                <span>감정</span>
-              </div>
-              <div class="text-center">
-                <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_emo+`" alt="grade.png">
-              </div>
+            <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+              <div class="p-1 bd-highlight flex-sm-fill">
+                <div class="text-center">
+                  <span>Best shot</span>
+                </div>
+                <div class="text-center">
+                  <img class='image-thumbnail' style='width : auto; height : auto;' src="`+data.best_shot+`" alt="best_shot.png">
+                </div>
+              <div>
             </div>
-          </div>
             `
           },
           error: function () {

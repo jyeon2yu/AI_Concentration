@@ -199,7 +199,6 @@ def report_chart(request):
     # content.update(daily_conc(1234, today))
     content['daily_conc'] = daily_conc(1234,today)
 
-    print(content)
     
     return render(request, 'chart.html', content)
 
@@ -413,28 +412,20 @@ def emotion_week(request):
 @csrf_exempt
 def home(request):
     ### 1. set a data
-    today = '2021-10-07' # test data
+    today = '2021-10-10' # test data
     user_id = '1234'
 
     #cal
-    conc = UserConc.objects.filter(user_id = user_id).filter(day_conc = today)
-    emotion = UserEmotion.objects.filter(user_id = user_id).filter(day_emo = today)
+    conc = UserConc.objects.filter(Q(user_id = user_id)&Q(day_conc = today)).annotate(conc_time=Sum('total_conc_time'),total_time=Sum('total_subject_time_conc')).values('conc_time','total_time')[0]
+    emotion = UserEmotion.objects.filter(Q(user_id = user_id)&Q(day_emo = today)).values('sub_emotion').annotate(emo_time=Sum('sub_emotion_time')).order_by('-emo_time')[0]
+ 
+    todays_conc = getGrade(conc['conc_time'], conc['total_time'])
 
-    total_conc_time = 0
-    total_time = 0
-    emo_count = [0] * 7
-
-    for c in conc:
-        total_conc_time += c.total_conc_time
-        total_time += c.total_subject_time_conc
-    for e in emotion :
-        emo_count[e.sub_emotion] += e.sub_emotion_time
-
-    todays_emo = emo_count.index(max(emo_count))
-    todays_conc = getGrade(total_conc_time, total_time)
-
-    todays_emo_url = Images.objects.filter(image_name = 'emo_'+str(todays_emo))[0].url
+    todays_emo_url = Images.objects.filter(image_name = 'emo_'+str(emotion['sub_emotion']))[0].url
     todays_conc_url = Images.objects.filter(image_name = 'grade_'+str(todays_conc))[0].url
 
-    data = {'todays_conc':todays_conc_url, 'todays_emo' : todays_emo_url}
+    best_shot = Images.objects.filter(image_name__startswith = user_id).order_by('-image_name')[0]
+
+    data = {'todays_conc':todays_conc_url, 'todays_emo' : todays_emo_url, 'best_shot' : best_shot.url}
+
     return JsonResponse(data)
