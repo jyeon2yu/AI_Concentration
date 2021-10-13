@@ -6,33 +6,19 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms import model_to_dict
 
 # 테이블, 쿼리셋 library
-from app.models import User,UserConc,UserEmotion,Parents,Timetable,Images
+from app.models import User,UserConc,UserEmotion,Images
 from django.db.models import Sum, Count, Q, Max
 
 from datetime import datetime, timedelta, date
 
-import random
-import sys, os
-import json
+import os
 import numpy as np
-from operator import itemgetter
 from pytz import timezone
-
-import cv2
-from imutils import face_utils
 
 import warnings
 warnings.filterwarnings('ignore')
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-# Create your views here.
-def webcam(request):
-    # return HttpResponse('Hello, webcam!')
-
-    temp = 0
-    content = {'temp':temp}
-
-    return render(request, 'app/webcam.html', content)
 
 # 이미지 url 가져오는 함수
 def img_url():
@@ -73,10 +59,11 @@ def daily_emotion(userID, todate):
 
     url_list = img_url()
     userid = userID
-    today = todate # test data
+    # today = datetime.now().strftime('%Y-%m-%d') # test data
+    today='2021-09-27'
 
     # 3-1. today daily emotion top 3
-    today_emo = UserEmotion.objects.filter(user_id=userid, day_emo='2021-09-27').values('sub_emotion').annotate(time=Sum('sub_emotion_time')) # today emotion top3
+    today_emo = UserEmotion.objects.filter(user_id=userid, day_emo=today).values('sub_emotion').annotate(time=Sum('sub_emotion_time')) # today emotion top3
     today_emo_list = []
 
     for data in today_emo:
@@ -162,14 +149,21 @@ def getGrade(conc,total):
 
 # "chart.html"
 def report_chart(request):
-
+    
     content = {'user_info':{}, 'week':[]}
 
     ### 1. Set User Info
-    # get userconc data order by date
-    user = User.objects.get(user_id='1234')
-    content['user_info'] = user
-    
+    if request.method == "POST":
+        print('report_chart POST: ', request.POST['user_id'])
+        request.session['cid'] = request.POST['user_id']
+        user = User.objects.get(user_id=request.session.get('cid'))
+        content['user_info'] = user
+
+    else:
+        print('report_chart GET: ',request.session.get('cid'))
+        user = User.objects.get(user_id=request.session.get('cid'))
+        content['user_info'] = user
+        
 
     ### 2. Set Date Info
     date = []
@@ -195,9 +189,9 @@ def report_chart(request):
     ### 3. Set Daily Emotion Info
     # 3-1. today daily emotion top 3
     today = '2021-09-27' # test data
-    content['daily_emotion'] = daily_emotion(1234, today)
+    content['daily_emotion'] = daily_emotion(user.user_id, today)
     # content.update(daily_conc(1234, today))
-    content['daily_conc'] = daily_conc(1234,today)
+    content['daily_conc'] = daily_conc(user.user_id,today)
 
     
     return render(request, 'chart.html', content)
@@ -240,28 +234,29 @@ def subject_data(request) :
 # 과목 탭 1주
 def subject_data_week(request) :
     # print("\n\n 1주\n\n")
+    user_id = request.session['cid']
     emotions = []
     temp = [0] * 7
-    english = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='english')
+    english = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='english')
     
     for d in english :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
     temp = [0] * 7
-    korean = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='korean')
+    korean = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='korean')
     for d in korean :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
     temp = [0] * 7
-    math = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='math')
+    math = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='math')
     for d in math :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
     temp = [0] * 7
-    science = UserEmotion.objects.filter(user_id='1234').filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='science')
+    science = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='science')
     for d in science :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
@@ -274,7 +269,7 @@ def subject_data_week(request) :
 
 def conc_daily(request):
 
-    info = daily_conc(1234, '2021-09-27')
+    info = daily_conc(request.session['cid'], '2021-09-27')
     
     return JsonResponse(info)
 
@@ -287,11 +282,11 @@ def conc_week(request):
     #        ...,
     #       'result' : [(ko+ma+en+sci/total_time), ... ]}
     info = {'week':[], 'korean':[], 'math': [], 'english':[], 'science': [], 'time': [], 'result':[]}
-    jsonObject = json.loads(request.body)
+    # jsonObject = json.loads(request.body)
 
 
     # get userconc data order by date
-    userconc = UserConc.objects.filter(user_id='1234').order_by('day_conc','subject')
+    userconc = UserConc.objects.filter(user_id=request.session['cid']).order_by('day_conc','subject')
 
     # set info dictionary
     info['week'].append(userconc[0].day_conc)
@@ -323,6 +318,7 @@ def conc_week(request):
                 # print(index, val)
                 info['time'][index] += val[0]
                 info['result'][index] += val[1]
+    
 
     # send data
     return JsonResponse(info)
@@ -335,17 +331,15 @@ def emotion_daily(request):
     
     ### 2. call a function
     url_list = img_url()
-    daily_info = daily_emotion('1234', today)
+    daily_info = daily_emotion(request.session['cid'], today)
 
     return JsonResponse(daily_info)
 
 @csrf_exempt
 def emotion_week(request):
      ### images url
-    url = Images.objects.filter(Q(image_name__startswith='emo'))
-    url_list = {}
-    for i in url:
-        url_list.update({i.image_name:i.url})
+    url_list = img_url()
+    user_id = request.session['cid']
 
     ### get today's data
     # todate = datetime.datetime.now().strftime('%Y-%m-%d') # 오늘날짜
@@ -372,11 +366,11 @@ def emotion_week(request):
 
     temp = datetime(2021,9,27)
     for i in range(5):
-        week_info['week_emo'].append([UserEmotion.objects.filter(user_id='1234', day_emo=temp).values('sub_emotion').annotate(time=Sum('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
-        week_info['korean'].append([UserEmotion.objects.filter(user_id='1234', day_emo=temp, subject='korean').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
-        week_info['math'].append([UserEmotion.objects.filter(user_id='1234', day_emo=temp, subject='math').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
-        week_info['english'].append([UserEmotion.objects.filter(user_id='1234', day_emo=temp, subject='english').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
-        week_info['science'].append([UserEmotion.objects.filter(user_id='1234', day_emo=temp, subject='science').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
+        week_info['week_emo'].append([UserEmotion.objects.filter(user_id=user_id, day_emo=temp).values('sub_emotion').annotate(time=Sum('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
+        week_info['korean'].append([UserEmotion.objects.filter(user_id=user_id, day_emo=temp, subject='korean').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
+        week_info['math'].append([UserEmotion.objects.filter(user_id=user_id, day_emo=temp, subject='math').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
+        week_info['english'].append([UserEmotion.objects.filter(user_id=user_id, day_emo=temp, subject='english').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
+        week_info['science'].append([UserEmotion.objects.filter(user_id=user_id, day_emo=temp, subject='science').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
 
         temp = temp + timedelta(days=1)
 

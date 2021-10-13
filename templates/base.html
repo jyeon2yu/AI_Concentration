@@ -1,6 +1,8 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,32 +21,65 @@
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="{% static 'js/chartjs-plugin-doughnutlabel.min.js' %}"></script>
-    
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
+
+
     <title>AI_Conc</title>
 </head>
 
 
 <body>
+    <!-- <style>
+        div {
+            border: 1px solid red;
+        }
+        span {
+            border : 1px solid skyblue;
+        }
+    </style> -->
+
     <!-- Header -->
-    <div id="header">
-        <!-- logo -->
-        <a href="{% url 'app:report' %}" class="brand-logo">
-            <img src="{% static 'img/logo.png' %}" alt="logo.png">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'app:report'%}">
+          <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+          AI_Conc&Emo
         </a>
-        <!-- toggle btn --> 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    <div class="collapse" id="navbarToggle">
+        <ul class="list-group">
+            <form action="{% url 'app:report' %}" method="POST" id="menu-list">
+                {% csrf_token %}
+                <script>
+                    $.ajax({
+                        url: "{% url 'user:check_user' %}",
+                        method: "GET",
+                        success: function(data){
+                            const menu = document.getElementById('menu-list');
+                            
+                            for(i of Object.keys(data)){
+                                menu.innerHTML += `
+                                    <div class="container-fulid">
+                                        <input type="submit" name='user_id' value="${i}"> ${data[i]}
+                                    </div>
+                                `
+                            }
+                        }
+                    })
+                </script>   
+            </form>         
+            <li class="list-group-item"><a href="{% url 'user:profile' %}">마이페이지</a></li>
+            <li class="list-group-item"><a href="{% url 'user:logout' %}">로그아웃</a></li>
+        </ul>
     </div>
-
-    <!-- Navigation -->
-    <nav>
-        <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
-          <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-          <a class="nav-link" id="nav-subject-tab" data-toggle="tab" href="#nav-subject" role="tab" aria-controls="nav-subject" aria-selected="false">과목</a>
-          <a class="nav-link" id="nav-conc-tab" data-toggle="tab" href="#nav-conc" role="tab" aria-controls="nav-conc" aria-selected="false">집중도</a>
-          <a class="nav-link" id="nav-emotion-tab" data-toggle="tab" href="#nav-emotion" role="tab" aria-controls="nav-emotion" aria-selected="false">감정</a>
-        </div>
-      </nav>
-
     <!-- Navigation -->
     <!-- <nav>
         <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
@@ -54,9 +89,10 @@
             <button class="nav-link" id="nav-emotion-tab" data-bs-toggle="tab" data-bs-target="#nav-emotion" type="button" role="tab" aria-controls="nav-emotion" aria-selected="false">감정</button>
         </div>
     </nav> -->
-    
+
     {% block content %}
 
     {% endblock %}
 </body>
+
 </html>

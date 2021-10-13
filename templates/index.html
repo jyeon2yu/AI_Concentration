@@ -1,16 +1,37 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<style>
-    div {
-      border : 1px solid skyblue;
-    }
-  
-</style>
-
-<div id="section">
-    
-</div>
-
-
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+    <table border='1'>
+        <tr>
+            <td>ParentsID</td>
+            <td><input type="text" placeholder = "Enter Name.." name="parents_id" required /></td>
+            
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password"
+                 name="parents_pw" required/></td>
+        </tr>
+        {% comment %} <tr>
+            <td>re-Password</td>
+            <td><input type="password" name="repwd" pattern="" required /></td>
+        </tr> {% endcomment %}
+    </table>
+    <hr/>
+    <input type="submit" value="submit"/>
+    {% if messages %}
+    {% for result in messages %}
+    {{result}}
+    {% endfor %}
+    {% endif %}
+    </form>
+</body>
+</html>

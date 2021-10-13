@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card m-3 p-3" style="width: 18rem;">
+    <img src="{% static 'img/quick_chat.png' %}" class="card-img-bottom" alt="사용자 프로필 이미지">
+    <div class="card-body mt-3 pt-3" id="profile">
+        <h4 class="card-title"> 사용자 정보</h4>
+        <p class="card-text">{{ parents.parents_id }} 프로필</p>
+        <a href="{% url 'user:profile' %}" class="btn btn-primary">Go</a>
+        <script>
+            $.ajax({
+                url: "../mypage",
+                method: "GET",
+                success: function (data) {
+                    console.log(data);
+                    const profile = document.getElementById('profile');
+
+                    for (i of Object.keys(data)) {
+                        profile.innerHTML += `
+                                <p class="card-text pt-3">${data[i][0]} 프로필</p>
+                                <a href="{% url 'user:profile' %}" class="btn btn-primary">Go</a>
+                            `
+                    }
+
+
+                    // 자녀 추가 버튼
+                    //profile.innerHTML += `
+                    //    
+                    //`
+                }
+            })
+        </script>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        자 녀 추 가
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">자녀정보 기입</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'user:profile' %}" method="POST">
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}

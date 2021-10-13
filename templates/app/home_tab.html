@@ -1,0 +1,69 @@
+{% load static %}
+<!-- <style>
+  div {
+    border: 1px solid skyblue;
+  }
+
+  span {
+    border: 1px solid red;
+  }
+</style> -->
+
+<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+  <div class="row">
+    <span class="col m-1 p-3">
+      <h4 class="text-center">{{ user_info.parents_id }}님, <br>환영합니다!</h4>
+    </span>
+    <span class="col">
+      <img src="{% static 'img/welcome_cats.png' %}" class="d-inline-block align-top img-fluid" alt="welcome">
+    </span>
+  </div>
+
+  <div class="row">
+    <span class="col">
+
+      <hr>
+    </span>
+  </div>
+  <p class="text-center">{{ user_info.user_name }} 님의 {{ week.0.0 }}, {{ week.0.1 }} 종합 report 입니다.</p>
+  <div id=home_frame>
+    <script>
+      $.ajax({
+        url: "{% url 'app:home' %}",
+        type: "POST",
+        success: function (data) {
+          console.log('home Ajax Success!');
+          console.log(data)
+          console.log(data.todays_conc)
+          console.log(data.todays_emo)
+
+          const home_frame = document.getElementById('home_frame')
+          home_frame.innerHTML =`
+          <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>등급</span>
+            </div>
+            <div class="text-center">
+              <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_conc+`" alt="grade.png">
+            </div>
+          </div>
+          <div class="p-2 bd-highlight flex-sm-fill">
+            <div class="text-center">
+              <span>감정</span>
+            </div>
+            <div class="text-center">
+              <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_emo+`" alt="grade.png">
+            </div>
+          </div>
+        </div>
+          `
+        },
+        error: function () {
+          console.log("home Ajax fail!");
+        }
+      }) 
+    </script> 
+  </div>
+
+</div>

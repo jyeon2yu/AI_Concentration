@@ -1,0 +1,448 @@
+{% load static %}
+
+<style>
+  .box1 {
+    margin: 5px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px lightgray;
+}
+  .text1 {
+    position: relative;
+}
+
+  .text1::after {
+    position: absolute;
+    bottom: -7px;
+    left: 0px;
+    content: '';
+    width: 100%;
+    height: 7px;
+    background: -webkit-repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
+    background: repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
+}
+</style>
+
+<div class="tab-pane fade" id="nav-conc" role="tabpanel" aria-labelledby="nav-conc-tab">
+  <div class="row">
+    <span class="col m-1 p-4">
+      <h4 class="text-center">{{ user_info.user_name }}</h4>
+      <p class="text-center">오늘의 집중도 분석</p>
+    </span>
+    <span class="col">
+      <img src="{% static 'img/setup_analytics.png' %}" class="d-inline-block align-top img-fluid" alt="welcome">
+    </span>
+    <hr>
+  </div>
+
+  <!-- 3-1. button layout -->
+  <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="conc-daily-tab" data-toggle="pill" href="#conc-daily" role="tab"
+        aria-controls="conc-daily" aria-selected="true">하루</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="conc-week-tab" data-toggle="pill" href="#conc-week" role="tab" aria-controls="conc-week"
+        aria-selected="false">일별</a>
+    </li>
+  </ul>
+
+  <!-- 3-2. chart layout -->
+  <div class="tab-content" id="pills-tabContent">
+
+    <!-- 3-2-1. 집중도 하루 Tab -->
+    <div class="tab-pane fade show active" id="conc-daily" role="tabpanel" aria-labelledby="conc-daily-tab">
+      <p class="m-2 p-2 text-right">{{ week.0.0 }}, {{ week.0.1 }}</p>
+      <div class='container-sm'>
+        <div>
+          <!-- doughnut chart options -->
+          <script>
+            Chart.defaults.doughnutLabels = Chart.helpers.clone(Chart.defaults.doughnut);
+
+            var helpers = Chart.helpers;
+            var defaults = Chart.defaults;
+
+            Chart.controllers.doughnutLabels = Chart.controllers.doughnut.extend({
+              updateElement: function (arc, index, reset) {
+                var _this = this;
+                var chart = _this.chart,
+                  chartArea = chart.chartArea,
+                  opts = chart.options,
+                  animationOpts = opts.animation,
+                  arcOpts = opts.elements.arc,
+                  centerX = (chartArea.left + chartArea.right) / 2,
+                  centerY = (chartArea.top + chartArea.bottom) / 2,
+                  startAngle = opts.rotation, // non reset case handled later
+                  endAngle = opts.rotation, // non reset case handled later
+                  dataset = _this.getDataset(),
+                  circumference = reset && animationOpts.animateRotate ? 0 : arc.hidden ? 0 : _this.calculateCircumference(dataset.data[index]) * (opts.circumference / (2.0 * Math.PI)),
+                  innerRadius = reset && animationOpts.animateScale ? 0 : _this.innerRadius,
+                  outerRadius = reset && animationOpts.animateScale ? 0 : _this.outerRadius,
+                  custom = arc.custom || {},
+                  valueAtIndexOrDefault = helpers.getValueAtIndexOrDefault;
+
+                helpers.extend(arc, {
+                  // Utility
+                  _datasetIndex: _this.index,
+                  _index: index,
+
+                  // Desired view properties
+                  _model: {
+                    x: centerX + chart.offsetX,
+                    y: centerY + chart.offsetY,
+                    startAngle: startAngle,
+                    endAngle: endAngle,
+                    circumference: circumference,
+                    outerRadius: outerRadius,
+                    innerRadius: innerRadius,
+                    label: valueAtIndexOrDefault(dataset.label, index, chart.data.labels[index])
+                  },
+
+                  draw: function () {
+                    var ctx = this._chart.ctx,
+                      vm = this._view,
+                      sA = vm.startAngle,
+                      eA = vm.endAngle,
+                      opts = this._chart.config.options;
+
+                    var labelPos = this.tooltipPosition();
+                    var segmentLabel = vm.circumference / opts.circumference * 100;
+
+                    ctx.beginPath();
+
+                    ctx.arc(vm.x, vm.y, vm.outerRadius, sA, eA);
+                    ctx.arc(vm.x, vm.y, vm.innerRadius, eA, sA, true);
+
+                    ctx.closePath();
+                    ctx.strokeStyle = vm.borderColor;
+                    ctx.lineWidth = vm.borderWidth;
+
+                    ctx.fillStyle = vm.backgroundColor;
+
+                    ctx.fill();
+                    ctx.lineJoin = 'bevel';
+
+                    if (vm.borderWidth) {
+                      ctx.stroke();
+                    }
+           
+                    //display in the center the total sum of all segments
+                    ctx.font = helpers.fontString(20, opts.defaultFontStyle, opts.defaultFontFamily);
+                    ctx.fillText("2등급", vm.x-25, vm.y - 10, 200);
+                  }
+                });
+
+                var model = arc._model;
+                model.backgroundColor = custom.backgroundColor ? custom.backgroundColor : valueAtIndexOrDefault(dataset.backgroundColor, index, arcOpts.backgroundColor);
+                model.hoverBackgroundColor = custom.hoverBackgroundColor ? custom.hoverBackgroundColor : valueAtIndexOrDefault(dataset.hoverBackgroundColor, index, arcOpts.hoverBackgroundColor);
+                model.borderWidth = custom.borderWidth ? custom.borderWidth : valueAtIndexOrDefault(dataset.borderWidth, index, arcOpts.borderWidth);
+                model.borderColor = custom.borderColor ? custom.borderColor : valueAtIndexOrDefault(dataset.borderColor, index, arcOpts.borderColor);
+
+                // Set correct angles if not resetting
+                if (!reset || !animationOpts.animateRotate) {
+                  if (index === 0) {
+                    model.startAngle = opts.rotation;
+                  } else {
+                    model.startAngle = _this.getMeta().data[index - 1]._model.endAngle;
+                  }
+
+                  model.endAngle = model.startAngle + model.circumference;
+                }
+
+                arc.pivot();
+              }
+            });
+
+            //Register Donut Plugin
+            let doughnutOptions = {
+              rotation: 1 * Math.PI,
+              circumference: 1 * Math.PI,
+              hoverOffset: 100, //클리시, 동작
+              cutoutPercentage: 50, //도넛 두께,
+
+              title: {
+                display: true,
+                text: '하루 집중도',
+                fontSize: 17,
+                fontColor: 'rgba(46, 49, 49, 1)'
+              },
+              tooltips: {
+                displayColors: false,
+                titleFontSize: 15,
+                bodyFontSize: 15,
+                titleFontColor: '#fff',
+                titleAlign: 'center',
+                bodyAlign: 'center'
+              },
+            };
+            const colors = ['red', 'skyblue', 'yellowgreen'];
+              //console.log("도넛" + doughnutOptions.title.text);
+
+          </script>
+
+          <!-- daily doughnut chart -->
+          <div class="box1">
+            <canvas id="conc_doughnut1"></canvas>
+            <script>
+              // JSON parsing
+              let today_conc = "{{ daily_conc.today_conc }}".replace(/&#x27;/g, "\"");
+              today_conc = JSON.parse(today_conc);
+              let data1 = [today_conc.eye_close, today_conc.not_seat, today_conc.conc_time];
+              console.log(data1);
+
+              var myChart_doughnut1 = new Chart(document.getElementById('conc_doughnut1').getContext('2d'), {
+                type: 'doughnutLabels',
+                data: {
+                  labels: ['집중', '이석', '졸음'],
+                  datasets: [{
+                    data: data1,
+                    backgroundColor: colors.slice(0, 3),
+                    borderColor: [
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5,
+                  }]
+                },
+                options: doughnutOptions
+              });
+            </script>
+          </div>
+
+          <div class="pt-3">
+            <canvas id="conc_doughnut2"></canvas>
+            <script>
+              doughnutOptions.title.text = "국어 집중도";
+
+              // JSON parsing
+              let korean_daily_conc = "{{ daily_conc.korean }}".replace(/&#x27;/g, "\"");
+              korean_daily_conc = JSON.parse(korean_daily_conc);
+              let data2 = [korean_daily_conc.eye_close, korean_daily_conc.not_seat, korean_daily_conc.conc_time];
+              console.log(data2);
+
+              var myChart_doughnut2 = new Chart(document.getElementById('conc_doughnut2').getContext('2d'), {
+                type: 'doughnutLabels',
+                data: {
+                  labels: ['집중', '이석', '졸음'],
+                  datasets: [{
+                    data: data2,
+                    backgroundColor: colors.slice(0, 3),
+                    borderColor: [
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                  }]
+                },
+                options: doughnutOptions
+              });
+            </script>
+          </div>
+
+          <div class="pt-3">
+            <canvas id="conc_doughnut3"></canvas>
+            <script>
+              doughnutOptions.title.text = "수학 집중도";
+
+              // JSON parsing
+              let math_daily_conc = "{{ daily_conc.math }}".replace(/&#x27;/g, "\"");
+              math_daily_conc = JSON.parse(math_daily_conc);
+              let data3 = [math_daily_conc.eye_close, math_daily_conc.not_seat, math_daily_conc.conc_time];
+              console.log(data3);
+
+              var myChart_doughnut3 = new Chart(document.getElementById('conc_doughnut3').getContext('2d'), {
+                type: 'doughnutLabels',
+                data: {
+                  labels: ['집중', '이석', '졸음'],
+                  datasets: [{
+                    data: data3,
+                    backgroundColor: colors.slice(0, 3),
+                    borderColor: [
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                  }]
+                },
+                options: doughnutOptions
+              });
+            </script>
+          </div>
+
+          <div class="pt-3">
+            <canvas id="conc_doughnut4"></canvas>
+            <script>
+              doughnutOptions.title.text = "영어 집중도";
+
+              // JSON parsing
+              let english_daily_conc = "{{ daily_conc.english }}".replace(/&#x27;/g, "\"");
+              english_daily_conc = JSON.parse(english_daily_conc);
+              let data4 = [english_daily_conc.eye_close, english_daily_conc.not_seat, english_daily_conc.conc_time];
+              console.log(data4);
+
+              var myChart_doughnut4 = new Chart(document.getElementById('conc_doughnut4').getContext('2d'), {
+                type: 'doughnutLabels',
+                data: {
+                  labels: ['집중', '이석', '졸음'],
+                  datasets: [{
+                    data: data4,
+                    backgroundColor: colors.slice(0, 3),
+                    borderColor: [
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                  }]
+                },
+                options: doughnutOptions
+              });
+            </script>
+          </div>
+
+          <div class="pt-3">
+            <canvas id="conc_doughnut5"></canvas>
+            <script>
+              doughnutOptions.title.text = "과학 집중도";
+
+              // JSON parsing
+              let science_daily_conc = "{{ daily_conc.science }}".replace(/&#x27;/g, "\"");
+              science_daily_conc = JSON.parse(science_daily_conc);
+              let data5 = [science_daily_conc.eye_close, science_daily_conc.not_seat, science_daily_conc.conc_time];
+              console.log(data5);
+
+              var myChart_doughnut5 = new Chart(document.getElementById('conc_doughnut5').getContext('2d'), {
+                type: 'doughnutLabels',
+                data: {
+                  labels: ['집중', '이석', '졸음'],
+                  datasets: [{
+                    data: data4,
+                    backgroundColor: colors.slice(0, 3),
+                    borderColor: [
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)',
+                      'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                  }]
+                },
+                options: doughnutOptions
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3-2-2. 집중도 일별 Tab -->
+    <div class="tab-pane fade" id="conc-week" role="tabpanel" aria-labelledby="conc-week-tab">
+      <p class="m-2 p-2 text-right"> {{ week.1 }} ~ {{ week.2 }} </p>
+
+      <div class='container-sm'>
+        <div class="box1">
+
+          <!-- line chart options -->
+          <script>
+            let lineOptions = {
+              title: {
+                display: true,
+                text: '일별 집중도',
+                fontSize: 17,
+                fontColor: 'rgba(46, 49, 49, 1)'
+              },
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    max: 100,
+                    min: 0,
+                    stepSize: 20
+                  }
+                }]
+              },
+              tooltips: {
+                displayColors: false,
+                titleFontSize: 15,
+                bodyFontSize: 15,
+                titleFontColor: '#fff',
+                titleAlign: 'center',
+                bodyAlign: 'center'
+              }
+            }
+          </script>
+
+          <canvas id="conc_line1"></canvas>
+          <script>
+            var myChart_conc1 = new Chart(document.getElementById('conc_line1').getContext('2d'), {
+              type: 'line',
+              data: {},
+              options: lineOptions
+            })
+          </script>
+        </div>
+      </div>
+
+      <div class='container-sm'>
+        <div class="m-1 p-1">
+          <canvas id="conc_line2"></canvas>
+          <script>
+            lineOptions.title.text = "국어 일별 집중도";
+
+            var myChart_conc2 = new Chart(document.getElementById('conc_line2'), {
+              type: 'line',
+              data: {},
+              options: lineOptions
+            })
+          </script>
+        </div>
+      </div>
+
+      <div class='container-sm'>
+        <div class="m-1 p-1">
+          <canvas id="conc_line3"></canvas>
+          <script>
+            lineOptions.title.text = "수학 일별 집중도";
+
+            var myChart_conc3 = new Chart(document.getElementById('conc_line3'), {
+              type: 'line',
+              data: {},
+              options: lineOptions
+            })
+          </script>
+        </div>
+      </div>
+
+      <div class='container-sm'>
+        <div class="m-1 p-1">
+          <canvas id="conc_line4"></canvas>
+          <script>
+            lineOptions.title.text = "영어 일별 집중도";
+
+            var myChart_conc4 = new Chart(document.getElementById('conc_line4'), {
+              type: 'line',
+              data: {},
+              options: lineOptions
+            })
+          </script>
+        </div>
+      </div>
+
+      <div class='container-sm'>
+        <div class="m-1 p-1">
+          <canvas id="conc_line5"></canvas>
+          <script>
+            lineOptions.title.text = "과학 일별 집중도";
+
+            var myChart_conc5 = new Chart(document.getElementById('conc_line5'), {
+              type: 'line',
+              data: {},
+              options: lineOptions
+            })
+          </script>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
