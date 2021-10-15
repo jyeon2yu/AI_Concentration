@@ -36,10 +36,11 @@ def daily_conc(userID, today):
     info = {'today_conc':{}, 'korean': {}, 'math': {}, 'english':{}, 'science':{}}
 
     todate = today
+    todate= '2021-10-13'
     userid = userID
     today_conc = UserConc.objects.filter(user_id=userid, day_conc=todate).annotate(total_subject=Sum('total_subject_time_conc'),
     eye_close=Sum('eye_close_time'), not_seat=Sum('not_seat_time'), conc_time=Sum('total_conc_time'))
-
+ 
     info['today_conc']['eye_close'] = round(today_conc[0].eye_close / today_conc[0].total_subject * 100, 2) # 눈 감은 시간
     info['today_conc']['not_seat'] = round(today_conc[0].not_seat / today_conc[0].total_subject * 100, 2) # 자리 이석 시간
     info['today_conc']['conc_time'] = round(today_conc[0].conc_time / today_conc[0].total_subject * 100, 2) # 집중한 시간
@@ -60,7 +61,8 @@ def daily_emotion(userID, todate):
     url_list = img_url()
     userid = userID
     # today = datetime.now().strftime('%Y-%m-%d') # test data
-    today='2021-09-27'
+    today = todate
+    today='2021-10-13' # 임시
 
     # 3-1. today daily emotion top 3
     today_emo = UserEmotion.objects.filter(user_id=userid, day_emo=today).values('sub_emotion').annotate(time=Sum('sub_emotion_time')) # today emotion top3
@@ -406,8 +408,8 @@ def emotion_week(request):
 @csrf_exempt
 def home(request):
     ### 1. set a data
-    today = '2021-10-10' # test data
-    user_id = '1234'
+    today = '2021-10-13' # test data
+    user_id = '1001'
 
     #cal
     conc = UserConc.objects.filter(Q(user_id = user_id)&Q(day_conc = today)).annotate(conc_time=Sum('total_conc_time'),total_time=Sum('total_subject_time_conc')).values('conc_time','total_time')[0]
@@ -415,11 +417,28 @@ def home(request):
  
     todays_conc = getGrade(conc['conc_time'], conc['total_time'])
 
-    todays_emo_url = Images.objects.filter(image_name = 'emo_'+str(emotion['sub_emotion']))[0].url
-    todays_conc_url = Images.objects.filter(image_name = 'grade_'+str(todays_conc))[0].url
+    todays_emo = {}
+    todays_emo['todays_emo_url'] = Images.objects.filter(image_name = 'emo_'+str(emotion['sub_emotion']))[0].url
 
+    if emotion['sub_emotion'] == 0:
+        todays_emo['todays_emo'] = '중립'
+    elif emotion['sub_emotion'] == 1:
+        todays_emo['todays_emo'] = '슬픔'
+    elif emotion['sub_emotion'] == 2:
+        todays_emo['todays_emo'] = '상처'
+    elif emotion['sub_emotion'] == 3:
+        todays_emo['todays_emo'] = '불안'
+    elif emotion['sub_emotion'] == 4:
+        todays_emo['todays_emo'] = '분노'
+    elif emotion['sub_emotion'] == 5:
+        todays_emo['todays_emo'] = '당황'
+    else :
+        todays_emo['todays_emo'] = '기쁨'
+
+
+    todays_conc_url = Images.objects.filter(image_name = 'grade_'+str(todays_conc))[0].url
     best_shot = Images.objects.filter(image_name__startswith = user_id).order_by('-image_name')[0]
 
-    data = {'todays_conc':todays_conc_url, 'todays_emo' : todays_emo_url, 'best_shot' : best_shot.url}
+    data = {'todays_conc':todays_conc_url, 'todays_emo' : todays_emo, 'best_shot' : best_shot.url}
 
     return JsonResponse(data)
