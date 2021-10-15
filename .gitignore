@@ -6,3 +6,4 @@ my_settings.py
 migrations/
 /migrations
 migrations
+config/settings.py

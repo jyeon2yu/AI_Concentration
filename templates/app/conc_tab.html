@@ -186,7 +186,7 @@
               // JSON parsing
               let today_conc = "{{ daily_conc.today_conc }}".replace(/&#x27;/g, "\"");
               today_conc = JSON.parse(today_conc);
-              let data1 = [today_conc.eye_close, today_conc.not_seat, today_conc.conc_time];
+              let data1 = [today_conc.conc_time, today_conc.not_seat, today_conc.eye_close];
               console.log(data1);
 
               var myChart_doughnut1 = new Chart(document.getElementById('conc_doughnut1').getContext('2d'), {
@@ -217,7 +217,7 @@
               // JSON parsing
               let korean_daily_conc = "{{ daily_conc.korean }}".replace(/&#x27;/g, "\"");
               korean_daily_conc = JSON.parse(korean_daily_conc);
-              let data2 = [korean_daily_conc.eye_close, korean_daily_conc.not_seat, korean_daily_conc.conc_time];
+              let data2 = [korean_daily_conc.conc_time, korean_daily_conc.not_seat, korean_daily_conc.eye_close];
               console.log(data2);
 
               var myChart_doughnut2 = new Chart(document.getElementById('conc_doughnut2').getContext('2d'), {
@@ -248,7 +248,7 @@
               // JSON parsing
               let math_daily_conc = "{{ daily_conc.math }}".replace(/&#x27;/g, "\"");
               math_daily_conc = JSON.parse(math_daily_conc);
-              let data3 = [math_daily_conc.eye_close, math_daily_conc.not_seat, math_daily_conc.conc_time];
+              let data3 = [math_daily_conc.conc_time, math_daily_conc.not_seat, math_daily_conc.eye_close];
               console.log(data3);
 
               var myChart_doughnut3 = new Chart(document.getElementById('conc_doughnut3').getContext('2d'), {
@@ -279,7 +279,7 @@
               // JSON parsing
               let english_daily_conc = "{{ daily_conc.english }}".replace(/&#x27;/g, "\"");
               english_daily_conc = JSON.parse(english_daily_conc);
-              let data4 = [english_daily_conc.eye_close, english_daily_conc.not_seat, english_daily_conc.conc_time];
+              let data4 = [english_daily_conc.conc_time, english_daily_conc.not_seat, english_daily_conc.eye_close];
               console.log(data4);
 
               var myChart_doughnut4 = new Chart(document.getElementById('conc_doughnut4').getContext('2d'), {
@@ -310,7 +310,7 @@
               // JSON parsing
               let science_daily_conc = "{{ daily_conc.science }}".replace(/&#x27;/g, "\"");
               science_daily_conc = JSON.parse(science_daily_conc);
-              let data5 = [science_daily_conc.eye_close, science_daily_conc.not_seat, science_daily_conc.conc_time];
+              let data5 = [science_daily_conc.conc_time, science_daily_conc.not_seat, science_daily_conc.eye_close];
               console.log(data5);
 
               var myChart_doughnut5 = new Chart(document.getElementById('conc_doughnut5').getContext('2d'), {
