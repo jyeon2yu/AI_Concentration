@@ -26,6 +26,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Black+Han+Sans&family=Cute+Font&family=Do+Hyeon&family=Dokdo&family=East+Sea+Dokdo&family=Gaegu&family=Gamja+Flower&family=Gothic+A1&family=Gugi&family=Hi+Melody&family=Jua&family=Kirang+Haerang&family=Nanum+Brush+Script&family=Nanum+Gothic&family=Nanum+Gothic+Coding&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Noto+Sans+KR&family=Noto+Serif+KR&family=Poor+Story&family=Single+Day&family=Song+Myung&family=Stylish&family=Sunflower:wght@300&family=Yeon+Sung&display=swap" rel="stylesheet">
+
+    
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
 
@@ -35,17 +40,8 @@
 
 
 <body>
-    <!-- <style>
-        div {
-            border: 1px solid red;
-        }
-        span {
-            border : 1px solid skyblue;
-        }
-    </style> -->
-
     <!-- Header -->
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light bg-white top">
         <a class="navbar-brand" href="{% url 'app:report'%}">
           <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
           AI_Conc&Emo
@@ -54,7 +50,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
-    <div class="collapse" id="navbarToggle">
+    <div class="collapse sidemenu" id="navbarToggle">
         <ul class="list-group">
             <form action="{% url 'app:report' %}" method="POST" id="menu-list">
                 {% csrf_token %}

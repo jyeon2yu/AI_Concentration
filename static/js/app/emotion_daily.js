@@ -1,5 +1,8 @@
 document.getElementById('emotion-daily-tab').onclick = function() {
     console.log('emotion-daily, 클릭 이벤트 성공!')
+    $('#emotion_title').text("오늘의 감정 분석 결과");
+    console.log(document.getElementById('emotion_title'));
+
     $.ajax({
         url: "../emotion_daily/",
         type: "GET",

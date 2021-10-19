@@ -1,57 +1,50 @@
 {% load static %}
 
-<style>
-  .box1 {
-    margin: 5px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 10px lightgray;
-}
-  .text1 {
-    position: relative;
-}
-
-  .text1::after {
-    position: absolute;
-    bottom: -7px;
-    left: 0px;
-    content: '';
-    width: 100%;
-    height: 7px;
-    background: -webkit-repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
-    background: repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
-}
-</style>
 
 <div class="tab-pane fade" id="nav-conc" role="tabpanel" aria-labelledby="nav-conc-tab">
   <div class="row">
+
     <span class="col m-1 p-4">
-      <h4 class="text-center">{{ user_info.user_name }}</h4>
-      <p class="text-center">오늘의 집중도 분석</p>
+      <h4 class="text-center title">{{ user_info.user_name }}</h4>
+      <p class="text-center title2" id="conc_title">오늘의 집중도 분석 결과</p>
     </span>
     <span class="col">
       <img src="{% static 'img/setup_analytics.png' %}" class="d-inline-block align-top img-fluid" alt="welcome">
     </span>
-    <hr>
   </div>
 
   <!-- 3-1. button layout -->
-  <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+  <ul class="nav nav-pills m-3 justify-content-end button-text" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
       <a class="nav-link active" id="conc-daily-tab" data-toggle="pill" href="#conc-daily" role="tab"
         aria-controls="conc-daily" aria-selected="true">하루</a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link" id="conc-week-tab" data-toggle="pill" href="#conc-week" role="tab" aria-controls="conc-week"
-        aria-selected="false">일별</a>
+        aria-selected="false">주간</a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+      <select class="form-control">
+        <option>Mustard</option>
+        <option>Ketchup</option>
+        <option>Relish</option>
+      </select>
     </li>
   </ul>
+
+
 
   <!-- 3-2. chart layout -->
   <div class="tab-content" id="pills-tabContent">
 
     <!-- 3-2-1. 집중도 하루 Tab -->
     <div class="tab-pane fade show active" id="conc-daily" role="tabpanel" aria-labelledby="conc-daily-tab">
-      <p class="m-2 p-2 text-right">{{ week.0.0 }}, {{ week.0.1 }}</p>
+      <p class="m-2 p-2 text-right">
+        <span style="border-bottom: 5px solid #dcf1fb; padding: 0 0 0 0.2em;">
+          {{ week.0.0 }}, {{ week.0.1 }}
+        </span>
+      </p>
       <div class='container-sm'>
         <div>
           <!-- doughnut chart options -->
@@ -124,10 +117,10 @@
                     if (vm.borderWidth) {
                       ctx.stroke();
                     }
-           
+
                     //display in the center the total sum of all segments
                     ctx.font = helpers.fontString(20, opts.defaultFontStyle, opts.defaultFontFamily);
-                    ctx.fillText("2등급", vm.x-25, vm.y - 10, 200);
+                    ctx.fillText("2등급", vm.x - 25, vm.y - 10, 200);
                   }
                 });
 
@@ -186,7 +179,7 @@
               // JSON parsing
               let today_conc = "{{ daily_conc.today_conc }}".replace(/&#x27;/g, "\"");
               today_conc = JSON.parse(today_conc);
-              let data1 = [today_conc.conc_time, today_conc.not_seat, today_conc.eye_close];
+              let data1 = [today_conc.eye_close, today_conc.not_seat, today_conc.conc_time];
               console.log(data1);
 
               var myChart_doughnut1 = new Chart(document.getElementById('conc_doughnut1').getContext('2d'), {
@@ -217,7 +210,7 @@
               // JSON parsing
               let korean_daily_conc = "{{ daily_conc.korean }}".replace(/&#x27;/g, "\"");
               korean_daily_conc = JSON.parse(korean_daily_conc);
-              let data2 = [korean_daily_conc.conc_time, korean_daily_conc.not_seat, korean_daily_conc.eye_close];
+              let data2 = [korean_daily_conc.eye_close, korean_daily_conc.not_seat, korean_daily_conc.conc_time];
               console.log(data2);
 
               var myChart_doughnut2 = new Chart(document.getElementById('conc_doughnut2').getContext('2d'), {
@@ -248,7 +241,7 @@
               // JSON parsing
               let math_daily_conc = "{{ daily_conc.math }}".replace(/&#x27;/g, "\"");
               math_daily_conc = JSON.parse(math_daily_conc);
-              let data3 = [math_daily_conc.conc_time, math_daily_conc.not_seat, math_daily_conc.eye_close];
+              let data3 = [math_daily_conc.eye_close, math_daily_conc.not_seat, math_daily_conc.conc_time];
               console.log(data3);
 
               var myChart_doughnut3 = new Chart(document.getElementById('conc_doughnut3').getContext('2d'), {
@@ -279,7 +272,7 @@
               // JSON parsing
               let english_daily_conc = "{{ daily_conc.english }}".replace(/&#x27;/g, "\"");
               english_daily_conc = JSON.parse(english_daily_conc);
-              let data4 = [english_daily_conc.conc_time, english_daily_conc.not_seat, english_daily_conc.eye_close];
+              let data4 = [english_daily_conc.eye_close, english_daily_conc.not_seat, english_daily_conc.conc_time];
               console.log(data4);
 
               var myChart_doughnut4 = new Chart(document.getElementById('conc_doughnut4').getContext('2d'), {
@@ -310,7 +303,7 @@
               // JSON parsing
               let science_daily_conc = "{{ daily_conc.science }}".replace(/&#x27;/g, "\"");
               science_daily_conc = JSON.parse(science_daily_conc);
-              let data5 = [science_daily_conc.conc_time, science_daily_conc.not_seat, science_daily_conc.eye_close];
+              let data5 = [science_daily_conc.eye_close, science_daily_conc.not_seat, science_daily_conc.conc_time];
               console.log(data5);
 
               var myChart_doughnut5 = new Chart(document.getElementById('conc_doughnut5').getContext('2d'), {
@@ -338,20 +331,23 @@
 
     <!-- 3-2-2. 집중도 일별 Tab -->
     <div class="tab-pane fade" id="conc-week" role="tabpanel" aria-labelledby="conc-week-tab">
-      <p class="m-2 p-2 text-right"> {{ week.1 }} ~ {{ week.2 }} </p>
+      <p class="m-2 p-2 text-right">
+        <span style="border-bottom: 5px solid #dcf1fb; padding: 0 0 0 0.2em;">
+          {{ week.1 }} ~ {{ week.2 }}
+        </span>
+      </p>
 
       <div class='container-sm'>
         <div class="box1">
-
+          <p class="text-center"><span class="align-center text1">일주일 집중도 변화</span></p>
           <!-- line chart options -->
           <script>
             let lineOptions = {
-              title: {
+              /*title: {
                 display: true,
-                text: '일별 집중도',
                 fontSize: 17,
                 fontColor: 'rgba(46, 49, 49, 1)'
-              },
+              },*/
               scales: {
                 yAxes: [{
                   ticks: {
@@ -384,10 +380,11 @@
       </div>
 
       <div class='container-sm'>
+        <p class="text-center"><span class="align-center text1">국어</span></p>
         <div class="m-1 p-1">
           <canvas id="conc_line2"></canvas>
           <script>
-            lineOptions.title.text = "국어 일별 집중도";
+            //lineOptions.title.text = "국어 일별 집중도";
 
             var myChart_conc2 = new Chart(document.getElementById('conc_line2'), {
               type: 'line',
@@ -399,10 +396,11 @@
       </div>
 
       <div class='container-sm'>
+        <p class="text-center"><span class="align-center text1">수학</span></p>
         <div class="m-1 p-1">
           <canvas id="conc_line3"></canvas>
           <script>
-            lineOptions.title.text = "수학 일별 집중도";
+            //lineOptions.title.text = "수학 일별 집중도";
 
             var myChart_conc3 = new Chart(document.getElementById('conc_line3'), {
               type: 'line',
@@ -414,10 +412,11 @@
       </div>
 
       <div class='container-sm'>
+        <p class="text-center"><span class="align-center text1">영어</span></p>
         <div class="m-1 p-1">
           <canvas id="conc_line4"></canvas>
           <script>
-            lineOptions.title.text = "영어 일별 집중도";
+            //lineOptions.title.text = "영어 일별 집중도";
 
             var myChart_conc4 = new Chart(document.getElementById('conc_line4'), {
               type: 'line',
@@ -429,10 +428,11 @@
       </div>
 
       <div class='container-sm'>
+        <p class="text-center"><span class="align-center text1">과학</span></p>
         <div class="m-1 p-1">
           <canvas id="conc_line5"></canvas>
           <script>
-            lineOptions.title.text = "과학 일별 집중도";
+            //lineOptions.title.text = "과학 일별 집중도";
 
             var myChart_conc5 = new Chart(document.getElementById('conc_line5'), {
               type: 'line',

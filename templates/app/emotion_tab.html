@@ -1,33 +1,10 @@
 {% load static %}
 
-<style>
-.box1 {
-    margin: 20px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 10px lightgray;
-}
-
-.text1 {
-    position: relative;
-}
-
-.text1::after {
-    position: absolute;
-    bottom: -7px;
-    left: 0px;
-    content: '';
-    width: 100%;
-    height: 7px;
-    background: -webkit-repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
-    background: repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
-}
-</style>
-
 <div class="tab-pane fade" id="nav-emotion" role="tabpanel" aria-labelledby="nav-emotion-tab">
   <div class="row">
     <span class="col m-1 p-4">
-      <h4 class="text-center">{{ user_info.user_name }}</h4>
-      <p class="text-center">오늘의 감정 분석</p>
+      <h4 class="text-center title">{{ user_info.user_name }}</h4>
+      <p class="text-center title2" id="emotion_title">오늘의 감정 분석 결과</p>
     </span>
     <span class="col">
       <img src="{% static 'img/setup_analytics.png' %}" class="d-inline-block align-top img-fluid" alt="welcome">
@@ -36,14 +13,14 @@
   </div>
 
   <!-- 4-1. button layout -->
-  <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+  <ul class="nav nav-pills m-3 justify-content-end button-text" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
       <a class="nav-link active" id="emotion-daily-tab" data-toggle="pill" href="#emotion-daily" role="tab"
         aria-controls="emotion-daily" aria-selected="true">하루</a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link" id="emotion-week-tab" data-toggle="pill" href="#emotion-week" role="tab"
-        aria-controls="emotion-week" aria-selected="false">일별</a>
+        aria-controls="emotion-week" aria-selected="false">주간</a>
     </li>
 
     <li class="nav-item" role="presentation">
@@ -62,7 +39,7 @@
     <!-- 4-2-1. 감정 하루 Tab -->
     <div class="tab-pane fade show active" id="emotion-daily" role="tabpanel" aria-labelledby="emotion-daily-tab">
       <p class="m-2 p-2 text-right">
-        <span style="border-bottom: 12px solid #dcf1fb; padding: 0 0 0 0.2em;">
+        <span style="border-bottom: 5px solid #dcf1fb; padding: 0 0 0 0.2em;">
           {{ week.0.0 }}, {{ week.0.1 }}
         </span>
       </p>
@@ -71,7 +48,7 @@
       <div class="box1">
         <!-- <p class="text-left"><span style="background: #F9F7F6; border-left: 0.5em solid #688FF4; padding: 0.5em;">하루 감정</span></p> -->
         <!-- <p><span style="border-radius: 0 15px 15px 0; border-left: inset; padding: 0.6em; background: #EBEEF0;">내용1</span></p> -->
-        <p><span class="text1">하루 감정</span></p>
+        <p class="text-center"><span class="align-center text1">하루동안 감정 변화</span></p>
         <div class="d-flex bd-highlight mb-3 justify-content-center">
           <div class="p-2 bd-highlight flex-sm-fill" id="total-emotion-container">
             <div class="text-center">
@@ -105,10 +82,10 @@
         </div>
       </div>
 
-      국어 감정 하루
+      <p class="text-center"><span class="align-center text1">국어</span></p>
       <div class="d-flex bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>1 순위</span>
             <span class="emotion-daily-ko-rank"> {{daily_emotion.korean.0.0}} </span>
           </div>
@@ -118,7 +95,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>2 순위</span>
             <span class="emotion-daily-ko-rank"> {{daily_emotion.korean.1.0}} </span>
           </div>
@@ -128,7 +105,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>3 순위</span>
             <span class="emotion-daily-ko-rank"> {{daily_emotion.korean.2.0}} </span>
           </div>
@@ -138,10 +115,10 @@
         </div>
       </div>
 
-      수학 감정 하루
+      <p class="text-center"><span class="align-center text1">수학</span></p>
       <div class="d-flex bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>1 순위</span>
             <span class="emotion-daily-ma-rank"> {{daily_emotion.math.0.0}} </span>
           </div>
@@ -151,7 +128,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>2 순위</span>
             <span class="emotion-daily-ma-rank"> {{daily_emotion.math.1.0}} </span>
           </div>
@@ -161,7 +138,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>3 순위</span>
             <span class="emotion-daily-ma-rank"> {{daily_emotion.math.2.0}} </span>
           </div>
@@ -171,10 +148,10 @@
         </div>
       </div>
 
-      영어 감정 하루
+      <p class="text-center"><span class="align-center text1">영어</span></p>
       <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>1 순위</span>
             <span class="emotion-daily-en-rank"> {{daily_emotion.english.0.0}} </span>
           </div>
@@ -184,7 +161,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>2 순위</span>
             <span class="emotion-daily-en-rank"> {{daily_emotion.english.1.0}} </span>
           </div>
@@ -194,7 +171,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>3 순위</span>
             <span class="emotion-daily-en-rank"> {{daily_emotion.english.2.0}} </span>
           </div>
@@ -204,10 +181,10 @@
         </div>
       </div>
 
-      과학 감정 하루
+      <p class="text-center"><span class="align-center text1">과학</span></p>
       <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>1 순위</span>
             <span class="emotion-daily-sc-rank"> {{daily_emotion.science.0.0}} </span>
           </div>
@@ -217,7 +194,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>2 순위</span>
             <span class="emotion-daily-sc-rank"> {{daily_emotion.science.1.0}} </span>
           </div>
@@ -227,7 +204,7 @@
         </div>
 
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
+          <div class="text-center content">
             <span>3 순위</span>
             <span class="emotion-daily-sc-rank"> {{daily_emotion.science.2.0}} </span>
           </div>
@@ -240,14 +217,18 @@
 
     <!-- 4-2-2. 감정 일별 Tab -->
     <div class="tab-pane fade" id="emotion-week" role="tabpanel" aria-labelledby="emotion-week-tab">
-      <p class="m-2 p-2 text-right"> {{ week.1 }} ~ {{ week.2 }} </p>
+      <p class="m-2 p-2 text-right">
+        <span style="border-bottom: 5px solid #dcf1fb; padding: 0 0 0 0.2em;">
+          {{ week.1 }} ~ {{ week.2 }}
+        </span>
+      </p>
 
       <div class="box1">
-        <p><span class="text1">하루 감정</span></p>
+        <p class="text-center"><span class="align-center text1">일주일동안 감정 변화</span></p>
         <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
           <div class="p-2 bd-highlight flex-sm-fill">
-            <div class="text-center">
-              <span>월요일 1 순위</span>
+            <div class="text-center content">
+              <span>월요일</span>
               <span class="emotion-week-rank"> 무표정 </span>
             </div>
             <div class="text-center">
@@ -255,8 +236,8 @@
             </div>
           </div>
           <div class="p-2 bd-highlight flex-sm-fill">
-            <div class="text-center">
-              <span>화요일 1 순위</span>
+            <div class="text-center content">
+              <span>화요일</span>
               <span class="emotion-week-rank"> 무표정 </span>
             </div>
             <div class="text-center">
@@ -264,8 +245,8 @@
             </div>
           </div>
           <div class="p-2 bd-highlight flex-sm-fill">
-            <div class="text-center">
-              <span>수요일 1 순위</span>
+            <div class="text-center content">
+              <span>수요일</span>
               <span class="emotion-week-rank"> 무표정 </span>
             </div>
             <div class="text-center">
@@ -273,8 +254,8 @@
             </div>
           </div>
           <div class="p-2 bd-highlight flex-sm-fill">
-            <div class="text-center">
-              <span>목요일 1 순위</span>
+            <div class="text-center content">
+              <span>목요일</span>
               <span class="emotion-week-rank"> 무표정 </span>
             </div>
             <div class="text-center">
@@ -282,8 +263,8 @@
             </div>
           </div>
           <div class="p-2 bd-highlight flex-sm-fill">
-            <div class="text-center">
-              <span>금요일 1 순위</span>
+            <div class="text-center content">
+              <span>금요일</span>
               <span class="emotion-week-rank"> 무표정 </span>
             </div>
             <div class="text-center">
@@ -294,11 +275,11 @@
       </div>
 
 
-      국어 감정 일별
+      <p class="text-center"><span class="align-center text1">국어 일주일 감정 변화</span></p>
       <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>월요일 1 순위</span>
+          <div class="text-center content">
+            <span>월요일</span><br>
             <span class="emotion-week-ko-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -306,8 +287,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>화요일 1 순위</span>
+          <div class="text-center content">
+            <span>화요일</span><br>
             <span class="emotion-week-ko-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -315,8 +296,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>수요일 1 순위</span>
+          <div class="text-center content">
+            <span>수요일</span><br>
             <span class="emotion-week-ko-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -324,8 +305,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>목요일 1 순위</span>
+          <div class="text-center content">
+            <span>목요일</span><br>
             <span class="emotion-week-ko-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -333,8 +314,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>금요일 1 순위</span>
+          <div class="text-center content">
+            <span>금요일</span><br>
             <span class="emotion-week-ko-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -343,11 +324,11 @@
         </div>
       </div>
 
-      수학 감정 일별
+      <p class="text-center"><span class="align-center text1">수학 일주일 감정 변화</span></p>
       <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>월요일 1 순위</span>
+          <div class="text-center content">
+            <span>월요일</span><br>
             <span class="emotion-week-ma-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -355,8 +336,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>화요일 1 순위</span>
+          <div class="text-center content">
+            <span>화요일</span><br>
             <span class="emotion-week-ma-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -364,8 +345,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>수요일 1 순위</span>
+          <div class="text-center content">
+            <span>수요일</span><br>
             <span class="emotion-week-ma-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -373,8 +354,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>목요일 1 순위</span>
+          <div class="text-center content">
+            <span>목요일</span><br>
             <span class="emotion-week-ma-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -382,8 +363,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>금요일 1 순위</span>
+          <div class="text-center content">
+            <span>금요일</span><br>
             <span class="emotion-week-ma-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -392,11 +373,11 @@
         </div>
       </div>
 
-      영어 감정 일별
+      <p class="text-center"><span class="align-center text1">영어 일주일 감정 변화</span></p>
       <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>월요일 1 순위</span>
+          <div class="text-center content">
+            <span>월요일</span><br>
             <span class="emotion-week-en-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -404,8 +385,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>화요일 1 순위</span>
+          <div class="text-center content">
+            <span>화요일</span><br>
             <span class="emotion-week-en-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -413,8 +394,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>수요일 1 순위</span>
+          <div class="text-center content">
+            <span>수요일</span><br>
             <span class="emotion-week-en-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -422,8 +403,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>목요일 1 순위</span>
+          <div class="text-center content">
+            <span>목요일</span><br>
             <span class="emotion-week-en-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -431,8 +412,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>금요일 1 순위</span>
+          <div class="text-center content">
+            <span>금요일</span><br>
             <span class="emotion-week-en-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -441,11 +422,11 @@
         </div>
       </div>
 
-      과학 감정 일별
+      <p class="text-center"><span class="align-center text1">과학 일주일 감정 변화</span></p>
       <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>월요일 1 순위</span>
+          <div class="text-center content">
+            <span>월요일</span><br>
             <span class="emotion-week-sc-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -453,8 +434,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>화요일 1 순위</span>
+          <div class="text-center content">
+            <span>화요일</span><br>
             <span class="emotion-week-sc-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -462,8 +443,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>수요일 1 순위</span>
+          <div class="text-center content">
+            <span>수요일</span><br>
             <span class="emotion-week-sc-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -471,8 +452,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>목요일 1 순위</span>
+          <div class="text-center content">
+            <span>목요일</span><br>
             <span class="emotion-week-sc-rank"> 무표정 </span>
           </div>
           <div class="text-center">
@@ -480,8 +461,8 @@
           </div>
         </div>
         <div class="p-2 bd-highlight flex-sm-fill">
-          <div class="text-center">
-            <span>금요일 1 순위</span>
+          <div class="text-center content">
+            <span>금요일</span><br>
             <span class="emotion-week-sc-rank"> 무표정 </span>
           </div>
           <div class="text-center">

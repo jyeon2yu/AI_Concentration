@@ -7,7 +7,11 @@ const param = {
 $('#conc-daily-tab').click(function(){
   const conc_daily_labels = ['집중', '이석', '졸음'];
   const colors =['red','skyblue','yellowgreen'];
-  console.log('conc-daily, 클릭 이벤트 성공!')
+
+  console.log('conc-daily, 클릭 이벤트 성공!');
+
+  $('#conc_title').text("오늘의 집중도 분석 결과");
+  console.log(document.getElementById('conc_title'));
 
   $.ajax({
     url : "../conc_daily/",

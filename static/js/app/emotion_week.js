@@ -1,12 +1,14 @@
 $('#emotion-week-tab').click(function () {
-    console.log('emotion-week, 클릭 이벤트 성공!')
+    console.log('emotion-week, 클릭 이벤트 성공!');
+    $('#emotion_title').text("주간 감정 분석 결과");
+    console.log(document.getElementById('emotion_title'));
+
     $.ajax({
         url: "../emotion_week/",
         type: "GET",
         // data: JSON.stringify(param),
         success: function (data) {
             console.log('emotion-week Ajax Success!');
-
             // change a image
             let week_emotion = document.getElementsByClassName('emotion_week');
             let week_ko_emotion = document.getElementsByClassName('week_ko_emotion');

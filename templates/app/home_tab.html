@@ -1,31 +1,38 @@
 {% load static %}
-<!-- <style>
-  div {
-    border: 1px solid skyblue;
+<style>
+
+  .text-center.title{
+    font-family: 'Jua', sans-serif;
+    font-size: 2rem;
   }
 
-  span {
+  .text-center.content{
+    font-family: 'Sunflower', sans-serif;
+    border-radius: 5px;
+    padding: 0.6em 1em;
+    background: #F1F1F3;
+    font-size: 1rem;
+  }
+
+  div {
     border: 1px solid red;
   }
-</style> -->
+  
+</style>
 
 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
   <div class="row">
     <span class="col m-1 p-3">
-      <h4 class="text-center">{{ user_info.parents_id }}님, <br>환영합니다!</h4>
+      <h4 class="text-center title">
+        {{ user_info.parents_id }}님, <br>환영합니다!
+      </h4>
     </span>
     <span class="col">
       <img src="{% static 'img/welcome_cats.png' %}" class="d-inline-block align-top img-fluid" alt="welcome">
     </span>
   </div>
-
-  <div class="row">
-    <span class="col">
-
-      <hr>
-    </span>
-  </div>
-  <p class="text-center">{{ user_info.user_name }} 님의 {{ week.0.0 }}, {{ week.0.1 }} 종합 report 입니다.</p>
+  <p class="m-3 text-center content">
+    {{ user_info.user_name }} 님의 <br> {{ week.0.0 }}, {{ week.0.1 }} 종합 report 입니다.</p>
   <div id=home_frame>
     <script>
       $.ajax({
@@ -53,7 +60,8 @@
               <span>감정</span>
             </div>
             <div class="text-center">
-              <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_emo+`" alt="grade.png">
+              <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_emo.todays_emo_url+`" alt="grade.png">
+              <p> `+data.todays_emo.todays_emo+`</p>
             </div>
           </div>
         </div>

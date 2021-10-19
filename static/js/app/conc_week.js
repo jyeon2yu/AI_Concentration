@@ -1,5 +1,9 @@
 $('#conc-week-tab').click(function () {
-    console.log('conc-week, 클릭 이벤트 성공!')
+    console.log('conc-week, 클릭 이벤트 성공!');
+    
+    $('#conc_title').text("주간 집중도 분석 결과");
+    console.log(document.getElementById('conc_title'));
+    
     // Draw a Chart
     let labels = ['월요일', '화요일', '수요일', '목요일', '금요일'];
     /*
@@ -38,10 +42,9 @@ $('#conc-week-tab').click(function () {
                 datasets: [{
                     label: "집중도(%)",
                     data: data_list1,
-                    backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     fill: false,
-                    tension: 0.5
+                    tension: 0.1
                 }]
             };
 
@@ -49,8 +52,9 @@ $('#conc-week-tab').click(function () {
                 labels: labels,
                 datasets: [{
                     label: "집중도(%)",
-                    backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
+                    fill: false,
+                    tension: 0.1,
                     data: data_list2
                 }]
             };
@@ -59,8 +63,9 @@ $('#conc-week-tab').click(function () {
                 labels: labels,
                 datasets: [{
                     label: "집중도(%)",
-                    backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
+                    fill: false,
+                    tension: 0.1,
                     data: data_list3
                 }]
             };
@@ -69,8 +74,9 @@ $('#conc-week-tab').click(function () {
                 labels: labels,
                 datasets: [{
                     label: "집중도(%)",
-                    backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
+                    fill: false,
+                    tension: 0.1,
                     data: data_list4
                 }]
             };
@@ -79,8 +85,9 @@ $('#conc-week-tab').click(function () {
                 labels: labels,
                 datasets: [{
                     label: "집중도(%)",
-                    backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
+                    fill: false,
+                    tension: 0.1,
                     data: data_list5
                 }]
             };

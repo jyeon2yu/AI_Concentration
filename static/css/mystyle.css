@@ -29,3 +29,76 @@
     font-weight:700;
 }
 
+.top {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 2rem;
+}
+
+.collapse.sidemenu{
+    font-family: 'Jua', sans-serif;
+    font-size: 1rem;
+}
+
+.nav-tab-menu {
+    font-family: 'Jua', sans-serif;
+}
+
+.text-center{
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 1.5rem;
+}
+
+.text-center.title{
+    font-family: 'Jua', sans-serif;
+    font-size: 1rem;
+}
+
+.text-center.title2{
+    font-family: 'Jua', sans-serif;
+    font-size: 1.25rem;
+}
+
+
+.text-center.content{
+    font-family: 'Sunflower', sans-serif;
+    border-radius: 5px;
+    padding: 0.6em 1em;
+    background: #F1F1F3;
+}
+
+.m-2.p-2.text-right{
+    font-family: 'Sunflower', sans-serif;
+    font-size: 1rem;
+}
+
+.button-text{
+    font-family: 'Do Hyeon', sans-serif;
+}
+
+
+
+.box1 {
+    margin: 5px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px lightgray;
+}
+
+.text1 {
+    position: relative;
+}
+
+.text1::after {
+    position: absolute;
+    bottom: -7px;
+    left: 0px;
+    content: '';
+    width: 100%;
+    height: 7px;
+    background: -webkit-repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
+    background: repeating-linear-gradient(-45deg, #ffeb3b, #ffeb3b 2px, #fff 2px, #fff 4px);
+}
+
+.login-menu{
+    font-family: 'Jua', sans-serif;
+    font-size: 1rem;
+}

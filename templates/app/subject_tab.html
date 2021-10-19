@@ -1,29 +1,52 @@
 {% load static %}
+
 <!-- 2. Subject Tab -->
 <div class="tab-pane fade" id="nav-subject" role="tabpanel" aria-labelledby="nav-subject-tab">
-
-  <span>
-    <h5>{{ user_info.user_name }} 님의 {{ week.0.0 }}, {{ week.0.1 }} 결과 report 입니다.</h5>
+  <div class="row">
+    <span class="col m-1 p-4">
+      <h4 class="text-center title">{{ user_info.user_name }}</h4>
+      <p class="text-center title2" id="emotion_title">오늘의 과목 분석 결과</p>
+    </span>
+    <span class="col">
+      <img src="{% static 'img/setup_analytics.png' %}" class="d-inline-block align-top img-fluid" alt="welcome">
+    </span>
     <hr>
-  </span>
+  </div>
 
   <!-- 2-1. button layout -->
-  <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+  <ul class="nav nav-pills m-3 justify-content-end button-text" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
       <a class="nav-link active" id="subject-daily-tab" data-toggle="pill" href="#subject-daily" role="tab" aria-controls="subject-daily" aria-selected="true">하루</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="subject-week-tab" data-toggle="pill" href="#subject-week" role="tab" aria-controls="subject-week" aria-selected="false">일별</a>
+      <a class="nav-link" id="subject-week-tab" data-toggle="pill" href="#subject-week" role="tab" aria-controls="subject-week" aria-selected="false">주간</a>
     </li>
 
+    <li class="nav-item" role="presentation">
+      <select class="form-control">
+        <option>Mustard</option>
+        <option>Ketchup</option>
+        <option>Relish</option>
+      </select>
+    </li>
   </ul>
 
   <!-- 2-2. chart layout -->
   <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="subject-daily" role="tabpanel" aria-labelledby="subject-daily-tab">
-      
+      <p class="m-2 p-2 text-right">
+        <span style="border-bottom: 5px solid #dcf1fb; padding: 0 0 0 0.2em;">
+          {{ week.0.0 }}, {{ week.0.1 }}
+        </span>
+      </p>
     </div>
-    <div class="tab-pane fade" id="subject-week" role="tabpanel" aria-labelledby="subject-week-tab">과목 일별</div>
+    <div class="tab-pane fade" id="subject-week" role="tabpanel" aria-labelledby="subject-week-tab">
+      <p class="m-2 p-2 text-right">
+        <span style="border-bottom: 5px solid #dcf1fb; padding: 0 0 0 0.2em;">
+          {{ week.1 }} ~ {{ week.2 }}
+        </span>
+      </p>
+    </div>
   </div>
 
   <div class='container-fluid' id='subject_frame'>
@@ -53,6 +76,7 @@
 
                     <div>
                       <img style='max-width : 100%; height : auto; vertical-align:middle;' src="../../static/img/` + res['emotions'][1] + `.png" alt="emotion_korean.png">
+                      <p> </p>
                     </div>
                   </div>
                   
@@ -137,7 +161,11 @@
 </div><!-- 2. Subject Tab End -->
 
 <script>
-
+  $('#subject-daily-tab').click(function(){
+    console.log('subject-daily, 클릭 이벤트 성공!')
+    getSubjectData()
+  });
+  
   const getSubjectData = function(){
     $.ajax({
 
@@ -246,6 +274,10 @@
 
 <!-- 과목 1주 -->
 <script>
+  $('#subject-week-tab').click(function(){
+    console.log('subject-week, 클릭 이벤트 성공!')
+    getSubjectData_week()
+  });
 
   const getSubjectData_week = function(){
     $.ajax({

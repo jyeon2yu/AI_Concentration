@@ -14,6 +14,13 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Black+Han+Sans&family=Cute+Font&family=Do+Hyeon&family=Dokdo&family=East+Sea+Dokdo&family=Gaegu&family=Gamja+Flower&family=Gothic+A1&family=Gugi&family=Hi+Melody&family=Jua&family=Kirang+Haerang&family=Nanum+Brush+Script&family=Nanum+Gothic&family=Nanum+Gothic+Coding&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Noto+Sans+KR&family=Noto+Serif+KR&family=Poor+Story&family=Single+Day&family=Song+Myung&family=Stylish&family=Sunflower:wght@300&family=Yeon+Sung&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
+
     <title>AI_Conc&Emo</title>
 </head>
 
@@ -25,7 +32,7 @@
   </style> -->
 
     <!-- Header -->
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light bg-light login-menu">
         <a class="navbar-brand">
             <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt=""
                 loading="lazy">
@@ -34,19 +41,20 @@
     </nav>
 
     <script>
-        function valid(x){
+        function valid(x) {
             var count = 0;
-            for (i=0; i< x.gender[i].length; i++){
+            for (i = 0; i < x.gender[i].length; i++) {
                 if (x.gender[i].checked)
-                count += 1;
+                    count += 1;
             }
 
-            if (count == 0){
-            alert("성별을 선택해 주세요!");}
+            if (count == 0) {
+                alert("성별을 선택해 주세요!");
+            }
         }
     </script>
 
-    <div class="mt-5 container-sm">
+    <div class="mt-5 container-sm login-menu">
         <div class="card">
             <div class="row align-items-center">
                 <div class="col-sm">
@@ -85,12 +93,14 @@
                                     value="{{ form.text.value | default_if_none:'' }}" placeholder="자녀 나이" required><br>
                                 <div class="m-1 p-1">
                                     <div class="btn-group-toggle" data-toggle="buttons">
-                                        자녀 성별 
+                                        자녀 성별
                                         <label class="btn btn-secondary">
-                                          <input class="form-control" type="radio" name="gender" id="gender_male" value="0"> 남자
+                                            <input class="form-control" type="radio" name="gender" id="gender_male"
+                                                value="0"> 남자
                                         </label>
                                         <label class="btn btn-secondary">
-                                            <input class="form-control" type="radio" name="gender" id="gender_femail" value="1"> 여자
+                                            <input class="form-control" type="radio" name="gender" id="gender_femail"
+                                                value="1"> 여자
                                         </label>
                                     </div>
                                 </div>
@@ -98,7 +108,8 @@
                                 <input type="text" class="form-control" id="signup_class" name="signup_class"
                                     value="{{ form.text.value | default_if_none:'' }}" placeholder="반 번호" required><br>
                             </div>
-                            <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="submit" onclick="valid(this.form)">회원가입</button>
+                            <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="submit"
+                                onclick="valid(this.form)">회원가입</button>
                         </form>
                     </div>
                 </div>
