@@ -13,10 +13,6 @@
     background: #F1F1F3;
     font-size: 1rem;
   }
-
-  div {
-    border: 1px solid red;
-  }
   
 </style>
 
@@ -49,19 +45,19 @@
           <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
-              <span>등급</span>
+              <span>📝등급</span>
             </div>
             <div class="text-center">
-              <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_conc+`" alt="grade.png">
+              <img class='image-thumbnail d-inline-block align-top img-fluid' style="width:150px; height:auto;" src="`+data.todays_conc+`" alt="grade.png">
             </div>
           </div>
           <div class="p-2 bd-highlight flex-sm-fill">
             <div class="text-center">
-              <span>감정</span>
+              <span>📝감정</span>
             </div>
             <div class="text-center">
-              <img class='image-thumbnail' style='width : 150px; height : auto;' src="`+data.todays_emo.todays_emo_url+`" alt="grade.png">
-              <p> `+data.todays_emo.todays_emo+`</p>
+              <img class='image-thumbnail d-inline-block align-top img-fluid' style="width:150px; height:auto;" src="`+data.todays_emo.todays_emo_url+`" alt="grade.png">
+              <p class="text-center"> `+data.todays_emo.todays_emo+`</p>
             </div>
           </div>
         </div>
@@ -71,7 +67,12 @@
           console.log("home Ajax fail!");
         }
       }) 
-    </script> 
+    </script>
+  </div>
+  <div class="text-center">
+    <p>🌷 Best Shot 🌷</p>
+    <img src="{% static 'img/userbestshot.jpg' %}" class="d-inline-block align-top img-fluid"
+     style="width:300px; height:180px; border-radius:10px; box-shadow:5px 5px 5px #d7d7db" alt="bestshot">
   </div>
 
 </div>

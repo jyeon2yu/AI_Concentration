@@ -8,6 +8,7 @@
         <h4 class="card-title"> 사용자 정보</h4>
         <p class="card-text">{{ parents.parents_id }} 프로필</p>
         <a href="{% url 'user:profile' %}" class="btn btn-primary">Go</a>
+        {% comment %} <a href="{% url 'user:timetable' %}" class="btn btn-primary">Go</a> {% endcomment %}
         <script>
             $.ajax({
                 url: "../mypage",

@@ -60,7 +60,7 @@ def daily_emotion(userID, todate):
     url_list = img_url()
     userid = userID
     # today = datetime.now().strftime('%Y-%m-%d') # test data
-    today='2021-09-27'
+    today= todate
 
     # 3-1. today daily emotion top 3
     today_emo = UserEmotion.objects.filter(user_id=userid, day_emo=today).values('sub_emotion').annotate(time=Sum('sub_emotion_time')) # today emotion top3
@@ -166,29 +166,31 @@ def report_chart(request):
         
 
     ### 2. Set Date Info
-    date = []
-    todate = datetime.now()
-    today = datetime.now().weekday() # 오늘 요일
+    date = [['2021-10-22', '금요일'], '2021-10-18', '2021-10-22']
+    # date = []
+    # todate = datetime.now()
+    # today = datetime.now().weekday() # 오늘 요일
 
-    # 오늘 날짜
-    day = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
-    date.append([ todate.strftime('%Y-%m-%d'), day[today] ])
+    # # 오늘 날짜
+    # day = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
+    # date.append([ todate.strftime('%Y-%m-%d'), day[today] ])
 
-    # 월요일 찾기
-    newdate = todate - timedelta(days=today)
-    if today != 0:
-        date.append(newdate.strftime('%Y-%m-%d'))
-    else:
-        date.append(todate.strftime('%Y-%m-%d'))
+    # # 월요일 찾기
+    # newdate = todate - timedelta(days=today)
+    # if today != 0:
+    #     date.append(newdate.strftime('%Y-%m-%d'))
+    # else:
+    #     date.append(todate.strftime('%Y-%m-%d'))
 
-    # 금요일 찾기
-    date.append((datetime.strptime(date[0][0], '%Y-%m-%d') + timedelta(days=4)).strftime('%Y-%m-%d'))
+    # # 금요일 찾기
+    # date.append((datetime.strptime(date[0][0], '%Y-%m-%d') + timedelta(days=4)).strftime('%Y-%m-%d'))
 
     content['week'] = date
+    # print(content['week'])
 
     ### 3. Set Daily Emotion Info
     # 3-1. today daily emotion top 3
-    today = '2021-09-27' # test data
+    today = '2021-10-22' # test data
     content['daily_emotion'] = daily_emotion(user.user_id, today)
     # content.update(daily_conc(1234, today))
     content['daily_conc'] = daily_conc(user.user_id,today)
@@ -202,18 +204,18 @@ def subject_data(request) :
     
     # print('Views.subject_data')
 
-    english = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='english').order_by('-sub_emotion_time')[0])
-    korean = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='korean').order_by('-sub_emotion_time')[0])
-    math = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='math').order_by('-sub_emotion_time')[0])
-    science = model_to_dict(UserEmotion.objects.filter(user_id='1234').filter(day_emo='2021-09-27').filter(subject='science').order_by('-sub_emotion_time')[0])
+    english = model_to_dict(UserEmotion.objects.filter(user_id='1235').filter(day_emo='2021-10-22').filter(subject='english').order_by('-sub_emotion_time')[0])
+    korean = model_to_dict(UserEmotion.objects.filter(user_id='1235').filter(day_emo='2021-10-22').filter(subject='korean').order_by('-sub_emotion_time')[0])
+    math = model_to_dict(UserEmotion.objects.filter(user_id='1235').filter(day_emo='2021-10-22').filter(subject='math').order_by('-sub_emotion_time')[0])
+    science = model_to_dict(UserEmotion.objects.filter(user_id='1235').filter(day_emo='2021-10-22').filter(subject='science').order_by('-sub_emotion_time')[0])
 
     emotions = [ english['sub_emotion'], korean['sub_emotion'], math['sub_emotion'], science['sub_emotion']]
     
     # print('emotions', emotions)
-    english_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='english').get())
-    korean_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='korean').get())
-    math_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='math').get())
-    science_conc = model_to_dict(UserConc.objects.filter(user_id='1234').filter(day_conc='2021-09-27').filter(subject='science').get())
+    english_conc = model_to_dict(UserConc.objects.filter(user_id='1235').filter(day_conc='2021-10-22').filter(subject='english').get())
+    korean_conc = model_to_dict(UserConc.objects.filter(user_id='1235').filter(day_conc='2021-10-22').filter(subject='korean').get())
+    math_conc = model_to_dict(UserConc.objects.filter(user_id='1235').filter(day_conc='2021-10-22').filter(subject='math').get())
+    science_conc = model_to_dict(UserConc.objects.filter(user_id='1235').filter(day_conc='2021-10-22').filter(subject='science').get())
 
     conc = []
 
@@ -239,34 +241,34 @@ def subject_data_week(request) :
     user_id = request.session['cid']
     emotions = []
     temp = [0] * 7
-    english = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='english')
+    english = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-10-18', day_emo__lte='2021-10-22').filter(subject='english')
     
     for d in english :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
     temp = [0] * 7
-    korean = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='korean')
+    korean = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-10-18', day_emo__lte='2021-10-22').filter(subject='korean')
     for d in korean :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
     temp = [0] * 7
-    math = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='math')
+    math = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-10-18', day_emo__lte='2021-10-22').filter(subject='math')
     for d in math :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
     temp = [0] * 7
-    science = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-09-27', day_emo__lte='2021-09-29').filter(subject='science')
+    science = UserEmotion.objects.filter(user_id=user_id).filter(day_emo__gte='2021-10-18', day_emo__lte='2021-10-22').filter(subject='science')
     for d in science :
         temp[model_to_dict(d)['sub_emotion']] += model_to_dict(d)['sub_emotion_time']
     emotions.append(int(np.argmax(np.array(temp))))
 
-    english_conc = UserConc.objects.filter(user_id='1234').filter(day_conc__gte='2021-09-27', day_conc__lte='2021-10-01').filter(subject='english')
-    korean_conc = UserConc.objects.filter(user_id='1234').filter(day_conc__gte='2021-09-27', day_conc__lte='2021-10-01').filter(subject='korean')
-    math_conc = UserConc.objects.filter(user_id='1234').filter(day_conc__gte='2021-09-27', day_conc__lte='2021-10-01').filter(subject='math')
-    science_conc = UserConc.objects.filter(user_id='1234').filter(day_conc__gte='2021-09-27', day_conc__lte='2021-10-01').filter(subject='science')
+    english_conc = UserConc.objects.filter(user_id='1235').filter(day_conc__gte='2021-10-18', day_conc__lte='2021-10-22').filter(subject='english')
+    korean_conc = UserConc.objects.filter(user_id='1235').filter(day_conc__gte='2021-10-18', day_conc__lte='2021-10-22').filter(subject='korean')
+    math_conc = UserConc.objects.filter(user_id='1235').filter(day_conc__gte='2021-10-18', day_conc__lte='2021-10-22').filter(subject='math')
+    science_conc = UserConc.objects.filter(user_id='1235').filter(day_conc__gte='2021-10-18', day_conc__lte='2021-10-22').filter(subject='science')
 
     conc = []
 
@@ -288,7 +290,7 @@ def subject_data_week(request) :
 
 def conc_daily(request):
 
-    info = daily_conc(request.session['cid'], '2021-09-27')
+    info = daily_conc(request.session['cid'], '2021-10-22')
     
     return JsonResponse(info)
 
@@ -303,9 +305,8 @@ def conc_week(request):
     info = {'week':[], 'korean':[], 'math': [], 'english':[], 'science': [], 'time': [], 'result':[]}
     # jsonObject = json.loads(request.body)
 
-
     # get userconc data order by date
-    userconc = UserConc.objects.filter(user_id=request.session['cid']).order_by('day_conc','subject')
+    userconc = UserConc.objects.filter(user_id=request.session['cid']).filter(day_conc__gte='2021-10-18', day_conc__lte='2021-10-22').order_by('day_conc','subject')
 
     # set info dictionary
     info['week'].append(userconc[0].day_conc)
@@ -346,7 +347,7 @@ def conc_week(request):
 def emotion_daily(request):
 
     ### 1. set a data
-    today = '2021-09-27' # test data
+    today = '2021-10-22' # test data
     
     ### 2. call a function
     url_list = img_url()
@@ -383,7 +384,7 @@ def emotion_week(request):
     week_info = {'week_emo':[], 'korean':[], 'math':[], 'english':[], 'science':[]}
 
 
-    temp = datetime(2021,9,27)
+    temp = datetime(2021,10,18)
     for i in range(5):
         week_info['week_emo'].append([UserEmotion.objects.filter(user_id=user_id, day_emo=temp).values('sub_emotion').annotate(time=Sum('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
         week_info['korean'].append([UserEmotion.objects.filter(user_id=user_id, day_emo=temp, subject='korean').values('sub_emotion').annotate(time=Max('sub_emotion_time')).order_by('-time')[0]['sub_emotion']])
@@ -425,7 +426,7 @@ def emotion_week(request):
 @csrf_exempt
 def home(request):
     ### 1. set a data
-    today = '2021-09-27' # test data
+    today = '2021-10-18' # test data
     user_id = request.session['cid']
 
     # #cal

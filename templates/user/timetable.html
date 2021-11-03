@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+</head>
+<style>
+    #box1 {
+        color: #4e350f;
+        font-weight: 700;
+        border-radius: 12px;
+        border: 2px solid #ffb341;
+        background-color: #fff3ad;
+
+
+
+    }
+
+    #box2 {
+        color: #5e3f12;
+        font-weight: 700;
+        border-radius: 12px;
+        border: 2px solid #ffb341;
+        background-color: #fff3ad;
+    }
+
+    #box3 {
+        color: #5e3f12;
+        font-weight: 700;
+        border-radius: 12px;
+        border: 2px solid #ffb341;
+        background-color: #fff3ad;
+    }
+
+    #box4 {
+        color: #5e3f12;
+        font-weight: 700;
+        border-radius: 12px;
+        border: 2px solid #ffb341;
+        background-color: #fff3ad;
+    }
+
+    #caption {
+        color: #664514;
+        font-size: 120%;
+        font-weight: 700;
+        border: 1px solid #ffc773;
+        background: #ffc773;
+    }
+
+    .table1 {
+        background: #ffc773
+    }
+
+    .table1 th {
+        font-size: 75%;
+        background: #fff3ad
+    }
+
+    .table1 td {
+        font-size: 75%;
+        background: #fff3ad
+    }
+
+    .checkBtn {
+        border-radius: 12px;
+        background: #865b1b;
+        color: #FFFFFF;
+        border: solid 1px;
+    }
+
+    .table2 {
+        background: #ffc773;
+    }
+
+    .table2 th {
+        background: #fff3ad
+    }
+
+    .table2 td {
+        background: #fff3ad
+    }
+
+    #table_reset {
+        border-radius: 12px;
+        background: #865b1b;
+        color: #FFFFFF;
+        border: solid 1px;
+    }
+
+    #save_timetable {
+        border-radius: 12px;
+        background: #865b1b;
+        color: #FFFFFF;
+        border: solid 1px;
+    }
+</style>
+
+<body>
+    <div id="combobox" style="float:center;">
+        <form id="timetable">
+            <select id="box1" name="subject" onchange="subjectOnChange(this)">
+                <option value="">= 과목 =</option>
+                <option value="국어">국어</option>
+                <option value="수학">수학</option>
+                <option value="영어">영어</option>
+                <option value="과학">과학</option>
+            </select>
+            <script>
+                function subjectOnChange(e) {
+                    // 선택된 데이터의 텍스트값 가져오기
+                    // const text = e.options[e.selectedIndex].text;
+                    const text = e.value;
+
+                    // console.log(e.options);
+                    // if (value == ""){
+                    //     alert("과목을 선택하세요!")
+                    // } else {
+                    document.getElementById('aaa').innerText
+                        = text;
+
+                }
+            </script>
+
+            <select id="box2" name="subject_day" onchange="dayOnChange(this)">
+                <option value="">= 요일 =</option>
+                <option value="월">월</option>
+                <option value="화">화</option>
+                <option value="수">수</option>
+                <option value="목">목</option>
+                <option value="금">금</option>
+            </select>
+            <script>
+                function dayOnChange(e) {
+                    // 선택된 데이터의 텍스트값 가져오기
+                    // const text = e.options[e.selectedIndex].text;
+                    const text = e.value;
+
+                    console.log(e.options);
+
+                    // 선택한 텍스트 출력
+                    document.getElementById('bbb').innerText
+                        = text;
+                }
+
+            </script>
+
+            <!-- <input type="text" id="time1" name="time1" class="form-control" style="width:200px;"
+        onchange="starttimeOnChange(this)"> -->
+            <select id="box3" name="start_time" onchange="starttimeOnChange(this)">
+                <option value="">= 시작 =</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+            </select>
+
+            <script>
+
+
+                // console.log(typeof())
+                function starttimeOnChange(e) {
+                    // 선택된 데이터의 텍스트값 가져오기
+                    // const text = e.options[e.selectedIndex].text;
+                    const text = e.value;
+
+                    console.log(text);
+
+                    // 선택한 텍스트 출력
+                    document.getElementById('ccc').innerText
+                        = text;
+
+                };
+            </script>
+            <select id="box4" name="end_time" onchange="endtimeOnChange(this)">
+                <option value="">= 마침 =</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+            </select>
+            </br>
+            </br>
+
+
+            <script>
+
+                function endtimeOnChange(e) {
+                    // 선택된 데이터의 텍스트값 가져오기
+                    // const text = e.options[e.selectedIndex].text;
+                    const text = e.value;
+
+                    console.log(text);
+
+                    // 선택한 텍스트 출력
+                    document.getElementById('ddd').innerText
+                        = text;
+
+                };
+
+
+            </script>
+
+
+        </form>
+    </div>
+
+
+    <table class="table1" id="table1" width="100%" height="20" cellspacing="5">
+        <thead>
+            <tr align="center" bgcolor="white">
+                <td></td>
+                <th>과목</th>
+                <th>요일</th>
+                <th>시작시간</th>
+                <th>마침시간</th>
+                <th>추가버튼</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr align="center" bgcolor="white">
+                <th>선택 사항</th>
+                <td id="aaa"></td>
+                <td id="bbb"></td>
+                <td id="ccc"></td>
+                <td id="ddd"></td>
+                <td><input type="button" class="checkBtn" value="시간표 추가"></td>
+
+
+            </tr>
+        </tbody>
+    </table>
+    </br>
+    <form>
+
+        <table class="table2" id="table2" width="50%" height="200" cellspacing="5">
+            <caption>
+                <div id="caption">{{request.session.uid}}님의 자녀 {{request.session.user_name}} 시간표 입력</div>
+            </caption>
+            <thead id="timevalue">
+
+                <tr align="center" bgcolor="white">
+                    <td></td>
+                    <th>09:00</th>
+                    <th>10:00</th>
+                    <th>11:00</th>
+                    <th>12:00</th>
+                    <th>13:00</th>
+                    <th>14:00</th>
+                    <th>15:00</th>
+                </tr>
+            </thead>
+
+            <tbody id="dayvalue">
+
+                <tr align="center" bgcolor="white">
+                    <th>월</th>
+                    {% for i in mon %}
+                    <td class="single">{{i}}</td>
+                    {% endfor %}
+
+                    {% comment %} <td class="single"></td>
+                    <td class="single"></td>
+                    <td class="single"></td>
+                    <td class="single"></td>
+                    <td class="single"></td>
+                    <td class="single"></td>
+                    <td class="single"></td> {% endcomment %}
+
+                </tr>
+                <tr align="center" bgcolor="white">
+                    <th>화</th>
+                    {% for i in tue %}
+                    <td class="single">{{i}}</td>
+                    {% endfor %}
+
+                </tr>
+                <tr align="center" bgcolor="white">
+                    <th>수</th>
+                    {% for i in wed %}
+                    <td class="single">{{i}}</td>
+                    {% endfor %}
+
+                </tr>
+                <tr align="center" bgcolor="white">
+                    <th>목</th>
+                    {% for i in thu %}
+                    <td class="single">{{i}}</td>
+                    {% endfor %}
+
+                </tr>
+                <tr align="center" bgcolor="white">
+                    <th>금</th>
+                    {% for i in fri %}
+                    <td class="single">{{i}}</td>
+                    {% endfor %}
+
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    </br>
+    <input type="button" id="table_reset" value="전체 초기화">
+    <input type="button" id=save_timetable value="저장">
+
+    <script>
+
+
+        var ths = document.getElementById("dayvalue").getElementsByTagName("th");
+        var dayval = new Array();
+
+        for (var i = 0; i < ths.length; i++) {
+            var dayray = ths[i].firstChild.data;
+            dayval.push(dayray);
+        }
+        console.log(dayval)
+
+        var ths2 = document.getElementById("timevalue").getElementsByTagName("th");
+        var timeval = new Array();
+
+        for (var i = 0; i < ths2.length; i++) {
+            var timeray = ths2[i].firstChild.data;
+            timeval.push(timeray);
+        }
+        timeval.push("16:00");
+        console.log(timeval)
+        var timetable = document.getElementById("dayvalue").getElementsByTagName("td");
+        var timetablevalue = new Array();
+
+        $("#save_timetable").click(function () {
+            if (confirm("저장하시겠습니까?") == true ){
+                for (var i = 0; i < timetable.length; i++) {
+                    const timetableray = timetable[i].innerText;
+                    console.log(timetableray);
+                    timetablevalue.push(timetableray);
+                }
+                timetablevalue = JSON.stringify(timetablevalue);
+                console.log(timetablevalue);
+                $.ajax({
+                    url: '/timetablevalue/',
+                    type: 'POST',
+                    data: {
+                        'id': timetablevalue,
+                        'csrf_token': '{{csrf_token}}'
+                    },
+                    success: console.log('1234')
+
+                });//ajax
+
+            } else { }
+
+       //ajax
+
+    }); // function
+
+        $(".checkBtn").click(function () {
+
+            var str = ""
+            var tdArr = new Array();	// 배열 선언
+            var checkBtn = $(this);
+
+            var tr = checkBtn.parent().parent();
+            var td = tr.children();
+            var day = td.eq(2).text();
+            var time = td.eq(3).text();
+            var end = td.eq(4).text();
+            var subject = td.eq(1).text();
+
+            var idx = dayval.indexOf(day);
+            var idx2 = timeval.indexOf(time);
+            var idx3 = timeval.indexOf(end);
+            var n = idx3 - idx2;
+            console.log(idx2)
+            console.log(idx3)
+
+
+            if (day == '' || time == '' || end == '' || subject == '') {
+                alert("선택사항을 모두 선택하세요!")
+            } else if (n == 0 || n < 0) {
+                alert("시작시간이 마침시간보다 같거나 늦을 수 없습니다.");
+            }
+
+            else if (n > 0) {
+
+
+
+                while (true) {
+                    table2.rows[idx + 1].cells[idx2 + n].innerHTML = `${subject}`;
+                    n--;
+                    if ((n < 1)) {
+                        break;
+                    }
+                }
+
+            }
+
+
+            $("#aaa").empty();
+            $("#bbb").empty();
+            $("#ccc").empty();
+            $("#ddd").empty();
+            $("#box1 option:eq(0)").prop("selected", true);
+            $("#box2 option:eq(0)").prop("selected", true);
+            $("#box3 option:eq(0)").prop("selected", true);
+            $("#box4 option:eq(0)").prop("selected", true);
+
+
+
+        });
+
+
+        $(".single").click(function () {
+            if (confirm("과목을 삭제하시겠습니까?") == true) {
+                $(this).empty();
+            } else {
+
+            }
+
+
+        });
+
+
+
+        $('#table_reset').click(function () {
+            $(".single").empty();
+        });
+
+
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
