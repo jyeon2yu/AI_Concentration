@@ -27,3 +27,30 @@ django-admin startapp user</b>
 <h3>6. 장고와 MySQL 연동하기</h3>
 [참고] <br>
 https://jyeon2yu.tistory.com/39?category=952587
+
+# AI_Concentration Description
+![image](https://user-images.githubusercontent.com/45540117/140092656-d896666a-ae94-4282-8a4b-6d157d99d4b9.png)
+
+<h3>Tools</h3>
+
+![image](https://user-images.githubusercontent.com/45540117/140093012-ce0bb3ce-7ab7-4c0d-97be-e9bf0ecbbe79.png)
+
+
+<h3>Architecture</h3>
+
+![image](https://user-images.githubusercontent.com/45540117/140093160-1446819c-4a74-4560-bbdc-4ea84cfcef9d.png)
+
+
+<h3>Deep Learning models</h3>
+📌 <b>No deep learning code included in this project!</b><br>
+We store the result of the deep learning model in the database, then fetch the data and visualize it on the web.
+
+1. SSD
+2. Conbolution Neural Networks(CNN)
+3. Residual Masking Network
+
+<h3>Web design</h3>
+
+![image](https://user-images.githubusercontent.com/45540117/140094249-cac5e3a9-3352-4de5-848b-aa437a7a7473.png)
+
+ 
